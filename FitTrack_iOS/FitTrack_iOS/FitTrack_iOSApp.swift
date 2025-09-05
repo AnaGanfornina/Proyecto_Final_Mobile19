@@ -11,7 +11,8 @@ import SwiftUI
 struct FitTrack_iOSApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
+                .environment(AppState())
         }
     }
 }

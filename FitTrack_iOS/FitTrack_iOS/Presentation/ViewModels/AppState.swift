@@ -13,20 +13,25 @@ final class AppState {
     
     // MARK: - Functions
     
-    func loginApp(user: String, password: String){
-        self.status = .loading
+    
+    
+    func performLogin(user: String = "TestUser", password: String = "TestPassword"){
+        
         
         // llamamos al caso de uso de Login
         //El dispatch es para falsear el login y se sustiutirá por el caso de uso
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.status = .loaded
         }
+    }
+    
+    func performSignUp(){
         
-        
+        self.status = .loading
     }
     
     
-    func closeSessionUser(){
+    func logOutUser(){
         
         
         self.status = .none

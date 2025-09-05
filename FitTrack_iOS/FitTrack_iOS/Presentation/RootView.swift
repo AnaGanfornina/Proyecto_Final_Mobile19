@@ -13,17 +13,13 @@ struct RootView: View {
     var body: some View {
         switch (appState.status){
         case .none:
-            //OnBoarding()
+            OnBoarding()
             
         case .loading:
-            //LoaderView()
-            
-        case .error(error: let errorString):
-            
-            //ErrorView(error: errorString)
-            
+            LoginView()
+        
         case .loaded:
-           //PrincipalView() //es la home...
+           HomeView()
         }
     }
 }

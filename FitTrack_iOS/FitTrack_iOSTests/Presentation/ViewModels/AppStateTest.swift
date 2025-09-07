@@ -13,7 +13,7 @@ final class AppStateTest: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = AppState()
+        sut = AppState(loginUseCase: LoginUseCaseMock())
     }
 
     override func tearDownWithError() throws {
@@ -39,7 +39,7 @@ final class AppStateTest: XCTestCase {
         
         
         // Then
-        wait(for: [expectation], timeout: 4.0) // lo ponemos en 4 ya que el login tarda 2 segundos en hacerse
+        wait(for: [expectation], timeout: 1.0) // lo ponemos en 4 ya que el login tarda 2 segundos en hacerse
         XCTAssertEqual(sut.status, .loading)
         
     }
@@ -60,7 +60,7 @@ final class AppStateTest: XCTestCase {
         sut.performLogin()
         
         // Then
-        wait(for: [expectation], timeout: 4.0) // lo ponemos en 4 ya que el login tarda 2 segundos en hacerse
+        wait(for: [expectation], timeout: 1.0) // lo ponemos en 4 ya que el login tarda 2 segundos en hacerse
         XCTAssertEqual(sut.status, .loaded)
         
     }

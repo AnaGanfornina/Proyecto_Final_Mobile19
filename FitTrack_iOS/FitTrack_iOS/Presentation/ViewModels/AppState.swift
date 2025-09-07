@@ -11,6 +11,13 @@ import Foundation
 final class AppState {
     var status = Status.none
     
+    private var usesCase: LoginUseCaseProtocol
+    
+    // MARK: - Initializer
+    init(usesCase: LoginUseCaseProtocol = LoginUseCase()) {
+        self.usesCase = usesCase
+    }
+    
     // MARK: - Functions
     
     
@@ -19,10 +26,16 @@ final class AppState {
         
         
         // llamamos al caso de uso de Login
-        //El dispatch es para falsear el login y se sustiutirá por el caso de uso
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.status = .loaded
+        Task {
+            do {
+                if try await usesCase.login(user: user, password: password){
+                    self.status = .loaded
+                }
+            } catch {
+                print("error on login")
+            }
         }
+       
     }
     
     func performSignUp(){

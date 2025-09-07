@@ -13,7 +13,7 @@ final class AppStateTest: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = AppState(loginUseCase: LoginUseCaseMock())
+        sut = AppState(usesCase: LoginUseCaseMock())
     }
 
     override func tearDownWithError() throws {

@@ -15,8 +15,8 @@ final class Appointment: Model, Content, @unchecked Sendable {
     @ID(key: .id)
     var id: UUID?
     
-    @Field(key: "date")
-    var date: Date
+    @Timestamp(key: "date", on: .create)
+    var date: Date?
     
     @Field(key: "trainer")
     var trainer: String

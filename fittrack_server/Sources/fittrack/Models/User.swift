@@ -7,10 +7,6 @@
 import Fluent
 import Vapor
 
-enum UserRole: String, Codable {
-    case user
-    case admin
-}
 
 final class User: Model, Content, @unchecked Sendable {
     static let schema = "users"
@@ -24,11 +20,17 @@ final class User: Model, Content, @unchecked Sendable {
     @Field(key: "email")
     var email: String
     
-    @Field(key: "password_hash")
-    var passwordHash: String
+    @Field(key: "password")
+    var password: String
     
-    @Enum(key: "role")
-    var role: UserRole
+    @Field(key: "role")
+    var isAdmin: Bool
+    
+    @Timestamp(key: "created_at", on: .create)
+    var createdAt: Date?
+    
+    @Timestamp(key: "updated_at", on: .update)
+    var updatedAt: Date?
     
     // Relaciones futuras (appointments, trainings, exercises)
     // @Children(for: \.$user) var trainings: [Training]
@@ -36,10 +38,22 @@ final class User: Model, Content, @unchecked Sendable {
     
     init() {}
     
-    init(name: String, email: String, passwordHash: String, role: UserRole) {
+    init(name: String, email: String, passwordHash: String, isAdmin: Bool = false ) {
         self.name = name
         self.email = email
-        self.passwordHash = passwordHash
-        self.role = role 
+        self.password = password
+    }
+}
+
+extension User: ModelAuthenticatable {
+    static var usernameKey: KeyPath<User, Field<String>> {
+        \User.$email
+    }
+    static var passwordHashKey: KeyPath<User, Field<String>> {
+        \User.$password
+    }
+    
+    func verify(password: String) throws -> Bool {
+        try Bcrypt.verify(password, created: self.password)
     }
 }

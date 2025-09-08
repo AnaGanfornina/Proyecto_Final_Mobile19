@@ -6,6 +6,7 @@
 //
 
 import Foundation
-enum Status : Equatable{
-    case none, loading, loaded
+
+enum Status : Equatable {
+    case none, loading, onBoarding, login, home
 }

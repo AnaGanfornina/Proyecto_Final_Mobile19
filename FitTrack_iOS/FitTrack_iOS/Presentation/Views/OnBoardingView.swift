@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OnBoarding: View {
+struct OnBoardingView: View {
     @Environment(AppState.self) var appState
     
     var body: some View {
@@ -26,6 +26,6 @@ struct OnBoarding: View {
 }
 
 #Preview {
-    OnBoarding()
+    OnBoardingView()
         .environment(AppState())
 }

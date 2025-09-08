@@ -13,12 +13,18 @@ struct RootView: View {
     var body: some View {
         switch (appState.status){
         case .none:
-            OnBoarding()
+            EmptyView()
             
         case .loading:
+            LoadingView()
+            
+        case .onBoarding:
+            OnBoardingView()
+            
+        case .login:
             LoginView()
         
-        case .loaded:
+        case .home:
            HomeView()
         }
     }

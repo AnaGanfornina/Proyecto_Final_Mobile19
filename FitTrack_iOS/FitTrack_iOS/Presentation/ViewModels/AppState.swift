@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 final class AppState {
-    var status = Status.none
+    var status = Status.onBoarding // TODO: Cambiar a Status.none cuando sepamos qué hacer con la EmptyView
     
     private var loginUsesCase: LoginUseCaseProtocol
     
@@ -28,11 +28,13 @@ final class AppState {
         // llamamos al caso de uso de Login
         Task {
             do {
+                self.status = .loading
                 if try await loginUsesCase.login(user: user, password: password){
-                    self.status = .loaded
+                    self.status = .home
                 }
             } catch {
                 print("error on login")
+                self.status = .none
             }
         }
        
@@ -40,7 +42,7 @@ final class AppState {
     
     func performSignUp(){
         
-        self.status = .loading
+        self.status = .login
     }
     
     

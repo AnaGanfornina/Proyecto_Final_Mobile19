@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 @Observable
 final class AppState {
     var status = Status.onBoarding // TODO: Cambiar a Status.none cuando sepamos qué hacer con la EmptyView
@@ -22,7 +23,7 @@ final class AppState {
     
     
     //TODO: Remover los parámetros por defautl
-    func performLogin(user: String = "TestUser", password: String = "TestPassword"){
+    func performLogin(user: String = "TestUser", password: String = "TestPassword") {
         
         
         // llamamos al caso de uso de Login

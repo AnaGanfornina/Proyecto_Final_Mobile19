@@ -8,6 +8,7 @@
 import XCTest
 @testable import FitTrack_iOS
 
+@MainActor
 final class AppStateTest: XCTestCase {
     var sut: AppState!
 
@@ -20,48 +21,72 @@ final class AppStateTest: XCTestCase {
         sut = nil
         try super.tearDownWithError()
     }
-
     
-    /// Test para comprobar que pasa del estado .none a .loading. Es decir pasa de la pantalla de OnBoarding a la del login
-    func test_performSignUp() throws {
+ 
+    /// Test para comprobar que pasa del estado .none a .login. Es decir pasa de la pantalla de OnBoarding a la del login
+    func test_performSignUp() async throws {
         // Given
         sut.status = Status.onBoarding
-        let expectation = expectation(description: "Pass to Login is OK")
         
-        // Observamos el cambio de estado
-        DispatchQueue.global().async {
-               while self.sut.status != .login { }
-               expectation.fulfill()
-           }
-         
         // When
         sut.performSignUp()
         
-        
         // Then
-        wait(for: [expectation], timeout: 1.0) // lo ponemos en 4 ya que el login tarda 2 segundos en hacerse
         XCTAssertEqual(sut.status, .login)
-        
     }
+
     
-    /// Test para comprobar que pasa del estado .loading a .loaded. Es decir pasa de la pantalla de Login a la de la home.
-    func test_LoginApp() throws {
+  
+   
+    
+    /// Test para comprobar que pasa del estado .login a .loading. Es decir pasa de la pantalla de Login a la de la loading.
+    func test_LoginToLoading() async throws {
         // Given
-        sut.status = Status.loading
-        let expectation = expectation(description: "Pass to Home is OK")
+        sut.status = Status.login
+        let expectation = expectation(description: "Pass to loading ")
         
-        // Observamos el cambio de estado
-        DispatchQueue.global().async {
-               while self.sut.status != .loading { }
-               expectation.fulfill()
-           }
-         
         // When
         sut.performLogin()
         
+        let observer = Task {
+            while sut.status == .login {    // Espera a que deje de ser .login
+                try await Task.sleep(nanoseconds: 10_000_000)
+            }
+            
+            XCTAssertEqual(self.sut.status, .loading)
+            expectation.fulfill()
+        }
+        
         // Then
-        wait(for: [expectation], timeout: 1.0) // lo ponemos en 4 ya que el login tarda 2 segundos en hacerse
-        XCTAssertEqual(sut.status, .home)
+        
+        await fulfillment(of: [expectation], timeout: 3.0)
+        observer.cancel()
+ 
         
     }
+    
+    
+    
+    /// Test para comprobar que pasa del estado .login a .loading. Es decir pasa de la pantalla de Login a la de la loading.
+    func test_LoadingToHome() async throws {
+        // Given
+        sut.status = Status.loading
+        let expectation = expectation(description: "Login completed")
+        
+        // When
+        let observer = Task {
+            while sut.status != .home && sut.status != .none {
+                try await Task.sleep(nanoseconds: 50_000_000)
+            }
+            expectation.fulfill()
+        }
+        
+        sut.performLogin()
+        
+        // Then
+        await fulfillment(of: [expectation], timeout: 3.0)
+        observer.cancel()
+        XCTAssertEqual(sut.status, .home)
+    }
 }
+

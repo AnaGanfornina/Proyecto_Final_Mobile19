@@ -22,11 +22,27 @@ final class AppState {
     // MARK: - Functions
     
     
-    //TODO: Remover los parámetros por defautl
+    /// Performs the login process for a user asynchronously.
+       ///
+       /// This method updates the application state (`status`) according to the
+       /// result of the login attempt:
+       /// - Sets `status` to `.loading` while the login request is being processed.
+       /// - If the login is successful, sets `status` to `.home`.
+       /// - If the login fails or an error occurs, sets `status` back to `.none`.
+       ///
+       /// - Parameters:
+       ///   - user: The username to authenticate. Defaults to `"TestUser"`.
+       ///   - password: The password to authenticate. Defaults to `"TestPassword"`.
+       ///
+       /// - Note: The default parameters are temporary and should be removed
+       ///   (`TODO`) once the login flow is fully integrated with real user input.
+       ///
+       /// - Important: This method runs asynchronously on a `Task`, so the state
+       ///   changes may occur after a short delay.
     func performLogin(user: String = "TestUser", password: String = "TestPassword") {
+        //TODO: Remover los parámetros por defautl
         
         
-        // llamamos al caso de uso de Login
         Task {
             do {
                 self.status = .loading
@@ -41,12 +57,28 @@ final class AppState {
        
     }
     
+    /// Initiates the sign-up flow.
+       ///
+       /// This method updates the application `status` to `.login`,
+       /// which should trigger the navigation or presentation of the
+       /// sign-up screen.
+       ///
+       /// - Note: Currently this only updates the state. Additional
+       ///   sign-up logic (e.g., API calls, validation) should be
+       ///   implemented in the future.
     func performSignUp(){
         
         self.status = .login
     }
     
-    
+    /// Logs out the current user and resets the application state.
+       ///
+       /// This method updates the application `status` to `.none`,
+       /// effectively returning the app to its initial state.
+       ///
+       /// - Note: At the moment, this method only updates the state.
+       ///   In the future it could also clear stored user data, tokens,
+       ///   or cached sessions as part of the logout process.
     func logOutUser(){
         
         

@@ -26,5 +26,5 @@ struct RootView: View {
 
 #Preview {
     RootView()
-        .environment(AppState(loginUseCase: LoginUseCaseMock()))
+        .environment(AppState(loginUsesCase: LoginUseCaseMock()))
 }

@@ -11,24 +11,24 @@ import Foundation
 final class AppState {
     var status = Status.none
     
-    private var usesCase: LoginUseCaseProtocol
+    private var loginUsesCase: LoginUseCaseProtocol
     
     // MARK: - Initializer
-    init(usesCase: LoginUseCaseProtocol = LoginUseCase()) {
-        self.usesCase = usesCase
+    init(loginUsesCase: LoginUseCaseProtocol = LoginUseCase()) {
+        self.loginUsesCase = loginUsesCase
     }
     
     // MARK: - Functions
     
     
-    
+    //TODO: Remover los parámetros por defautl
     func performLogin(user: String = "TestUser", password: String = "TestPassword"){
         
         
         // llamamos al caso de uso de Login
         Task {
             do {
-                if try await usesCase.login(user: user, password: password){
+                if try await loginUsesCase.login(user: user, password: password){
                     self.status = .loaded
                 }
             } catch {
@@ -53,4 +53,4 @@ final class AppState {
     
     
 }
-// Esto es una prueba para luis en github
+

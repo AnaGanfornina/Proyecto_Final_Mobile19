@@ -25,12 +25,12 @@ final class AppStateTest: XCTestCase {
     /// Test para comprobar que pasa del estado .none a .loading. Es decir pasa de la pantalla de OnBoarding a la del login
     func test_performSignUp() throws {
         // Given
-        sut.status = Status.none
+        sut.status = Status.onBoarding
         let expectation = expectation(description: "Pass to Login is OK")
         
         // Observamos el cambio de estado
         DispatchQueue.global().async {
-               while self.sut.status != .loading { }
+               while self.sut.status != .login { }
                expectation.fulfill()
            }
          
@@ -40,7 +40,7 @@ final class AppStateTest: XCTestCase {
         
         // Then
         wait(for: [expectation], timeout: 1.0) // lo ponemos en 4 ya que el login tarda 2 segundos en hacerse
-        XCTAssertEqual(sut.status, .loading)
+        XCTAssertEqual(sut.status, .login)
         
     }
     
@@ -52,7 +52,7 @@ final class AppStateTest: XCTestCase {
         
         // Observamos el cambio de estado
         DispatchQueue.global().async {
-               while self.sut.status != .loaded { }
+               while self.sut.status != .loading { }
                expectation.fulfill()
            }
          
@@ -61,7 +61,7 @@ final class AppStateTest: XCTestCase {
         
         // Then
         wait(for: [expectation], timeout: 1.0) // lo ponemos en 4 ya que el login tarda 2 segundos en hacerse
-        XCTAssertEqual(sut.status, .loaded)
+        XCTAssertEqual(sut.status, .home)
         
     }
 }

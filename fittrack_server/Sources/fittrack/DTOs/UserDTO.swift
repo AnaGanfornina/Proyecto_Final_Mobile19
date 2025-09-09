@@ -24,15 +24,8 @@ struct UserDTO: Content {
         return User(
             name: name,
             email: email,
-            passwordHash: passwordHash
+            passwordHash: hashedPassword
         )
-    }
-}
-
-extension User {
-    
-    func toDTO() -> UserDTO {
-        UserDTO(id: self.id, name: self.name, email: self.email, passwordHash: self.passwordHash, isAdmin: self.isAdmin)
     }
 }
 

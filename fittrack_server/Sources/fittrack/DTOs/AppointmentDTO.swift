@@ -19,8 +19,4 @@ struct AppointmentDTO: Content {
     }
 }
 
-extension Appointment {
-    func toDTO() -> AppointmentDTO {
-        AppointmentDTO(date: self.date, trainer: self.trainer, userID: self.userID)
-    }
-}
+

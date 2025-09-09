@@ -32,3 +32,12 @@ final class Appointment: Model, Content, @unchecked Sendable {
         self.userID = userID
     }
 }
+
+
+// TODO: OJO, el force unwrap hay que quitarlo!!!
+
+extension Appointment {
+    func toDTO() -> AppointmentDTO {
+        AppointmentDTO(date: self.date!, trainer: self.trainer, userID: self.userID)
+    }
+}

@@ -33,7 +33,7 @@ extension AuthController {
     func register(req: Request)async throws -> JWTTokenDTO {
         
         //validate data
-        try UserDTO.validate(content: req)
+        try UserLoginDTO.validate(content: req)
         
         // decode data and hash pass
         let create = try req.content.decode(UserDTO.self)

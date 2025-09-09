@@ -48,7 +48,13 @@ final class User: Model, Content, @unchecked Sendable {
 extension User {
     
     func toDTO() -> UserDTO {
-        UserDTO(id: self.id, name: self.name, email: self.email, passwordHash: self.password, isAdmin: self.isAdmin)
+        UserDTO(
+            id: self.id,
+            name: self.name,
+            email: self.email,
+            passwordHash: self.password,
+            isAdmin: self.isAdmin
+        )
     }
 }
 

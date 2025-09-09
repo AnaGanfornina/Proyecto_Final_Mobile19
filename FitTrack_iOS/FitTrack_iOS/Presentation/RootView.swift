@@ -13,22 +13,24 @@ struct RootView: View {
     var body: some View {
         switch (appState.status){
         case .none:
-            //OnBoarding()
+            EmptyView()
             
         case .loading:
-            //LoaderView()
+            LoadingView()
             
-        case .error(error: let errorString):
+        case .onBoarding:
+            OnBoardingView()
             
-            //ErrorView(error: errorString)
-            
-        case .loaded:
-           //PrincipalView() //es la home...
+        case .login:
+            LoginView()
+        
+        case .home:
+           HomeView()
         }
     }
 }
 
 #Preview {
     RootView()
-        .environment(AppState())
+        .environment(AppState(loginUsesCase: LoginUseCaseMock()))
 }

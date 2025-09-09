@@ -10,3 +10,4 @@ import Foundation
 enum Status : Equatable {
     case none, loading, onBoarding, login, home
 }
+//TODO: Añadir .error (Inline error, fullScreenError)

@@ -30,7 +30,7 @@ struct AuthController: RouteCollection {
 
 
 extension AuthController {
-    func register(req: Request)async throws -> JWTTokenDTO {
+    func register(req: Request) async throws -> JWTTokenDTO {
         
         //validate data
         try UserLoginDTO.validate(content: req)

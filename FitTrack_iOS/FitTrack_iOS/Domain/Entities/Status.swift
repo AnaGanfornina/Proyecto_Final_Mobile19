@@ -8,6 +8,6 @@
 import Foundation
 
 enum Status : Equatable {
-    case none, loading, onBoarding, login, home
+    case none, loading, onBoarding, login, home, clients, exercises
 }
 //TODO: Añadir .error (Inline error, fullScreenError)

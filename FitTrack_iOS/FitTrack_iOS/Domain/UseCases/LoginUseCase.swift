@@ -9,6 +9,7 @@ import Foundation
 
 protocol LoginUseCaseProtocol {
     func login(user: String, password: String)  async throws -> Bool
+    func hasValidSession() async -> Bool
 }
 
 final class LoginUseCase: LoginUseCaseProtocol {
@@ -26,6 +27,14 @@ final class LoginUseCase: LoginUseCaseProtocol {
         
         let token = try await repository.loginApp(user: user, pass: password)
         return token != ""
+    }
+    
+    func hasValidSession() async -> Bool {
+        if let token = UserDefaults.standard.string(forKey: "authToken")
+        {
+            return !token.isEmpty
+        }
+        return false
     }
 }
 
@@ -45,9 +54,8 @@ final class LoginUseCaseMock: LoginUseCaseProtocol {
         return token == "tokenMock"
     }
     
-    
-    
-    
-    
+    func hasValidSession() async -> Bool {
+        return true
+    }
 }
 

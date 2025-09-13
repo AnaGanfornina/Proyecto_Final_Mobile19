@@ -9,14 +9,17 @@ import Foundation
 
 @MainActor
 @Observable
-final class AppState {
-    var status = Status.onBoarding // TODO: Cambiar a Status.none cuando sepamos qué hacer con la EmptyView
+final class AppState: ObservableObject {
+    var status = Status.none  // TODO: Cambiar a Status.none cuando sepamos qué hacer con la EmptyView
     
     private var loginUsesCase: LoginUseCaseProtocol
     
     // MARK: - Initializer
     init(loginUsesCase: LoginUseCaseProtocol = LoginUseCase()) {
         self.loginUsesCase = loginUsesCase
+        Task {
+            await determineInitialState()
+        }
     }
     
     // MARK: - Functions
@@ -56,6 +59,31 @@ final class AppState {
         }
        
     }
+    
+    
+    /// Determines initial State.
+    /// If the status is not none, it doesn't do anything.
+    /// If it's none, check onboarding and login
+    func determineInitialState() async {
+        guard status == .none else { return }
+        status = .loading
+        
+        // Check onBoarding
+        let hasSeenOnBoarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
+        if !hasSeenOnBoarding {
+            status = .onBoarding
+            return
+        }
+        
+        // Check login / token
+        Task {
+            let validSession = await loginUsesCase.hasValidSession()
+            await MainActor.run {
+                status = validSession ? .home : .login
+            }
+        }
+    }
+    
     
     /// Initiates the sign-up flow.
        ///

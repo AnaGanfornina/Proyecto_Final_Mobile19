@@ -76,20 +76,27 @@ struct NewTrainingView: View {
                     }
                 }
             }
-            .navigationTitle("Nueva Cita")
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancelar") {
-                        dismiss()
-                    }
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Crear") {
-                        print("Cliente: \(selectedClient ?? "Ninguno")")
-                        print("Objetivo: \(objective)")
-                        print("Fecha: \(selectedDate)")
-                        print("Hora: \(selectedTime)")
-                        dismiss()
+
+                        Spacer()
+                        Button("Crear") {
+                            print("Cliente: \(selectedClient ?? "Ninguno")")
+                            print("Objetivo: \(objective)")
+                            print("Fecha: \(selectedDate)")
+                            print("Hora: \(selectedTime)")
+                            dismiss()
+                        }
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                        Spacer()
+            
+                .navigationTitle("Nueva cita")
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Cancelar") {
+                            dismiss()
+                        }
                     }
                 }
             }
@@ -130,7 +137,7 @@ struct NewTrainingView: View {
         formatter.timeStyle = .short
         return formatter.string(from: date)
     }
-}
+
 
 struct ClientListView: View {
     let clients: [String]

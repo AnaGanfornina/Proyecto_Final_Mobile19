@@ -7,7 +7,7 @@
 import Fluent
 import Vapor
 
-struct UserLoginDTO: Content {
+struct UserRegisterDTO: Content {
     let name: String
     let email: String
     let password: String
@@ -20,18 +20,20 @@ struct UserDTO: Content {
     var email: String?
     var passwordHash: String?
     var role: UserRole?
+    var coachID: UUID?
     
     func toModel(withHashedPassword hashedPassword: String) -> User {
         return User(
             name: name ?? "",
             email: email ?? "",
             passwordHash: hashedPassword,
-            role: role ?? .coach
+            role: role ?? .coach,
+            coachID: coachID
         )
     }
 }
 
-extension UserLoginDTO: Validatable {
+extension UserRegisterDTO: Validatable {
     static func validations(_ validations: inout Validations) {
         validations.add("name", as: String.self, is: .count(2...50), required: true)
         validations.add("email", as: String.self, is: .count(5...25) && .email, required: true)

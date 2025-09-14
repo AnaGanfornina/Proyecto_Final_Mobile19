@@ -16,12 +16,15 @@ struct CreateUser: AsyncMigration {
             .field("email", .string, .required)
             .field("password", .string, .required)
             .field("role", .string, .required)
+            .field("coach_id", .uuid, .references("users", "id"))
             .field("created_at", .datetime)
             .field("updated_at", .datetime)
             .create()
     }
     
     func revert(on database: any Database) async throws {
-        try await database.schema("users").delete()
+        try await database.schema("users")
+            .deleteField("coach_id")
+            .delete()
     }
 }

@@ -7,7 +7,7 @@
 import Fluent
 import Vapor
 
-enum UserRole: Codable {
+enum UserRole: String, Codable {
     case coach, trainee
 }
 
@@ -29,6 +29,9 @@ final class User: Model, Content, @unchecked Sendable {
     @Field(key: "role")
     var role: UserRole
     
+    @OptionalParent(key: "coach_id")
+    var coach: User?
+    
     @Children(for: \.$trainee)
     var goals: [Goal]
     
@@ -43,11 +46,13 @@ final class User: Model, Content, @unchecked Sendable {
     init(name: String,
          email: String,
          passwordHash: String,
-         role: UserRole = .coach) {
+         role: UserRole = .coach,
+         coachID: UUID?) {
         self.name = name
         self.email = email
         self.password = passwordHash
         self.role = role
+        self.$coach.id = coachID
     }
 }
 
@@ -59,7 +64,8 @@ extension User {
             name: name,
             email: email,
             passwordHash: password,
-            role: role
+            role: role,
+            coachID: $coach.id
         )
     }
 }

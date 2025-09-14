@@ -37,7 +37,7 @@ extension AuthController {
         
         // decode data and hash pass
         let create = try req.content.decode(UserDTO.self)
-        let hashedPassword = try await req.password.async.hash(create.passwordHash)
+        let hashedPassword = try await req.password.async.hash(create.passwordHash ?? "")
         
         // save to user DB
         let user = create.toModel(withHashedPassword: hashedPassword)

@@ -11,11 +11,9 @@ import Fluent
 struct UserController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
         routes.group("users") { builder in
-            builder.get(use: index)
-            builder.get(":userID",use: getByID)
-            
-            builder.put(use: update)
-            
+            builder.get(use: getAll)
+            builder.get(":userID", use: getByID)
+            builder.patch(use: update)
             builder.delete(":userID", use: delete)
         }
     }
@@ -23,7 +21,7 @@ struct UserController: RouteCollection {
 
 
 extension UserController {
-    func index(_ req: Request) async throws -> [UserDTO] {
+    func getAll(_ req: Request) async throws -> [UserDTO] {
         try await User.query(on: req.db).all().map { $0.toDTO() }
     }
     
@@ -38,11 +36,19 @@ extension UserController {
         guard let user = try await User.find(req.parameters.get("userID"), on: req.db) else {
             throw Abort(.notFound)
         }
-        let dto = try req.content.decode(UserDTO.self)
-        user.name = dto.name
-        user.email = dto.email
-        user.password = dto.passwordHash
-        user.isAdmin = dto.isAdmin
+        
+        let userDTO = try req.content.decode(UserDTO.self)
+        if let name = userDTO.name {
+            user.name = name
+        }
+        
+        if let email = userDTO.email {
+            user.email = email
+        }
+        
+        if let password = userDTO.passwordHash {
+            user.password = password
+        }
         
         try await user.update(on: req.db)
         return user.toDTO()
@@ -52,6 +58,7 @@ extension UserController {
         guard let user = try await User.find(req.parameters.get("userID"), on: req.db) else {
             throw Abort(.notFound)
         }
+        
         try await user.delete(on: req.db)
         
         return .ok

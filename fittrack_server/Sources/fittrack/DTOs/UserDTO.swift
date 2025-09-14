@@ -16,15 +16,15 @@ struct UserLoginDTO: Content {
 struct UserDTO: Content {
     
     var id: UUID?
-    var name: String
-    var email: String
-    var passwordHash: String
-    var isAdmin: Bool
+    var name: String?
+    var email: String?
+    var passwordHash: String?
+    var isAdmin: Bool?
     
     func toModel(withHashedPassword hashedPassword: String) -> User {
         return User(
-            name: name,
-            email: email,
+            name: name ?? "",
+            email: email ?? "",
             passwordHash: hashedPassword
         )
     }

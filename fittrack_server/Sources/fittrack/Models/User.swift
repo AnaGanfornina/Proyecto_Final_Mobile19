@@ -7,7 +7,6 @@
 import Fluent
 import Vapor
 
-
 final class User: Model, Content, @unchecked Sendable {
     static let schema = "users"
     
@@ -38,10 +37,14 @@ final class User: Model, Content, @unchecked Sendable {
     
     init() {}
     
-    init(name: String, email: String, passwordHash: String, isAdmin: Bool = false ) {
+    init(name: String,
+         email: String,
+         passwordHash: String,
+         isAdmin: Bool = false ) {
         self.name = name
         self.email = email
-        self.password = password
+        self.password = passwordHash
+        self.isAdmin = isAdmin
     }
 }
 
@@ -62,6 +65,7 @@ extension User: ModelAuthenticatable {
     static var usernameKey: KeyPath<User, Field<String>> {
         \User.$email
     }
+    
     static var passwordHashKey: KeyPath<User, Field<String>> {
         \User.$password
     }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    
+    @State private var selectedClient: String? = nil
     @State private var showCreateClient = false
     @State private var showNewTraining = false
     
@@ -26,27 +26,16 @@ struct HomeView: View {
                             .frame(width: 40, height: 40)
                             .foregroundColor(.blue)
                     }
-                    Spacer()
-                    
-                    NavigationLink(destination: CalendarView()) {
-                        Image(systemName: "calendar")
-                            .resizable()
-                            .frame(width: 40, height: 40)
-                    }
-                }
+                } // HStack
                 .padding()
                 
                 .navigationDestination(isPresented: $showCreateClient) {
                     CreateClientView()
                 }
-                
                 .navigationDestination(isPresented: $showNewTraining) {
-                    NewTrainingView()
+                    NewTrainingView(selectedClient: $selectedClient)
                 }
-                
-                Spacer()
-                
-                // Botones para crear cliente o cita
+            
                 HStack(spacing: 16) {
                     Button(action: { showCreateClient = true }) {
                         Text("Crear cliente")
@@ -65,9 +54,19 @@ struct HomeView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
-                }
-                .padding(.horizontal)
+                } // HStack botones
                 
+                .padding(.horizontal)
+                HStack{
+                    Text("Próximos entrenamientos")
+                    NavigationLink(destination: CalendarView()) {
+                        Image(systemName: "calendar")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
                 Spacer()
             }
             .navigationTitle("Home")

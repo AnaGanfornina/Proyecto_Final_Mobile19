@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ClientsView: View {
-    
+    @Binding var selectedClient: String?
+    @Environment(\.dismiss) private var dismiss
     @State private var clients = ["Perico palotes", "Benito Camelas", "Nikito Nipongo"]
     
     var body: some View {
@@ -17,8 +18,7 @@ struct ClientsView: View {
                 // Barra superior con botones
                 HStack {
                     Button(action:{
-                        print("Volver atrás")
-                        // Aqui puedes usar dismiss() si quieres cerrar la vista
+                        dismiss()
                     }) {
                         Image(systemName: "chevron.left")
                             .resizable()
@@ -38,8 +38,13 @@ struct ClientsView: View {
                 
                 List {
                     ForEach(clients, id: \.self) { client in
-                        Text(client)
-                            .padding(.vertical, 8)
+                        Button(action: {
+                            selectedClient = client
+                            dismiss()
+                        }){
+                            Text(client)
+                                .padding(.vertical, 8)
+                        }
                     }
                 }
                 .listStyle(.plain)
@@ -50,5 +55,5 @@ struct ClientsView: View {
 }
 
 #Preview {
-    ClientsView()
+    ClientsView(selectedClient: .constant(nil))
 }

@@ -14,7 +14,7 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
-            ClientsView()
+            ClientsView(selectedClient: .constant(nil))
                 .tabItem {
                     Label("Clients", systemImage: "person.2")
                 }

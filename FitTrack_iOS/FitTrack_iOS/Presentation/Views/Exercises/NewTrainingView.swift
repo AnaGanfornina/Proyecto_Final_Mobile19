@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct NewTrainingView: View {
+    @Binding var selectedClient: String?
     @Environment(\.dismiss) private var dismiss
     
     // Datos de ejemplo de clientes
-    let clients = ["Perico palotes", "Benito Camelas", "Nikito Nipongo"]
-    let exercises = ["Bench press", "Squat", "Deadlift", "Pull-up", "Shoulder Press", "Bicep Curl"]
+    let clients = ["Perico palotes", "Benito Camelas", "Nikito Nipongo"] // MOCK momentaneo, mas adelante API
+    let exercises = ["Bench press", "Squat", "Deadlift", "Pull-up", "Shoulder Press", "Bicep Curl"] // MOCK momentaneo, mas tarde API
     
-    @State private var selectedClient: String? = nil
     @State private var showClientList = false
     
     @State private var objective = ""
@@ -19,14 +19,14 @@ struct NewTrainingView: View {
     @State private var showTimePicker = false
     
     @State private var selectedExercises: String? = nil
-    @State private var showExercisesList = false
+    
     
     var body: some View {
         NavigationStack {
             Form {
                 // Seleccionar cliente
                 Section {
-                    Button(action: { showClientList = true }) {
+                    NavigationLink(destination: ClientListView(clients: clients, selectedClient: $selectedClient)) {
                         HStack {
                             Text("Cliente")
                             Spacer()
@@ -66,7 +66,7 @@ struct NewTrainingView: View {
                 }
                 
                 Section {
-                    Button(action: { showExercisesList = true }) {
+                    NavigationLink(destination: AddExercisesView()) {
                         HStack {
                             Text("Seleccionar ejercicios")
                             Spacer()
@@ -91,7 +91,7 @@ struct NewTrainingView: View {
                         .cornerRadius(12)
                         Spacer()
             
-                .navigationTitle("Nueva cita")
+                .navigationTitle("Nuevo entrenamiento")
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button("Cancelar") {
@@ -100,12 +100,7 @@ struct NewTrainingView: View {
                     }
                 }
             }
-            // Navegación a lista de clientes
             
-            // TODO: Enlazar bien la lista de clientes
-            .sheet(isPresented: $showClientList) {
-                ClientListView(clients: clients, selectedClient: $selectedClient)
-            }
             // Selector de fecha
             .sheet(isPresented: $showDatePicker) {
                 DatePicker("Selecciona una fecha", selection: $selectedDate, displayedComponents: .date)
@@ -118,10 +113,6 @@ struct NewTrainingView: View {
                     .datePickerStyle(.wheel)
                     .labelsHidden()
                     .padding()
-            }
-            // TODO: Enlazar bien la lista de ejercicios
-            .sheet(isPresented: $showExercisesList) {
-                ExercisesListView(selectedExercise: $selectedExercises)
             }
         }
     }
@@ -164,30 +155,7 @@ struct ClientListView: View {
     }
 }
 
-struct ExercisesListView: View {
-    @Binding var selectedExercise: String?
-    @Environment(\.dismiss) private var dismiss
-
-    let exercises = ["Bench press", "Squat", "Deadlift", "Pull-up", "Shoulder Press", "Bicep Curl"]
-
-    var body: some View {
-        NavigationStack {
-            List(exercises, id: \.self) { exercise in
-                Button(exercise) {
-                    selectedExercise = exercise
-                    dismiss()
-                }
-            }
-            .navigationTitle("Ejercicios")
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancelar") { dismiss() }
-                }
-            }
-        }
-    }
-}
 
 #Preview {
-    NewTrainingView()
+    NewTrainingView(selectedClient: .constant(nil))
 }

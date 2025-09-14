@@ -11,21 +11,22 @@ struct UserLoginDTO: Content {
     let name: String
     let email: String
     let password: String
+    let role: UserRole
 }
 
 struct UserDTO: Content {
-    
     var id: UUID?
     var name: String?
     var email: String?
     var passwordHash: String?
-    var isAdmin: Bool?
+    var role: UserRole?
     
     func toModel(withHashedPassword hashedPassword: String) -> User {
         return User(
             name: name ?? "",
             email: email ?? "",
-            passwordHash: hashedPassword
+            passwordHash: hashedPassword,
+            role: role ?? .coach
         )
     }
 }

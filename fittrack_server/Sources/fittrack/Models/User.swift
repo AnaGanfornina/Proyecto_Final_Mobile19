@@ -7,6 +7,10 @@
 import Fluent
 import Vapor
 
+enum UserRole: Codable {
+    case coach, trainee
+}
+
 final class User: Model, Content, @unchecked Sendable {
     static let schema = "users"
     
@@ -23,10 +27,10 @@ final class User: Model, Content, @unchecked Sendable {
     var password: String
     
     @Field(key: "role")
-    var isAdmin: Bool
+    var role: UserRole
     
-    @Children(for: \.$coach)
-    var trainees: [Trainee]
+    @Children(for: \.$trainee)
+    var goals: [Goal]
     
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
@@ -39,11 +43,11 @@ final class User: Model, Content, @unchecked Sendable {
     init(name: String,
          email: String,
          passwordHash: String,
-         isAdmin: Bool = false ) {
+         role: UserRole = .coach) {
         self.name = name
         self.email = email
         self.password = passwordHash
-        self.isAdmin = isAdmin
+        self.role = role
     }
 }
 
@@ -51,11 +55,11 @@ extension User {
     
     func toDTO() -> UserDTO {
         UserDTO(
-            id: self.id,
-            name: self.name,
-            email: self.email,
-            passwordHash: self.password,
-            isAdmin: self.isAdmin
+            id: id,
+            name: name,
+            email: email,
+            passwordHash: password,
+            role: role
         )
     }
 }

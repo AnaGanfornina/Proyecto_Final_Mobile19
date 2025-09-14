@@ -17,7 +17,7 @@ final class Goal: Model, Content, @unchecked Sendable {
     var name: String
     
     @Parent(key: "trainee_id")
-    var trainee: Trainee
+    var trainee: User
     
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?

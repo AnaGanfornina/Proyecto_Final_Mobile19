@@ -25,15 +25,14 @@ final class User: Model, Content, @unchecked Sendable {
     @Field(key: "role")
     var isAdmin: Bool
     
+    @Children(for: \.$coach)
+    var trainees: [Trainee]
+    
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
     
     @Timestamp(key: "updated_at", on: .update)
     var updatedAt: Date?
-    
-    // Relaciones futuras (appointments, trainings, exercises)
-    // @Children(for: \.$user) var trainings: [Training]
-    // @Children(for: \.$user) var appointments: [Appointment]
     
     init() {}
     

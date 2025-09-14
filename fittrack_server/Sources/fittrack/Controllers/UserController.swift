@@ -10,11 +10,13 @@ import Fluent
 
 struct UserController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
-        routes.group("users") { builder in
-            builder.get(use: getAll)
-            builder.get(":userID", use: getByID)
-            builder.patch(use: update)
-            builder.delete(":userID", use: delete)
+        routes.group("users") { users in
+            users.get(use: getAll)
+            users.group(":userID") { user in
+                user.get(use: getByID)
+                user.patch(use: update)
+                user.delete(use: delete)
+            }
         }
     }
 }

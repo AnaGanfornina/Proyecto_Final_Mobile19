@@ -19,6 +19,9 @@ final class Goal: Model, Content, @unchecked Sendable {
     @Parent(key: "trainee_id")
     var trainee: User
     
+    @Children(for: \.$goal)
+    var routines: [Routine]
+    
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
     

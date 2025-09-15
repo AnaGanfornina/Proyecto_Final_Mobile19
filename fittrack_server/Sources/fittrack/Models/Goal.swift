@@ -25,6 +25,9 @@ final class Goal: Model, Content, @unchecked Sendable {
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
     
+    @Timestamp(key: "updated_at", on: .create)
+    var updatedAt: Date?
+    
     init() {}
     
     init(id: UUID,

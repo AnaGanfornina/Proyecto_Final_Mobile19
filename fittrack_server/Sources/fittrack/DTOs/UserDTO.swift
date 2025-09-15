@@ -20,7 +20,7 @@ struct UserDTO: Content {
     var email: String?
     var passwordHash: String?
     var role: UserRole?
-    var coachID: UUID?
+    var coachId: UUID?
     
     func toModel(withHashedPassword hashedPassword: String) -> User {
         return User(
@@ -28,7 +28,7 @@ struct UserDTO: Content {
             email: email ?? "",
             passwordHash: hashedPassword,
             role: role ?? .coach,
-            coachID: coachID
+            coachId: coachId
         )
     }
 }

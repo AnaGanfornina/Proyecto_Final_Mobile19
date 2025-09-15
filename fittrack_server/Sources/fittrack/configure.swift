@@ -24,6 +24,7 @@ public func configure(_ app: Application) async throws {
 
     // Add migrations
     app.migrations.add(CreateUser())
+    app.migrations.add(CreateGoal())
     try await app.autoMigrate()
 
     // register routes

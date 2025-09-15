@@ -4,7 +4,6 @@
 //
 //  Created by Ariana Rodríguez on 13/09/25.
 //
-
 import Fluent
 
 struct CreateUser: AsyncMigration {

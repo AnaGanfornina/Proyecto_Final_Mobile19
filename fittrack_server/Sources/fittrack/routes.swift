@@ -10,5 +10,6 @@ func routes(_ app: Application) throws {
     try app.group("api") { builder in
         try builder.register(collection: AuthController())
         try builder.register(collection: UserController())
+        try builder.register(collection: GoalController())
     }
 }

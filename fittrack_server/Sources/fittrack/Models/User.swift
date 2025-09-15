@@ -47,12 +47,12 @@ final class User: Model, Content, @unchecked Sendable {
          email: String,
          passwordHash: String,
          role: UserRole = .coach,
-         coachID: UUID?) {
+         coachId: UUID?) {
         self.name = name
         self.email = email
         self.password = passwordHash
         self.role = role
-        self.$coach.id = coachID
+        self.$coach.id = coachId
     }
 }
 
@@ -65,7 +65,7 @@ extension User {
             email: email,
             passwordHash: password,
             role: role,
-            coachID: $coach.id
+            coachId: $coach.id
         )
     }
 }

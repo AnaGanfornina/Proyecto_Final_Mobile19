@@ -14,6 +14,9 @@ final class Routine: Model, Content, @unchecked Sendable {
     @ID(key: .id)
     var id: UUID?
     
+    @Field(key: "name")
+    var name: String
+    
     @Parent(key: "goal_id")
     var goal: Goal
     
@@ -26,8 +29,10 @@ final class Routine: Model, Content, @unchecked Sendable {
     init() {}
     
     init(id: UUID,
-         goalID: UUID) {
+         name: String,
+         goalId: UUID) {
         self.id = id
-        self.$goal.id = goalID
+        self.name = name
+        self.$goal.id = goalId
     }
 }

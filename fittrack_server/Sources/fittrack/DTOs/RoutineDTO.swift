@@ -8,13 +8,25 @@ import Fluent
 import Vapor
 
 struct RoutineDTO: Content {
-    let id: UUID
+    let id: UUID?
+    let name: String
     let goalId: UUID
     
     func toModel() -> Routine {
         .init(
-            id: id,
-            goalID: goalId
+            id: id ?? UUID(),
+            name: name,
+            goalId: goalId
+        )
+    }
+}
+
+extension Routine {
+    func toDTO() -> RoutineDTO {
+        .init(
+            id: id ?? UUID(),
+            name: name,
+            goalId: $goal.id
         )
     }
 }

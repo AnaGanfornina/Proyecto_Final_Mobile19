@@ -20,7 +20,7 @@ final class Goal: Model, Content, @unchecked Sendable {
     var trainee: User
     
     @Children(for: \.$goal)
-    var routines: [Routine]
+    var trainings: [Training]
     
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?

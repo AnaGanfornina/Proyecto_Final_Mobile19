@@ -1,5 +1,5 @@
 //
-//  RoutineDTO.swift
+//  TrainingDTO.swift
 //  fittrack_server
 //
 //  Created by Ariana Rodríguez on 14/09/25.
@@ -7,12 +7,12 @@
 import Fluent
 import Vapor
 
-struct RoutineDTO: Content {
+struct TrainingDTO: Content {
     let id: UUID?
     let name: String
     let goalId: UUID
     
-    func toModel() -> Routine {
+    func toModel() -> Training {
         .init(
             id: id ?? UUID(),
             name: name,
@@ -21,8 +21,8 @@ struct RoutineDTO: Content {
     }
 }
 
-extension Routine {
-    func toDTO() -> RoutineDTO {
+extension Training {
+    func toDTO() -> TrainingDTO {
         .init(
             id: id ?? UUID(),
             name: name,

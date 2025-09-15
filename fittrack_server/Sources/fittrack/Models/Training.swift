@@ -1,5 +1,5 @@
 //
-//  Routine.swift
+//  Training.swift
 //  fittrack_server
 //
 //  Created by Ariana Rodríguez on 14/09/25.
@@ -8,8 +8,8 @@
 import Fluent
 import Vapor
 
-final class Routine: Model, Content, @unchecked Sendable {
-    static let schema = "routines"
+final class Training: Model, Content, @unchecked Sendable {
+    static let schema = "trainings"
     
     @ID(key: .id)
     var id: UUID?

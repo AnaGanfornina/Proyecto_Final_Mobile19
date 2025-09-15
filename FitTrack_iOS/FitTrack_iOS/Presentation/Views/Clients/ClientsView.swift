@@ -16,24 +16,14 @@ struct ClientsView: View {
         NavigationStack {
             VStack{
                 // Barra superior con botones
-                HStack {
-                    Button(action:{
-                        dismiss()
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .resizable()
-                            .frame(width: 20, height: 30)
-                            .foregroundColor(.blue)
-                    }
-                    Spacer()
-                    
-                    NavigationLink(destination: CreateClientView()) {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.green)
-                    }
+               
+                NavigationLink(destination: CreateClientView()) {
+                    Image(systemName: "plus.circle.fill")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.green)
                 }
+                
                 .padding()
                 
                 List {

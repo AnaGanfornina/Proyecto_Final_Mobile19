@@ -92,13 +92,6 @@ struct NewTrainingView: View {
                         Spacer()
             
                 .navigationTitle("Nuevo entrenamiento")
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button("Cancelar") {
-                            dismiss()
-                        }
-                    }
-                }
             }
             
             // Selector de fecha

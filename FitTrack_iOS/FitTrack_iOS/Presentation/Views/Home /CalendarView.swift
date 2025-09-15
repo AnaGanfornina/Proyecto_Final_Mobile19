@@ -26,6 +26,13 @@ struct CalendarView: View {
                Spacer()
             }
             .padding()
+//            VStack {
+//                DatePicker("Selecciona una fecha",
+//                           selection: $selectedDate,
+//                           displayedComponents: .date)
+//                .datePickerStyle(.graphical)
+//                .padding()
+//            }
             HStack{
                 ForEach(currentWeekDates, id: \.self) { date in
                     VStack {
@@ -41,7 +48,8 @@ struct CalendarView: View {
                         selectedDate = date
                     }
                 }
-            }
+            } // HStack
+            
             .padding(.horizontal)
             
             List {

@@ -7,30 +7,33 @@
 import Fluent
 import Vapor
 
-struct UserLoginDTO: Content {
+struct UserRegisterDTO: Content {
     let name: String
     let email: String
     let password: String
+    let role: UserRole
 }
 
 struct UserDTO: Content {
-    
     var id: UUID?
-    var name: String
-    var email: String
-    var passwordHash: String
-    var isAdmin: Bool
+    var name: String?
+    var email: String?
+    var passwordHash: String?
+    var role: UserRole?
+    var coachId: UUID?
     
     func toModel(withHashedPassword hashedPassword: String) -> User {
         return User(
-            name: name,
-            email: email,
-            passwordHash: hashedPassword
+            name: name ?? "",
+            email: email ?? "",
+            passwordHash: hashedPassword,
+            role: role ?? .coach,
+            coachId: coachId
         )
     }
 }
 
-extension UserLoginDTO: Validatable {
+extension UserRegisterDTO: Validatable {
     static func validations(_ validations: inout Validations) {
         validations.add("name", as: String.self, is: .count(2...50), required: true)
         validations.add("email", as: String.self, is: .count(5...25) && .email, required: true)

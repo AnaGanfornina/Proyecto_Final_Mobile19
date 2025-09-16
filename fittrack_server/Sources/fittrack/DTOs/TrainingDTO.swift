@@ -1,27 +1,32 @@
 //
-//  File.swift
+//  TrainingDTO.swift
 //  fittrack_server
 //
-//  Created by Álvaro Entrena Casas on 6/9/25.
+//  Created by Ariana Rodríguez on 14/09/25.
 //
-
 import Fluent
 import Vapor
 
 struct TrainingDTO: Content {
-    var id: UUID?
-    var name: String
-    var start: Date
-    var end: Date
-    var userID: UUID
+    let id: UUID?
+    let name: String
+    let goalId: UUID
     
     func toModel() -> Training {
-        return Training(name: name, start: start, end: end, userID: userID)
+        .init(
+            id: id ?? UUID(),
+            name: name,
+            goalId: goalId
+        )
     }
 }
 
 extension Training {
     func toDTO() -> TrainingDTO {
-        TrainingDTO(name: self.name, start: self.start, end: self.end, userID: self.userID)
+        .init(
+            id: id ?? UUID(),
+            name: name,
+            goalId: $goal.id
+        )
     }
 }

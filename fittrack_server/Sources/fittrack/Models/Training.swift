@@ -1,16 +1,15 @@
 //
-//  File.swift
+//  Training.swift
 //  fittrack_server
 //
-//  Created by Álvaro Entrena Casas on 6/9/25.
+//  Created by Ariana Rodríguez on 14/09/25.
 //
 
-import Foundation
-import Vapor
 import Fluent
+import Vapor
 
 final class Training: Model, Content, @unchecked Sendable {
-    static let schema = "training"
+    static let schema = "trainings"
     
     @ID(key: .id)
     var id: UUID?
@@ -18,21 +17,22 @@ final class Training: Model, Content, @unchecked Sendable {
     @Field(key: "name")
     var name: String
     
-    @Field(key: "start")
-    var start: Date
+    @Parent(key: "goal_id")
+    var goal: Goal
     
-    @Field(key: "end")
-    var end: Date
+    @Timestamp(key: "created_at", on: .create)
+    var created_at: Date?
     
-    @Field(key: "userID")
-    var userID: UUID
+    @Timestamp(key: "updated_at", on: .create)
+    var updated_at: Date?
     
     init() {}
     
-    init(name: String, start: Date, end: Date , userID: UUID) {
+    init(id: UUID,
+         name: String,
+         goalId: UUID) {
+        self.id = id
         self.name = name
-        self.start = start
-        self.end = end
-        self.userID = userID
+        self.$goal.id = goalId
     }
 }

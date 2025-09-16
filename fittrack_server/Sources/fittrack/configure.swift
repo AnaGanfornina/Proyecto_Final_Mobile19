@@ -9,10 +9,9 @@ public func configure(_ app: Application) async throws {
     // uncomment to serve files from /Public folder
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
-    guard let jwtKey = Environment.process.JWT_KEY else { fatalError("JWT_KEY not found")}
-    guard let _ = Environment.process.API_KEY else { fatalError("API_KEY required")}
-    
-    
+    // TODO: Undo changes
+    let jwtKey = "jwt"
+    //guard let _ = Environment.process.API_KEY else { fatalError("API_KEY required")}
     
     app.databases.use(DatabaseConfigurationFactory.sqlite(.file("db.sqlite")), as: .sqlite)
 
@@ -23,9 +22,11 @@ public func configure(_ app: Application) async throws {
     let hmacKey = HMACKey(stringLiteral: jwtKey)
     await app.jwt.keys.add(hmac: hmacKey, digestAlgorithm: .sha512)
 
-
-
-    app.migrations.add(CreateTodo())
+    // Add migrations
+    app.migrations.add(CreateUser())
+    app.migrations.add(CreateGoal())
+    app.migrations.add(CreateTraining())
+    try await app.autoMigrate()
 
     // register routes
     try routes(app)

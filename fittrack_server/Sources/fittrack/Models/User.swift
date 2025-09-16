@@ -7,6 +7,9 @@
 import Fluent
 import Vapor
 
+enum UserRole: String, Codable {
+    case coach, trainee
+}
 
 final class User: Model, Content, @unchecked Sendable {
     static let schema = "users"
@@ -24,7 +27,13 @@ final class User: Model, Content, @unchecked Sendable {
     var password: String
     
     @Field(key: "role")
-    var isAdmin: Bool
+    var role: UserRole
+    
+    @OptionalParent(key: "coach_id")
+    var coach: User?
+    
+    @Children(for: \.$trainee)
+    var goals: [Goal]
     
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
@@ -32,16 +41,18 @@ final class User: Model, Content, @unchecked Sendable {
     @Timestamp(key: "updated_at", on: .update)
     var updatedAt: Date?
     
-    // Relaciones futuras (appointments, trainings, exercises)
-    // @Children(for: \.$user) var trainings: [Training]
-    // @Children(for: \.$user) var appointments: [Appointment]
-    
     init() {}
     
-    init(name: String, email: String, passwordHash: String, isAdmin: Bool = false ) {
+    init(name: String,
+         email: String,
+         passwordHash: String,
+         role: UserRole = .coach,
+         coachId: UUID?) {
         self.name = name
         self.email = email
-        self.password = password
+        self.password = passwordHash
+        self.role = role
+        self.$coach.id = coachId
     }
 }
 
@@ -49,11 +60,12 @@ extension User {
     
     func toDTO() -> UserDTO {
         UserDTO(
-            id: self.id,
-            name: self.name,
-            email: self.email,
-            passwordHash: self.password,
-            isAdmin: self.isAdmin
+            id: id,
+            name: name,
+            email: email,
+            passwordHash: password,
+            role: role,
+            coachId: $coach.id
         )
     }
 }
@@ -62,6 +74,7 @@ extension User: ModelAuthenticatable {
     static var usernameKey: KeyPath<User, Field<String>> {
         \User.$email
     }
+    
     static var passwordHashKey: KeyPath<User, Field<String>> {
         \User.$password
     }

@@ -9,18 +9,13 @@ import Fluent
 import Vapor
 
 struct AuthController: RouteCollection {
-    
     func boot(routes: any RoutesBuilder) throws {
-        
-        routes.group("auth") { builder in
-            
-            builder.post("register", use: register)
-            
-            builder.group(User.authenticator(), User.guardMiddleware()) { builder in
+        routes.group("auth") { auth in
+            auth.post("register", use: register)
+            auth.group(User.authenticator(), User.guardMiddleware()) { builder in
                 builder.post("login", use: login)
             }
-            
-            builder.group(JWTToken.authenticator(), JWTToken.guardMiddleware()) { builder in
+            auth.group(JWTToken.authenticator(), JWTToken.guardMiddleware()) { builder in
                 builder.post("refresh", use: refresh)
                 
             }
@@ -31,16 +26,15 @@ struct AuthController: RouteCollection {
 
 extension AuthController {
     func register(req: Request) async throws -> JWTTokenDTO {
-        
         //validate data
-        try UserLoginDTO.validate(content: req)
+        //try UserRegisterDTO.validate(content: req)
         
         // decode data and hash pass
-        let create = try req.content.decode(UserDTO.self)
-        let hashedPassword = try await req.password.async.hash(create.passwordHash)
+        let userDTO = try req.content.decode(UserDTO.self)
+        let hashedPassword = try await req.password.async.hash(userDTO.passwordHash ?? "")
         
         // save to user DB
-        let user = create.toModel(withHashedPassword: hashedPassword)
+        let user = userDTO.toModel(withHashedPassword: hashedPassword)
         try await user.create(on: req.db)
         
         // create JWT
@@ -49,7 +43,6 @@ extension AuthController {
             and: user.requireID(),
             withRequest: req
         )
-        
     }
     
     func login(req: Request) async throws -> JWTTokenDTO {

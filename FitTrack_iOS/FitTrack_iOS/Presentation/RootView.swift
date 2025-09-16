@@ -10,8 +10,9 @@ import SwiftUI
 struct RootView: View {
     @Environment(AppState.self) var appState
     
+    
     var body: some View {
-        switch (appState.status){
+        switch (appState.status) {
         case .none:
             EmptyView()
             
@@ -23,9 +24,9 @@ struct RootView: View {
             
         case .login:
             LoginView()
-        
-        case .home:
-           HomeView()
+            
+        case .home, .clients, .exercises:
+            MainTabView()
         }
     }
 }

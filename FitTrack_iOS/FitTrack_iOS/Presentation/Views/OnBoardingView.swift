@@ -9,18 +9,8 @@ import SwiftUI
 
 struct OnBoardingView: View {
     @Environment(AppState.self) var appState
-    /*
-     Text("This is OnBoarding")
-     //Login Button
-     Button {
-         //metodo del appState para  pasar al login
-         appState.performSignUp()
-     } label: {
-         Text("Iniciar Sesión")
-     }
-     */
     
-    //Intro
+    // MARK: - Animated Onboarding Texts
     @State private var intros: [Intro] = sampleIntros
     @State private var activeIntro: Intro?
     
@@ -30,13 +20,12 @@ struct OnBoardingView: View {
             VStack{
                 
                 if let activeIntro {
-                    
+                    // Background rectangle with animation color
                     Rectangle()
                         .fill(activeIntro.bgColor)
                         .padding(.bottom,  -32)
-                    // Circle and Text
                         .overlay {
-                            
+                            // Animated circle and text
                             Circle()
                                 .fill(activeIntro.circleColor)
                                 .frame(width: 38, height: 38)
@@ -61,23 +50,23 @@ struct OnBoardingView: View {
                     
                 }
                 
-                // Onboarding Buttons
+                // Onboarding Buttons (login, register, Apple)
                 OnBoardingButtons()
                     .padding(.bottom, 12)
                     .padding(.top, 8)
-                    .background(.black, in: .rect(
-                        topLeadingRadius: 24,
-                        topTrailingRadius: 24))
+                    .background(
+                        RoundedRectangle(cornerRadius: 25)
+                            .fill(Color.black))
                     .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 8)
                 
             } // VStack
-            .ignoresSafeArea()
+            .ignoresSafeArea() // Allow background to cover the entire screen
         } // GeometryReader
         .task {
-            // Animation with delay to look smoother
+            // Start intro animation sequence once, when view appears.
             if activeIntro == nil {
                 activeIntro = sampleIntros.first
-                // Delaying 0.15 seconds and Start animation
+                // Wait briefly before starting animations
                 let nanoSecond = UInt64(1_000_000_000 * 0.15)
                 try? await Task.sleep(nanoseconds: nanoSecond)
                 animate(0) // Animation
@@ -85,44 +74,67 @@ struct OnBoardingView: View {
         }
     } // View
     
-    // OnBoarding Buttons
+    /// MARK: - Onboarding Buttons
+    /// Provides buttons for Apple sign-in, registration, and login.
     @ViewBuilder
     func OnBoardingButtons() -> some View {
         VStack(spacing: 12) {
-            // Apple Button
+            // Apple Sign In Button
             Button {
-                
+                // TODO: Apple sign-in action (to be implemented)
             } label: {
                 Label("Continuar con Apple", systemImage: "applelogo")
                     .foregroundStyle(.black)
                     .fillButton(.white)
             }
             
-            // Register
+            // Register Button
             Button {
+                // TODO: Registration action (to be implemented)
                 
             } label: {
-                Label("Registrarse", systemImage: "")
+                Label("Registrarse", systemImage: "person.badge.plus")
                     .foregroundStyle(.white)
                     .fillButton(.orange1)
             }
             
-            // Login
+            // Login Button
             Button {
                 appState.performSignUp()
+                
             } label: {
-                Label("Iniciar Sesión", systemImage: "envelope.fill")
-                    .foregroundStyle(.purple2)
-                    .fillButton(.white)
+                Label("Iniciar Sesión", systemImage: "")
+                    .foregroundStyle(.white)
+                    .fillButton(.black)
+                    .shadow(color: .white, radius: 1.1)
             }
         } // VStack
         .padding(15)
     }
     
+    // MARK: - Animation Logic
+    
+    /// Animates the onboarding intro sequence step by step.
+    ///
+    /// `DispatchQueue.main.asyncAfter` is used here to precisely control
+    /// the timing of each animation and avoid SwiftUI overlay/interactivity bugs.
+    ///
+    /// ### Why use DispatchQueue for animation chaining in SwiftUI?
+    /// - SwiftUI's `.withAnimation(completion:)` is not always reliable for predictable sequencing,
+    ///   especially when switching views or chaining multiple steps.
+    /// - Chaining with `DispatchQueue.main.asyncAfter` ensures each animation and UI update happens
+    ///   in the main thread, after the previous animation's visual duration.
+    /// - This technique prevents invisible overlays or blocked interactions that can happen
+    ///   if SwiftUI's implicit animation system gets out of sync with your model changes.
+    ///
+    /// - Parameters:
+    ///   - index: The current intro index to animate.
+    ///   - loop: If true, the sequence repeats from the beginning once all intros are shown.
+    
     // Animating Intros
     func animate(_ index: Int, _ loop: Bool = true) {
         if intros.indices.contains(index + 1) {
-            // Updating Text and Text Color
+            // Step 1: Animate offset out
             activeIntro?.text = intros[index].text
             activeIntro?.textColor = intros[index].textColor
             
@@ -131,25 +143,24 @@ struct OnBoardingView: View {
                 activeIntro?.textOffset = -(textSize(intros[index].text) + 20)
                 activeIntro?.circleOffset = -(textSize(intros[index].text) + 20) / 2
             } completion: {
-                // Reseting the Offset with Next Slide Color Change
-                withAnimation(
-                    .snappy(duration: 0.8),
-                    completionCriteria: .logicallyComplete) {
+                // Step 2: After the first animation (1s), animate offset in and color changes
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    withAnimation(.snappy(duration: 0.8)) {
                         activeIntro?.textOffset = 0
                         activeIntro?.circleOffset = 0
                         activeIntro?.circleColor = intros[index + 1].circleColor
                         activeIntro?.bgColor = intros[index + 1].bgColor
-                    } completion: {
-                        // Going to Next Slide
-                        
-                        // Simply Recursion
+                    }
+                    // Step 3: After the second animation (0.8s), advance to the next intro
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                         animate(index + 1, loop)
                     }
+                }
+                
+                
             } // Completion1
         } else {
-            // Looping
-            
-            // If looping Applied, Then Reset the Index to 0
+            // Restart the animation sequence if looping is enabled
             if loop {
                 animate(0, loop)
             }
@@ -170,14 +181,17 @@ struct OnBoardingView: View {
         .preferredColorScheme(.dark) /// Used for black stroke besides buttons
 }
 
-// Custom Modifier for OnBoarding Buttons
+// MARK: - Custom Button Modifier for OnBoarding Buttons
 extension View {
-    @ViewBuilder
+    /// Adds a consistent filled style to onboarding buttons.    @ViewBuilder
     func fillButton(_ color: Color) -> some View {
         self
             .fontWeight(.bold)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 15)
-            .background(color, in: .rect(cornerRadius: 15))
+            .padding(.vertical, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(color)
+            )
     }
 }

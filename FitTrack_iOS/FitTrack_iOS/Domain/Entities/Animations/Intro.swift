@@ -34,15 +34,15 @@ var sampleIntros:  [Intro] = [
     ),
     .init(
         text: "Let's Achieve",
-        textColor: .purple2,
-        circleColor: .purple2,
+        textColor: .black,
+        circleColor: .black,
         bgColor: .orange1
     ),
     .init(
         text: "Let's Improve",
         textColor: .orange1,
         circleColor: .orange1,
-        bgColor: .black
+        bgColor: .gray
     ),
     .init(
         text: "Let's Train",

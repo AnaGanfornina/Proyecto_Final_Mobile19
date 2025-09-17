@@ -49,11 +49,13 @@ final class AppState: ObservableObject {
         Task {
             do {
                 self.status = .loading
+                print("Login: status -> .loading")
                 if try await loginUsesCase.login(user: user, password: password){
                     self.status = .home
+                    print("Login: status -> .home")
                 }
             } catch {
-                print("error on login")
+                print("error on login: \(error)")
                 self.status = .none
             }
         }

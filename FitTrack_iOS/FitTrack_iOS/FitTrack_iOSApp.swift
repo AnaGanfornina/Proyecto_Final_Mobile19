@@ -13,7 +13,7 @@ struct FitTrack_iOSApp: App {
     @StateObject private var appState: AppState
     
     init() {
-        let auth = LoginUseCase()
+        let auth = LoginUseCaseMock()
         _appState = StateObject (wrappedValue: AppState(loginUsesCase: auth))
     }
     

@@ -109,7 +109,8 @@ struct OnBoardingView: View {
                     .shadow(color: .white, radius: 1.1)
             }
         } // VStack
-        .padding(15)
+        .padding(.bottom, 24)
+        .padding(16)
     }
     
     // MARK: - Animation Logic

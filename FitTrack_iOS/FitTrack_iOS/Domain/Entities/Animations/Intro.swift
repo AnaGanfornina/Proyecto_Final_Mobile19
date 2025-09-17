@@ -7,7 +7,10 @@
 
 import SwiftUI
 
-// Intro Model
+// MARK: - Intro Model
+
+/// Represents a single onboarding/introduction slide in the app.
+/// Each `Intro` contains text, colors, and offsets used for animations in the OnBoardingView.
 struct Intro: Identifiable {
     var id: UUID = .init()
     var text: String
@@ -18,7 +21,10 @@ struct Intro: Identifiable {
     var textOffset: CGFloat = 0
 }
 
-// Sample Intros
+// MARK: - Sample Intro Data
+
+/// Predefined set of sample intros for onboarding or demonstration purposes.
+/// These can be used to populate the OnBoardingView with animated slides.
 var sampleIntros:  [Intro] = [
     .init(
         text: "Let's Coach",

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// MainTabBar provides a custom animated tab bar for switching between main screens.
+/// MainTabBar with  animated tab bar for switching between the main screens.
 struct MainTabBar: View {
     /// Tracks which tab is currently selected (0: Home, 1: Clients, 2: Exercises) Home as Default
     @State private var selectedTab: Int = 0
@@ -66,15 +66,24 @@ struct MainTabBar: View {
         }) {
             VStack(spacing: 4) {
                 // Tab Icon with scale animation if selected
+                // We use foreground Style instead of foreGroundColor because we are using a Gradient
                 Image(systemName: icon)
                     .font(.system(size: 24, weight: .bold))
                     .scaleEffect(selectedTab == index ? 1.3 : 1.0) // Zoom when selected
-                    .foregroundColor(selectedTab == index ? .purple2 : .gray) // Color highlight
+                    .foregroundStyle(
+                                selectedTab == index
+                                ? LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing)
+                                : LinearGradient(colors: [.gray, .gray], startPoint: .leading, endPoint: .trailing)
+                            ) // Gradient, Both selected and unselected need to be same type (Linear Gradient)
                     .animation(.spring(), value: selectedTab) // Animate icon scaling/color
                 // Tab Label
                 Text(text)
                     .font(.caption)
-                    .foregroundColor(selectedTab == index ? .purple2 : .gray) // Color highlight
+                    .foregroundStyle(
+                                selectedTab == index
+                                ? LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing)
+                                : LinearGradient(colors: [.gray, .gray], startPoint: .leading, endPoint: .trailing)
+                            ) // Color highlight
             }
         }
     }

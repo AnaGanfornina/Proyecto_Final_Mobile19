@@ -31,7 +31,19 @@ extension TrainingController {
     }
     
     func getAll(_ req: Request) async throws -> [TrainingDTO] {
-        try await Training.query(on: req.db).all().map { $0.toDTO() }
+        let filter = try? req.query.get(String.self, at: "filter")
+        
+        var query = Training.query(on: req.db)
+        
+        if filter == "today" {
+            let startOfDay = Calendar.current.startOfDay(for: Date())
+            let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)
+            
+            query = query
+                .filter(\.$created_at >= startOfDay)
+                .filter(\.$created_at < endOfDay)
+        }
+        return try await query.all().map { $0.toDTO() }
     }
     
     func getByID(_ req: Request) async throws -> TrainingDTO {

@@ -16,7 +16,7 @@ struct HomeView: View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 20) {
                 
-                // Boton de perfil arriba a la izquierda
+                // Profile Button
                 HStack {
                     Button(action: {
                         print("Perfil pulsado")
@@ -24,7 +24,7 @@ struct HomeView: View {
                         Image(systemName: "person.circle.fill")
                             .resizable()
                             .frame(width: 40, height: 40)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.purple2)
                     }
                 } // HStack
                 .padding()
@@ -35,34 +35,99 @@ struct HomeView: View {
                 .navigationDestination(isPresented: $showNewTraining) {
                     NewTrainingView(selectedClient: $selectedClient)
                 }
-            
-                HStack(spacing: 16) {
-                    Button(action: { showCreateClient = true }) {
-                        Text("Crear cliente")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    
-                    Button(action: { showNewTraining = true }){
-                        Text("Nuevo entrenamiento")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.orange)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                } // HStack botones
                 
-                .padding(.horizontal)
+                HStack(spacing: 24) {
+                    
+                    // Add Client Button
+                    Button(action: { showCreateClient = true }) {
+                        VStack(spacing: 4) {
+                            // Símbolo +
+                            Image(systemName: "plus")
+                                .font(.system(size: 36, weight: .medium))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [.orange1, .red1],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                            
+                            // Text
+                            Text("Crear cliente")
+                                .font(.footnote)
+                                .foregroundStyle(
+                                    Color.gray1
+                                )
+                        }
+                        .frame(minWidth: 110, minHeight: 100)
+                        .padding()
+                        .overlay(
+                            // Gradient Rectangle Around + and "Crear Cliente"
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(
+                                    LinearGradient(
+                                        colors: [.orange1, .red1],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    ),
+                                    lineWidth: 2
+                                )
+                        )
+                    } // Add Client Button Ends
+                    
+                    
+                    // New Training Button
+                    Button(action: { showNewTraining = true }) {
+                        VStack(spacing: 4) {
+                            // Símbolo +
+                            Image(systemName: "pencil.and.list.clipboard")
+                                .font(.system(size: 28, weight: .medium))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [.orange1, .red1],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                            
+                            // Text
+                            Text("Nuevo \n Entrenamiento")
+                                .font(.footnote)
+                                .foregroundStyle(
+                                    Color.gray1
+                                )
+                        }
+                        .frame(minWidth: 110, minHeight: 100)
+                        .padding()
+                        .overlay(
+                            // Gradient Rectangle Around "Nuevo Entrenamiento"
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(
+                                    LinearGradient(
+                                        colors: [.orange1, .red1],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    ),
+                                    lineWidth: 2
+                                )
+                        )
+                    } // New Training Button Ends
+                    
+                } // HStack with Add Client and New Training Buttons Inside
+                .padding(.leading, 44)
+                
+                // Next Trainings and Calendar Icon
                 HStack{
                     Text("Próximos entrenamientos")
+                        .padding(.horizontal, 16)
+                    Spacer()
                     NavigationLink(destination: CalendarView()) {
                         Image(systemName: "calendar")
                             .resizable()
-                            .frame(width: 40, height: 40)
+                            .frame(width: 44, height: 44)
+                            .font(.system(size: 10, weight: .light))
+                            .padding(.horizontal, 16)
+                            .tint(.purple2)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -71,8 +136,9 @@ struct HomeView: View {
             }
             .navigationTitle("Home")
             .navigationBarHidden(true)
-        }
-
+        } // NavigationStack
+        
+        
     }
 }
 

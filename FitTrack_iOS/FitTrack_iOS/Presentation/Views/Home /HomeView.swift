@@ -17,15 +17,20 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 20) {
                 
                 // Profile Button
-                HStack {
+                HStack(spacing: 52) {
                     Button(action: {
                         print("Perfil pulsado")
                     }) {
                         Image(systemName: "person.circle.fill")
                             .resizable()
-                            .frame(width: 40, height: 40)
+                            .frame(width: 44, height: 44)
                             .foregroundColor(.purple2)
                     }
+                    .padding(.horizontal)
+                    
+                    Text("Fit Track")
+                        .fontWeight(.bold)
+                        .font(.title)
                 } // HStack
                 .padding()
                 
@@ -119,14 +124,14 @@ struct HomeView: View {
                 // Next Trainings and Calendar Icon
                 HStack{
                     Text("Próximos entrenamientos")
-                        .padding(.horizontal, 16)
+                        .padding(.horizontal, 32)
                     Spacer()
                     NavigationLink(destination: CalendarView()) {
                         Image(systemName: "calendar")
                             .resizable()
                             .frame(width: 44, height: 44)
                             .font(.system(size: 10, weight: .light))
-                            .padding(.horizontal, 16)
+                            .padding(.trailing, 24)
                             .tint(.purple2)
                     }
                 }

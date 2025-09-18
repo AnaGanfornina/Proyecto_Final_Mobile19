@@ -8,40 +8,33 @@
 import Foundation
 
 protocol LoginRepositoryProtocol {
-    func loginApp(user: String, pass: String) async throws -> String // return token JWT
+    func login(user: String, password: String) async throws
+    func getSession() async throws -> String
+    func clearSession() async throws
 }
-
-
-
 
 final class LoginRepository: LoginRepositoryProtocol{
-     
-    private var network:  ApiProviderProtocol
+    private var apiSession:  APISessionContract
+    private var authDataSource: AuthDataSourceProtocol
     
-    init(network: ApiProviderProtocol) {
-        self.network = network
+    init(apiSession: APISessionContract = APISession.shared,
+         authDatasource: AuthDataSourceProtocol = AuthDataSource.shared) {
+        self.apiSession = apiSession
+        self.authDataSource = authDatasource
     }
     
-    func loginApp(user: String, pass: String) async throws-> String {
-        
-        return try await network.login(username: user, password: pass)
+    func login(user: String, password: String) async throws {
+        let jwtData = try await apiSession.request(
+            LoginURLRequest(user: user, password: password)
+        )
+        try await authDataSource.set(jwtData)
     }
     
-    
-}
-// MARK: - LoginRepository Mock
-
-final class LoginRepositoryMock: LoginRepositoryProtocol{
-    
-    private var network:  ApiProviderProtocol
-    
-    init(network: ApiProviderProtocol = ApiProviderMock()) {
-        self.network = network
+    func getSession() async throws -> String {
+        try await authDataSource.get()
     }
     
-    
-    func loginApp(user: String, pass: String) async throws -> String {
-        return try await network.login(username: user, password: pass)
+    func clearSession() async throws {
+        try await authDataSource.clear()
     }
-    
 }

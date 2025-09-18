@@ -44,20 +44,17 @@ final class AppState: ObservableObject {
        ///   changes may occur after a short delay.
     func performLogin(user: String = "TestUser", password: String = "TestPassword") {
         //TODO: Remover los parámetros por defautl
-        
+        self.status = .loading
         
         Task {
             do {
-                self.status = .loading
-                if try await loginUsesCase.login(user: user, password: password){
-                    self.status = .home
-                }
+                try await loginUsesCase.run(user: user, password: password)
+                self.status = .home
             } catch {
                 print("error on login")
                 self.status = .none
             }
         }
-       
     }
     
     
@@ -77,9 +74,10 @@ final class AppState: ObservableObject {
         
         // Check login / token
         Task {
-            let validSession = await loginUsesCase.hasValidSession()
+            //let validSession = await loginUsesCase.hasValidSession()
             await MainActor.run {
-                status = validSession ? .home : .login
+                //status = validSession ? .home : .login
+                status = .login
             }
         }
     }

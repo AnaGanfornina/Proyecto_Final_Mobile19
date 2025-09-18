@@ -40,7 +40,7 @@ final class APISessionTests: XCTestCase {
         
         // When
         let loginURLRequest = LoginURLRequest(
-            user: "alvaro@gmail.com", 
+            user: "adminuser@keepcoding.es",
             password: "abc12345"
         )
         let jwtData = try await sut.request(loginURLRequest)
@@ -49,7 +49,7 @@ final class APISessionTests: XCTestCase {
         XCTAssertEqual(receivedRequest?.url?.path(), "/api/auth/login")
         XCTAssertEqual(receivedRequest?.httpMethod, "POST")
         XCTAssertEqual(receivedRequest?.url?.path(), "/api/auth/login")
-        XCTAssertEqual(receivedRequest?.value(forHTTPHeaderField: "Authorization"), "Basic YWx2YXJvQGdtYWlsLmNvbTphYmMxMjM0NQ==")
+        XCTAssertEqual(receivedRequest?.value(forHTTPHeaderField: "Authorization"), "Basic YWRtaW51c2VyQGtlZXBjb2RpbmcuZXM6YWJjMTIzNDU=")
         XCTAssertNotNil(jwtData)
     }
     
@@ -63,7 +63,7 @@ final class APISessionTests: XCTestCase {
         
         // When
         let loginURLRequest = LoginURLRequest(
-            user: "alvaro@gmail.com",
+            user: "adminuser@keepcoding.es",
             password: "abc12345"
         )
         

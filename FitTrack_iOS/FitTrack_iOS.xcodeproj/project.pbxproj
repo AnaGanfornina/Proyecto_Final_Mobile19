@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C3E89A662E7B9D1F004ED481 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C3E89A652E7B9D1F004ED481 /* KeychainSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A1E8BEB52E69E941007218D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -29,6 +33,16 @@
 		A1E8BEBE2E69E941007218D4 /* FitTrack_iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FitTrack_iOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C3E89A7A2E7C67F6004ED481 /* Exceptions for "FitTrack_iOSTests" folder in "FitTrack_iOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Domain/Mock/MockLoginUseCase.swift,
+			);
+			target = A1E8BEA62E69E940007218D4 /* FitTrack_iOS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A1E8BEA92E69E940007218D4 /* FitTrack_iOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -37,6 +51,9 @@
 		};
 		A1E8BEB72E69E941007218D4 /* FitTrack_iOSTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C3E89A7A2E7C67F6004ED481 /* Exceptions for "FitTrack_iOSTests" folder in "FitTrack_iOS" target */,
+			);
 			path = FitTrack_iOSTests;
 			sourceTree = "<group>";
 		};
@@ -52,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3E89A662E7B9D1F004ED481 /* KeychainSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +130,7 @@
 			);
 			name = FitTrack_iOS;
 			packageProductDependencies = (
+				C3E89A652E7B9D1F004ED481 /* KeychainSwift */,
 			);
 			productName = FitTrack_iOS;
 			productReference = A1E8BEA72E69E940007218D4 /* FitTrack_iOS.app */;
@@ -195,6 +214,9 @@
 			);
 			mainGroup = A1E8BE9E2E69E940007218D4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C3E89A642E7B9D1F004ED481 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A1E8BEA82E69E940007218D4 /* Products */;
 			projectDirPath = "";
@@ -560,6 +582,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C3E89A642E7B9D1F004ED481 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C3E89A652E7B9D1F004ED481 /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3E89A642E7B9D1F004ED481 /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A1E8BE9F2E69E940007218D4 /* Project object */;
 }

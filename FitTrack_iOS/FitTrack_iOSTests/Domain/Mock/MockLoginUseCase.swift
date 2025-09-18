@@ -1,19 +1,17 @@
 //
-//  LoginUserCase.swift
+//  MockLoginUseCase.swift
 //  FitTrack_iOS
 //
-//  Created by Ana Ganfornina Arques on 7/9/25.
+//  Created by Ariana Rodríguez on 18/09/25.
 //
 
 import Foundation
+@testable import FitTrack_iOS
 
-protocol LoginUseCaseProtocol {
-    func run(user: String, password: String)  async throws
-}
-
-final class LoginUseCase: LoginUseCaseProtocol {
+// MARK: -  LoginUseCaseMock
+final class LoginUseCaseMock: LoginUseCaseProtocol {
     
-    private let repository: LoginRepositoryProtocol
+    let repository: LoginRepositoryProtocol
     
     init(repository: LoginRepositoryProtocol = LoginRepository()) {
         self.repository = repository
@@ -21,5 +19,9 @@ final class LoginUseCase: LoginUseCaseProtocol {
     
     func run(user: String, password: String) async throws {
         try await repository.login(user: user, password: password)
+    }
+    
+    func hasValidSession() async -> Bool {
+        return true
     }
 }

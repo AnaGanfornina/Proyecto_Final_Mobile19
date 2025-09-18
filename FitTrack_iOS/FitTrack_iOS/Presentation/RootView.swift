@@ -33,5 +33,6 @@ struct RootView: View {
 
 #Preview {
     RootView()
-        .environment(AppState(loginUseCase: LoginUseCaseMock()))
+    // TODO: Move login and get session mock to a folder called Mocks in the app target
+        .environment(AppState())
 }

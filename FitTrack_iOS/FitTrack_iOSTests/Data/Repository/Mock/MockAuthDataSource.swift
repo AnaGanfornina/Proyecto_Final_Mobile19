@@ -1,3 +1,10 @@
+//
+//  MockLoginRepository.swift
+//  FitTrack_iOS
+//
+//  Created by Ariana Rodríguez on 16/09/25.
+//
+
 import Foundation
 @testable import FitTrack_iOS
 

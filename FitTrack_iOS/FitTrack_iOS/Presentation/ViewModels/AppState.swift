@@ -13,10 +13,14 @@ final class AppState: ObservableObject {
     var status = Status.none  // TODO: Cambiar a Status.none cuando sepamos qué hacer con la EmptyView
     
     private var loginUseCase: LoginUseCaseProtocol
+    private var getSessionUseCase: GetSessionUseCaseProtocol
     
     // MARK: - Initializer
-    init(loginUseCase: LoginUseCaseProtocol = LoginUseCase()) {
+    init(loginUseCase: LoginUseCaseProtocol = LoginUseCase(),
+         getSessionUseCase: GetSessionUseCaseProtocol = GetSessionUseCase()) {
         self.loginUseCase = loginUseCase
+        self.getSessionUseCase = getSessionUseCase
+        
         Task {
             await determineInitialState()
         }
@@ -73,8 +77,14 @@ final class AppState: ObservableObject {
             return
         }
         
-        // TODO: Add Get Session Use Case
-        status = .home
+        // Check valid session
+        do {
+            try await Task.sleep(for: .seconds(3))
+            try await getSessionUseCase.run()
+            status = .home
+        } catch {
+            status = .login
+        }
     }
     
     /// Initiates the sign-up flow.

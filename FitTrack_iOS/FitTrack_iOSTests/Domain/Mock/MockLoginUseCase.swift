@@ -8,8 +8,8 @@
 import Foundation
 @testable import FitTrack_iOS
 
-// MARK: -  LoginUseCaseMock
-final class LoginUseCaseMock: LoginUseCaseProtocol {
+// MARK: -  MockLoginUseCase
+final class MockLoginUseCase: LoginUseCaseProtocol {
     var receivedError: APIError? = nil
     var receivedRegexError: RegexLintError? = nil
     

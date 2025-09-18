@@ -31,17 +31,8 @@
 		A1E8BEA72E69E940007218D4 /* FitTrack_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FitTrack_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1E8BEB42E69E941007218D4 /* FitTrack_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FitTrack_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1E8BEBE2E69E941007218D4 /* FitTrack_iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FitTrack_iOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3B3CE4A2E7C9843004B95B2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C3E89A7A2E7C67F6004ED481 /* Exceptions for "FitTrack_iOSTests" folder in "FitTrack_iOS" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Domain/Mock/MockLoginUseCase.swift,
-			);
-			target = A1E8BEA62E69E940007218D4 /* FitTrack_iOS */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A1E8BEA92E69E940007218D4 /* FitTrack_iOS */ = {
@@ -51,9 +42,6 @@
 		};
 		A1E8BEB72E69E941007218D4 /* FitTrack_iOSTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				C3E89A7A2E7C67F6004ED481 /* Exceptions for "FitTrack_iOSTests" folder in "FitTrack_iOS" target */,
-			);
 			path = FitTrack_iOSTests;
 			sourceTree = "<group>";
 		};
@@ -96,6 +84,7 @@
 				A1E8BEA92E69E940007218D4 /* FitTrack_iOS */,
 				A1E8BEB72E69E941007218D4 /* FitTrack_iOSTests */,
 				A1E8BEC12E69E941007218D4 /* FitTrack_iOSUITests */,
+				C3B3CE492E7C9843004B95B2 /* Frameworks */,
 				A1E8BEA82E69E940007218D4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -108,6 +97,14 @@
 				A1E8BEBE2E69E941007218D4 /* FitTrack_iOSUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C3B3CE492E7C9843004B95B2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C3B3CE4A2E7C9843004B95B2 /* XCTest.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

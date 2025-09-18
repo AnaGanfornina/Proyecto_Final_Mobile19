@@ -48,7 +48,7 @@ extension UserController {
             user.email = email
         }
         
-        if let password = userDTO.passwordHash {
+        if let password = userDTO.password {
             user.password = password
         }
         

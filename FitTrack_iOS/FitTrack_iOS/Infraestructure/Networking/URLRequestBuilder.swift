@@ -27,6 +27,7 @@ final class URLRequestBuilder {
         }
         
         guard let url = urlComponents.url else {
+            AppLogger.debug("Failed to create an URL")
             throw APIError.malformedURL(url: urlRequestComponents.path)
         }
         
@@ -48,6 +49,7 @@ final class URLRequestBuilder {
             
             return urlRequest
         } catch {
+            AppLogger.debug("Failed to create an URL request")
             throw APIError.badRequest(url: urlRequestComponents.path)
         }
     }

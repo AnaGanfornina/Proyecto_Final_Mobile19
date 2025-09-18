@@ -29,8 +29,8 @@ protocol URLRequestComponents {
 
 // MARK: - Default values for HTTP Request Components
 extension URLRequestComponents {
-    // TODO: Replace the IP by tour local
-    var host: String { "127.0.0.1:8080" }
+    // TODO: Replace the IP by your local
+    var host: String { "127.0.0.1" }
     var queryParameters: [String:String]? { [:] }
     var headers: [String:String] { [:] }
     var body: Encodable? { nil }

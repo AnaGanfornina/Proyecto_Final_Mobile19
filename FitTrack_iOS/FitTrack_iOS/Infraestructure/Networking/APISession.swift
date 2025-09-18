@@ -23,11 +23,11 @@ final class APISession: APISessionContract {
         self.urlSession = urlSession
     }
     
-    func request<URLRequest>(_ request: URLRequest) async throws -> URLRequest.Response where URLRequest : URLRequestComponents {
+    func request<URLRequest: URLRequestComponents>(_ request: URLRequest) async throws -> URLRequest.Response {
         var urlRequest = try URLRequestBuilder(urlRequestComponents: request).build()
         
         if request.authorized {
-            // TODO: Add interceptor for secure endpoints
+            // TODO: Add interceptor to secure endpoints
         }
         
         let (data, response) = try await urlSession.data(for: urlRequest)

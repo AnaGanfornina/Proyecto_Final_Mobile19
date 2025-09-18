@@ -10,18 +10,22 @@ import Foundation
 
 // MARK: -  LoginUseCaseMock
 final class LoginUseCaseMock: LoginUseCaseProtocol {
-    
-    let repository: LoginRepositoryProtocol
-    
-    init(repository: LoginRepositoryProtocol = LoginRepository()) {
-        self.repository = repository
-    }
+    var receivedError: APIError? = nil
+    var receivedRegexError: RegexLintError? = nil
     
     func run(user: String, password: String) async throws {
-        try await repository.login(user: user, password: password)
-    }
-    
-    func hasValidSession() async -> Bool {
-        return true
+        guard receivedError == nil else {
+            if let receivedError {
+                throw receivedError
+            }
+            return
+        }
+        
+        guard receivedRegexError == nil else {
+            if let receivedRegexError {
+                throw receivedRegexError
+            }
+            return
+        }
     }
 }

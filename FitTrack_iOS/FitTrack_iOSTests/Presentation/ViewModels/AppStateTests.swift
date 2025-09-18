@@ -9,7 +9,7 @@ import XCTest
 @testable import FitTrack_iOS
 
 @MainActor
-final class AppStateTest: XCTestCase {
+final class AppStateTests: XCTestCase {
     var sut: AppState!
 
     override func setUpWithError() throws {
@@ -34,10 +34,6 @@ final class AppStateTest: XCTestCase {
         // Then
         XCTAssertEqual(sut.status, .login)
     }
-
-    
-  
-   
     
     /// Test para comprobar que pasa del estado .login a .loading. Es decir pasa de la pantalla de Login a la de la loading.
     func test_LoginToLoading() async throws {
@@ -65,8 +61,6 @@ final class AppStateTest: XCTestCase {
         
     }
     
-    
-    
     /// Test para comprobar que pasa del estado .login a .loading. Es decir pasa de la pantalla de Login a la de la loading.
     func test_LoadingToHome() async throws {
         // Given
@@ -86,7 +80,6 @@ final class AppStateTest: XCTestCase {
         // Then
         await fulfillment(of: [expectation], timeout: 3.0)
         observer.cancel()
-        //XCTAssertEqual(sut.status, .home)
+        XCTAssertEqual(sut.status, .home)
     }
 }
-

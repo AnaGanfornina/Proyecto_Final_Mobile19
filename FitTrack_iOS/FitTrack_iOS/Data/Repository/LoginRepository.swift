@@ -10,7 +10,6 @@ import Foundation
 protocol LoginRepositoryProtocol {
     func login(user: String, password: String) async throws
     func getSession() async throws -> String
-    func clearSession() async throws
 }
 
 final class LoginRepository: LoginRepositoryProtocol{
@@ -32,9 +31,5 @@ final class LoginRepository: LoginRepositoryProtocol{
     
     func getSession() async throws -> String {
         try await authDataSource.get()
-    }
-    
-    func clearSession() async throws {
-        try await authDataSource.clear()
     }
 }

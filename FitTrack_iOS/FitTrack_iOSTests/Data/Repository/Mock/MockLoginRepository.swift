@@ -23,8 +23,4 @@ final class MockLoginRepository: LoginRepositoryProtocol {
         }
         return receivedData.base64EncodedString()
     }
-    
-    func clearSession() async throws {
-        
-    }
 }

@@ -42,7 +42,7 @@ final class AppState: ObservableObject {
        /// - Important: This method runs asynchronously on a `Task`, so the state
        ///   changes may occur after a short delay.
     func performLogin(user: String, password: String) {
-        self.status = .loading
+        status = .loading
         
         Task { @MainActor in
             do {
@@ -50,8 +50,10 @@ final class AppState: ObservableObject {
                 status = .home
             } catch let error as RegexLintError {
                 // TODO: Update status with inline error
+                status = .none
             } catch let error as APIError {
                 // TODO: Update status with full screen error
+                status = .none
             }
         }
     }
@@ -72,7 +74,7 @@ final class AppState: ObservableObject {
         }
         
         // TODO: Add Get Session Use Case
-        status = .login
+        status = .home
     }
     
     /// Initiates the sign-up flow.

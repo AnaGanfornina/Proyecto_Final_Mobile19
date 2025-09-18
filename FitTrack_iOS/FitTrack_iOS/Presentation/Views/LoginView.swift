@@ -23,15 +23,16 @@ struct LoginView: View {
                            endPoint: .bottom)
             .edgesIgnoringSafeArea(.all) // Fill Full Screen
             
-            VStack(spacing: 180) {
-                Spacer()
+            VStack(spacing: 140) {
+                
                 
                 //Welcome title Text
                 Text("Bienvenido")
                     .font(.system(size: 40, weight: .bold))
                     .foregroundColor(.white)
-                
-                // User profile icon
+                    .padding(.top, 20)
+
+                // User and Password
                 VStack(spacing: 24) {
                     // Username text field
                     TextField("Username", text: $username)

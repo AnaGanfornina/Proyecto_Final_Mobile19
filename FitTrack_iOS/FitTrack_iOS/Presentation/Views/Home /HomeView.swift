@@ -109,7 +109,7 @@ struct HomeView: View {
                             .resizable()
                             .frame(width: 44, height: 44)
                             .tint(.purple2)
-                            .padding(.trailing, 16)
+                            .padding(.trailing, 20)
                     }
                 }
                 .padding(.top, 8)

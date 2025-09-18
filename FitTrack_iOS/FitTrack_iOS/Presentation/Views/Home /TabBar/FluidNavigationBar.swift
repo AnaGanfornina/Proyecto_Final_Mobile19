@@ -48,7 +48,6 @@ struct FluidNavigationBar<Segment: View>: View {
                             .foregroundStyle(.gray)
                         if selectedTab == tab {
                             Text(tab.title)
-                                .textCase(.uppercase)
                                 .foregroundStyle(.black.opacity(0.6))
                                 .transition(.opacity)
                         }

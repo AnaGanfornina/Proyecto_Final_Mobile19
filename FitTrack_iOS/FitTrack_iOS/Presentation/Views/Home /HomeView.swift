@@ -118,6 +118,7 @@ struct HomeView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 12) {
                         ActivityWidgetCard(
+                            clientImage: Image("benito_bodoque"),
                             icon: Image(systemName: "figure.yoga"),
                             title: "Quick yoga with Sarah",
                             date: Date(),
@@ -126,6 +127,7 @@ struct HomeView: View {
                         )
                         
                         ActivityWidgetCard(
+                            clientImage: Image("benito_bodoque"),
                             icon: Image(systemName: "figure.soccer"),
                             title: "7-a-side at Powerleague",
                             date: Calendar.current.date(byAdding: .day, value: -4, to: .now)!,
@@ -135,6 +137,7 @@ struct HomeView: View {
                         )
                         
                         ActivityWidgetCard(
+                            clientImage: Image("benito_bodoque"),
                             icon: Image(systemName: "figure.yoga"),
                             title: "PR Chest workout",
                             date: Calendar.current.date(byAdding: .day, value: -10, to: .now)!,

@@ -41,7 +41,7 @@ struct MainTabBar: View {
                 tabButton(icon: "house.fill", text: "Inicio", index: 0)
                 Spacer()
                 // Clients List Tab Button
-                tabButton(icon: "person.crop.circle.fill", text: "Clientes", index: 1)
+                tabButton(icon: "person.3", text: "Clientes", index: 1)
                 Spacer()
                 // Exercises List Tab Button
                 tabButton(icon: "figure.strengthtraining.traditional", text: "Ejercicios", index: 2)

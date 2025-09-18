@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct HomeTabBar: View {
+struct MainTabBar: View {
     var body: some View {
         TabView {
             HomeView()
@@ -23,7 +23,7 @@ struct HomeTabBar: View {
                 }
             ExcerciseListView()
                 .tabItem {
-                    Image(systemName: "dumbbell")
+                    Image(systemName: "figure.strengthtraining.traditional")
                     Text("Ejercicios")
                 }
         }
@@ -32,5 +32,5 @@ struct HomeTabBar: View {
 }
 
 #Preview {
-    HomeTabBar()
+    MainTabBar()
 }

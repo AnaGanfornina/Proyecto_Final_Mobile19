@@ -15,7 +15,7 @@ struct LoginView: View {
             Text("Esta es la pantalla de login")
             
             Button {
-                appState.performLogin()
+                appState.performLogin(user: "UserTest", password: "UserPassword")
             } label: {
                 Text("Login")
             }

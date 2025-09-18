@@ -14,7 +14,7 @@ final class AppStateTest: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = AppState(loginUsesCase: LoginUseCaseMock())
+        sut = AppState(loginUseCase: LoginUseCaseMock())
     }
 
     override func tearDownWithError() throws {
@@ -46,7 +46,7 @@ final class AppStateTest: XCTestCase {
         let expectation = expectation(description: "Pass to loading ")
         
         // When
-        sut.performLogin()
+        sut.performLogin(user: "adminuser@keepcoding.es", password: "abc12345")
         
         let observer = Task {
             while sut.status == .login {    // Espera a que deje de ser .login
@@ -81,7 +81,7 @@ final class AppStateTest: XCTestCase {
             expectation.fulfill()
         }
         
-        sut.performLogin()
+        sut.performLogin(user: "adminuser@keepcoding.es", password: "abc12345")
         
         // Then
         await fulfillment(of: [expectation], timeout: 3.0)

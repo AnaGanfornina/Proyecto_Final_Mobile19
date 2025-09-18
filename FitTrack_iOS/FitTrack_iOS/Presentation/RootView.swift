@@ -33,5 +33,5 @@ struct RootView: View {
 
 #Preview {
     RootView()
-        .environment(AppState(loginUsesCase: LoginUseCaseMock()))
+        .environment(AppState(loginUseCase: LoginUseCaseMock()))
 }

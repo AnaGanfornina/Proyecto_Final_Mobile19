@@ -14,7 +14,7 @@ struct FitTrack_iOSApp: App {
     
     init() {
         let auth = LoginUseCase()
-        _appState = StateObject (wrappedValue: AppState(loginUsesCase: auth))
+        _appState = StateObject (wrappedValue: AppState(loginUseCase: auth))
     }
     
     var body: some Scene {

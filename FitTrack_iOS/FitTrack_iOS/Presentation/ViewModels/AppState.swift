@@ -12,18 +12,17 @@ import Foundation
 final class AppState: ObservableObject {
     var status = Status.none  // TODO: Cambiar a Status.none cuando sepamos qué hacer con la EmptyView
     
-    private var loginUsesCase: LoginUseCaseProtocol
+    private var loginUseCase: LoginUseCaseProtocol
     
     // MARK: - Initializer
-    init(loginUsesCase: LoginUseCaseProtocol = LoginUseCase()) {
-        self.loginUsesCase = loginUsesCase
+    init(loginUseCase: LoginUseCaseProtocol = LoginUseCase()) {
+        self.loginUseCase = loginUseCase
         Task {
             await determineInitialState()
         }
     }
     
     // MARK: - Functions
-    
     
     /// Performs the login process for a user asynchronously.
        ///
@@ -34,25 +33,25 @@ final class AppState: ObservableObject {
        /// - If the login fails or an error occurs, sets `status` back to `.none`.
        ///
        /// - Parameters:
-       ///   - user: The username to authenticate. Defaults to `"TestUser"`.
-       ///   - password: The password to authenticate. Defaults to `"TestPassword"`.
+       ///   - user: The username to authenticate.
+       ///   - password: The password to authenticate.
        ///
        /// - Note: The default parameters are temporary and should be removed
        ///   (`TODO`) once the login flow is fully integrated with real user input.
        ///
        /// - Important: This method runs asynchronously on a `Task`, so the state
        ///   changes may occur after a short delay.
-    func performLogin(user: String = "TestUser", password: String = "TestPassword") {
-        //TODO: Remover los parámetros por defautl
+    func performLogin(user: String, password: String) {
         self.status = .loading
         
-        Task {
+        Task { @MainActor in
             do {
-                try await loginUsesCase.run(user: user, password: password)
-                self.status = .home
-            } catch {
-                print("error on login")
-                self.status = .none
+                try await loginUseCase.run(user: user, password: password)
+                status = .home
+            } catch let error as RegexLintError {
+                // TODO: Update status with inline error
+            } catch let error as APIError {
+                // TODO: Update status with full screen error
             }
         }
     }
@@ -72,16 +71,9 @@ final class AppState: ObservableObject {
             return
         }
         
-        // Check login / token
-        Task {
-            //let validSession = await loginUsesCase.hasValidSession()
-            await MainActor.run {
-                //status = validSession ? .home : .login
-                status = .login
-            }
-        }
+        // TODO: Add Get Session Use Case
+        status = .login
     }
-    
     
     /// Initiates the sign-up flow.
        ///
@@ -93,7 +85,6 @@ final class AppState: ObservableObject {
        ///   sign-up logic (e.g., API calls, validation) should be
        ///   implemented in the future.
     func performSignUp(){
-        
         self.status = .login
     }
     
@@ -106,12 +97,6 @@ final class AppState: ObservableObject {
        ///   In the future it could also clear stored user data, tokens,
        ///   or cached sessions as part of the logout process.
     func logOutUser(){
-        
-        
         self.status = .none
-        
     }
-    
-    
 }
-

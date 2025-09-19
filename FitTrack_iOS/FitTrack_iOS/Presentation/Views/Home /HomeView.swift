@@ -118,32 +118,90 @@ struct HomeView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 12) {
                         ActivityWidgetCard(
-                            clientImage: Image("benito_bodoque"),
-                            icon: Image(systemName: "figure.yoga"),
-                            title: "Quick yoga with Sarah",
+                            clientImage: Image("sarah"),
+                            clientName: "Sarah Park",
                             date: Date(),
                             color: .blue,
-                            primaryMetric: "1h 13m"
+                            primaryMetric: "2h",
+                            activityIcon: Image(systemName: "figure.yoga")
                         )
-                        
+
                         ActivityWidgetCard(
                             clientImage: Image("benito_bodoque"),
-                            icon: Image(systemName: "figure.soccer"),
-                            title: "7-a-side at Powerleague",
+                            clientName: "Benito Bodoque",
                             date: Calendar.current.date(byAdding: .day, value: -4, to: .now)!,
                             color: .red,
-                            primaryMetric: "1h 34m",
-                            secondaryMetric: "489kcal"
+                            primaryMetric: "1h",
+                            secondaryMetric: "489kcal",
+                            activityIcon: Image(systemName: "figure.strengthtraining.traditional")
                         )
-                        
+
                         ActivityWidgetCard(
-                            clientImage: Image("benito_bodoque"),
-                            icon: Image(systemName: "figure.yoga"),
-                            title: "PR Chest workout",
+                            clientImage: Image("joey_t"),
+                            clientName: "Joseph Tribbiani",
                             date: Calendar.current.date(byAdding: .day, value: -10, to: .now)!,
                             color: .green,
                             primaryMetric: "45m",
-                            secondaryMetric: "228lb"
+                            secondaryMetric: "228lb",
+                            activityIcon: Image(systemName: "figure.soccer")
+                        )
+                        
+                        ActivityWidgetCard(
+                            clientImage: Image("sarah"),
+                            clientName: "Sarah Park",
+                            date: Date(),
+                            color: .blue,
+                            primaryMetric: "2h",
+                            activityIcon: Image(systemName: "figure.yoga")
+                        )
+
+                        ActivityWidgetCard(
+                            clientImage: Image("benito_bodoque"),
+                            clientName: "Benito Bodoque",
+                            date: Calendar.current.date(byAdding: .day, value: -4, to: .now)!,
+                            color: .red,
+                            primaryMetric: "1h",
+                            secondaryMetric: "489kcal",
+                            activityIcon: Image(systemName: "figure.strengthtraining.traditional")
+                        )
+
+                        ActivityWidgetCard(
+                            clientImage: Image("joey_t"),
+                            clientName: "Joseph Tribbiani",
+                            date: Calendar.current.date(byAdding: .day, value: -10, to: .now)!,
+                            color: .green,
+                            primaryMetric: "45m",
+                            secondaryMetric: "228lb",
+                            activityIcon: Image(systemName: "figure.soccer")
+                        )
+                        
+                        ActivityWidgetCard(
+                            clientImage: Image("sarah"),
+                            clientName: "Sarah Park",
+                            date: Date(),
+                            color: .blue,
+                            primaryMetric: "2h",
+                            activityIcon: Image(systemName: "figure.yoga")
+                        )
+
+                        ActivityWidgetCard(
+                            clientImage: Image("benito_bodoque"),
+                            clientName: "Benito Bodoque",
+                            date: Calendar.current.date(byAdding: .day, value: -4, to: .now)!,
+                            color: .red,
+                            primaryMetric: "1h",
+                            secondaryMetric: "489kcal",
+                            activityIcon: Image(systemName: "figure.strengthtraining.traditional")
+                        )
+
+                        ActivityWidgetCard(
+                            clientImage: Image("joey_t"),
+                            clientName: "Joseph Tribbiani",
+                            date: Calendar.current.date(byAdding: .day, value: -10, to: .now)!,
+                            color: .green,
+                            primaryMetric: "45m",
+                            secondaryMetric: "228lb",
+                            activityIcon: Image(systemName: "figure.soccer")
                         )
                     }
                     .padding(.horizontal, 16)

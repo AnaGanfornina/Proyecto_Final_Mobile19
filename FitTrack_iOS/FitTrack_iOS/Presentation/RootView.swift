@@ -10,9 +10,10 @@ import SwiftUI
 struct RootView: View {
     @Environment(AppState.self) var appState
     
-    
     var body: some View {
+        
         switch (appState.status) {
+            
         case .none:
             EmptyView()
             
@@ -21,6 +22,7 @@ struct RootView: View {
             
         case .onBoarding:
             OnBoardingView()
+                .preferredColorScheme(.dark) /// Used for black stroke besides buttons
             
         case .login:
             LoginView()

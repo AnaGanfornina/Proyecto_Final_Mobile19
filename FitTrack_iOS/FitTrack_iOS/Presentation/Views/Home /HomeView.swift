@@ -48,53 +48,59 @@ struct HomeView: View {
                 // MARK: - Action Buttons (Crear Cliente / Nuevo Entrenamiento)
                 HStack(spacing: 16) {
                     
-                    // Crear Cliente
+                    // Create Client Button
                     Button(action: { showCreateClient = true }) {
                         VStack(spacing: 8) {
                             Image(systemName: "plus")
-                                .font(.system(size: 30, weight: .medium))
-                                .foregroundStyle(
-                                    LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing)
-                                )
+                                .font(.system(size: 36, weight: .medium))
+                                .foregroundColor(.white) // símbolo blanco
+
                             Text("Crear cliente")
-                                .font(.footnote)
-                                .foregroundStyle(Color.gray1)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white) // texto blanco
                                 .multilineTextAlignment(.center)
                         }
                         .frame(maxWidth: .infinity, minHeight: 100)
                         .padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(
-                                    LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing),
-                                    lineWidth: 2
-                                )
+                        .background(
+                            LinearGradient(
+                                colors: [.orange1, .red1],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
                         )
+                        .cornerRadius(10) // redondeado
                     }
-                    
-                    // Nuevo Entrenamiento
+                    .buttonStyle(.plain)
+                    .scaleEffect(showCreateClient ? 0.8 : 1.0)
+                    .animation(.spring(), value: showCreateClient)
+
+                    // New Training Button
                     Button(action: { showNewTraining = true }) {
                         VStack(spacing: 8) {
                             Image(systemName: "pencil.and.list.clipboard")
-                                .font(.system(size: 28, weight: .medium))
-                                .foregroundStyle(
-                                    LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing)
-                                )
+                                .font(.system(size: 36, weight: .medium))
+                                .foregroundColor(.white) // símbolo blanco
+
                             Text("Nuevo\nEntrenamiento")
-                                .font(.footnote)
-                                .foregroundStyle(Color.gray1)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white) // texto blanco
                                 .multilineTextAlignment(.center)
                         }
                         .frame(maxWidth: .infinity, minHeight: 100)
                         .padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(
-                                    LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing),
-                                    lineWidth: 2
-                                )
+                        .background(
+                            LinearGradient(
+                                colors: [.orange1, .red1],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
                         )
+                        .cornerRadius(10) // redondeado
                     }
+
                 }
                 .padding(.horizontal)
                 

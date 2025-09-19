@@ -8,54 +8,19 @@
 import Foundation
 
 protocol LoginUseCaseProtocol {
-    func login(user: String, password: String)  async throws -> Bool
-    func hasValidSession() async -> Bool
+    func run(user: String, password: String)  async throws
 }
 
 final class LoginUseCase: LoginUseCaseProtocol {
+    private let repository: any LoginRepositoryProtocol
     
-    var repository: any LoginRepositoryProtocol
-    
-    
-    init(repository: any LoginRepositoryProtocol = LoginRepository(network: ApiProvider())) {
+    init(repository: LoginRepositoryProtocol = LoginRepository()) {
         self.repository = repository
     }
     
-    
-    func login(user: String, password: String) async throws -> Bool {
-        
-        
-        let token = try await repository.loginApp(user: user, pass: password)
-        return token != ""
-    }
-    
-    func hasValidSession() async -> Bool {
-        if let token = UserDefaults.standard.string(forKey: "authToken")
-        {
-            return !token.isEmpty
-        }
-        return false
+    func run(user: String, password: String) async throws {
+        let user = try RegexLint.validate(data: user, matchWith: .email)
+        let password = try RegexLint.validate(data: password, matchWith: .password)
+        try await repository.login(user: user, password: password)
     }
 }
-
-// MARK: -  LoginUseCaseMock
-final class LoginUseCaseMock: LoginUseCaseProtocol {
-    
-    var repository: any LoginRepositoryProtocol
-    
-    
-    init(repository: any LoginRepositoryProtocol = LoginRepository(network: ApiProviderMock())) {
-        self.repository = repository
-    }
-    
-    
-    func login(user: String, password: String) async throws -> Bool {
-        let token = try await repository.loginApp(user: user, pass: password)
-        return token == "tokenMock"
-    }
-    
-    func hasValidSession() async -> Bool {
-        return true
-    }
-}
-

@@ -22,7 +22,6 @@ struct LoginView: View {
                            startPoint: .top,
                            endPoint: .bottom)
             .edgesIgnoringSafeArea(.all) // Fill Full Screen
-            
             VStack(spacing: 180) {
                 Spacer()
                 
@@ -68,7 +67,7 @@ struct LoginView: View {
                     
                     // Login Button
                     Button {
-                        appState.performLogin()
+                        appState.performLogin(user: "UserTest", password: "UserPassword")
                     } label: {
                         Text("Iniciar Sesión")
                             .font(.headline)

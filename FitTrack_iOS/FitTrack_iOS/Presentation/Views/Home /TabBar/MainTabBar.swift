@@ -28,12 +28,12 @@ struct MainTabBar: View {
                 }
             }
             
-            Spacer()
+            
             
             // Divider for separation above the tab bar
             Divider()
                 .background(Color.gray.opacity(0.3))
-                .padding()
+                .padding(-24) // Used for HomeView Card List to end right above Divider line
             
             // Tab Bar
             HStack {

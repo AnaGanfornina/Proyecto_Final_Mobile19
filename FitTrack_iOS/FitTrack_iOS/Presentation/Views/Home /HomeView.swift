@@ -115,7 +115,7 @@ struct HomeView: View {
                 .padding(.top, 8)
                 
                 // MARK: - Activity Cards Scroll
-                ScrollView(.vertical, showsIndicators: false) {
+                ScrollView(.vertical, showsIndicators: true) {
                     VStack(spacing: 12) {
                         ActivityWidgetCard(
                             clientImage: Image("sarah"),

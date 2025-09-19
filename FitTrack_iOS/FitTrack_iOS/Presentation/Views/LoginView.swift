@@ -67,7 +67,7 @@ struct LoginView: View {
                     
                     // Login Button
                     Button {
-                        appState.performLogin()
+                        appState.performLogin(user: "UserTest", password: "UserPassword")
                     } label: {
                         Text("Iniciar Sesión")
                             .font(.headline)

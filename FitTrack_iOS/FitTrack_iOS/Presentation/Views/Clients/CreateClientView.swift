@@ -26,7 +26,7 @@ struct CreateClientView: View {
                         .padding(.horizontal)
                    Spacer()
                     Group {
-                        Section("Nombre Apellido") {
+                        Section("Nombre y Apellido") {
                             TextField("Nombre Apellido", text: $nombreApellido)
                         }
                         Section("Altura") {

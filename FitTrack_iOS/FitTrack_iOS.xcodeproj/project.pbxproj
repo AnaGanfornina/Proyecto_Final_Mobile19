@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C3E89A662E7B9D1F004ED481 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C3E89A652E7B9D1F004ED481 /* KeychainSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A1E8BEB52E69E941007218D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		A1E8BEA72E69E940007218D4 /* FitTrack_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FitTrack_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1E8BEB42E69E941007218D4 /* FitTrack_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FitTrack_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1E8BEBE2E69E941007218D4 /* FitTrack_iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FitTrack_iOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3B3CE4A2E7C9843004B95B2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3E89A662E7B9D1F004ED481 /* KeychainSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +84,7 @@
 				A1E8BEA92E69E940007218D4 /* FitTrack_iOS */,
 				A1E8BEB72E69E941007218D4 /* FitTrack_iOSTests */,
 				A1E8BEC12E69E941007218D4 /* FitTrack_iOSUITests */,
+				C3B3CE492E7C9843004B95B2 /* Frameworks */,
 				A1E8BEA82E69E940007218D4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +97,14 @@
 				A1E8BEBE2E69E941007218D4 /* FitTrack_iOSUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C3B3CE492E7C9843004B95B2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C3B3CE4A2E7C9843004B95B2 /* XCTest.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +127,7 @@
 			);
 			name = FitTrack_iOS;
 			packageProductDependencies = (
+				C3E89A652E7B9D1F004ED481 /* KeychainSwift */,
 			);
 			productName = FitTrack_iOS;
 			productReference = A1E8BEA72E69E940007218D4 /* FitTrack_iOS.app */;
@@ -195,6 +211,9 @@
 			);
 			mainGroup = A1E8BE9E2E69E940007218D4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C3E89A642E7B9D1F004ED481 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A1E8BEA82E69E940007218D4 /* Products */;
 			projectDirPath = "";
@@ -397,7 +416,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 37Z67R49HM;
+				DEVELOPMENT_TEAM = DRKH5MTLPD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -425,7 +444,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 37Z67R49HM;
+				DEVELOPMENT_TEAM = DRKH5MTLPD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -558,6 +577,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C3E89A642E7B9D1F004ED481 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C3E89A652E7B9D1F004ED481 /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3E89A642E7B9D1F004ED481 /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A1E8BE9F2E69E940007218D4 /* Project object */;
 }

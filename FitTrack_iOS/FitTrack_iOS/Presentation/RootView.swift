@@ -28,7 +28,7 @@ struct RootView: View {
             LoginView()
             
         case .home, .clients, .exercises:
-            MainTabView()
+            MainTabBar()
         }
     }
 }

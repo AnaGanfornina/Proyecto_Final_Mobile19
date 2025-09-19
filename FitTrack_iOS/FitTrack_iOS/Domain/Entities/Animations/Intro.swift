@@ -23,8 +23,8 @@ struct Intro: Identifiable {
 
 // MARK: - Sample Intro Data
 
-/// Predefined set of sample intros for onboarding or demonstration purposes.
-/// These can be used to populate the OnBoardingView with animated slides.
+/// Predefined set of sample intros for the OnboardingView
+/// These can be used to populate the OnBoardingView with animated texts
 var sampleIntros:  [Intro] = [
     .init(
         text: "Let's Coach",

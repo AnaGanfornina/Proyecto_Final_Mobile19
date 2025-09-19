@@ -9,18 +9,9 @@ import SwiftUI
 
 @main
 struct FitTrack_iOSApp: App {
-    
-    @StateObject private var appState: AppState
-    
-    init() {
-        let auth = LoginUseCaseMock()
-        _appState = StateObject (wrappedValue: AppState(loginUsesCase: auth))
-    }
-    
     var body: some Scene {
         WindowGroup {
-            RootView()
-                .environment(appState)
+            ContentView()
         }
     }
 }

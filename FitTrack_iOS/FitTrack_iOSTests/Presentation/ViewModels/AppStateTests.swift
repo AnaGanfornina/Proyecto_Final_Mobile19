@@ -9,12 +9,15 @@ import XCTest
 @testable import FitTrack_iOS
 
 @MainActor
-final class AppStateTest: XCTestCase {
+final class AppStateTests: XCTestCase {
     var sut: AppState!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = AppState(loginUsesCase: LoginUseCaseMock())
+        sut = AppState(
+            loginUseCase: MockLoginUseCase(),
+            getSessionUseCase: MockGetSessionUseCase()
+        )
     }
 
     override func tearDownWithError() throws {
@@ -34,10 +37,6 @@ final class AppStateTest: XCTestCase {
         // Then
         XCTAssertEqual(sut.status, .login)
     }
-
-    
-  
-   
     
     /// Test para comprobar que pasa del estado .login a .loading. Es decir pasa de la pantalla de Login a la de la loading.
     func test_LoginToLoading() async throws {
@@ -46,7 +45,7 @@ final class AppStateTest: XCTestCase {
         let expectation = expectation(description: "Pass to loading ")
         
         // When
-        sut.performLogin()
+        sut.performLogin(user: "adminuser@keepcoding.es", password: "abc12345")
         
         let observer = Task {
             while sut.status == .login {    // Espera a que deje de ser .login
@@ -65,8 +64,6 @@ final class AppStateTest: XCTestCase {
         
     }
     
-    
-    
     /// Test para comprobar que pasa del estado .login a .loading. Es decir pasa de la pantalla de Login a la de la loading.
     func test_LoadingToHome() async throws {
         // Given
@@ -81,7 +78,7 @@ final class AppStateTest: XCTestCase {
             expectation.fulfill()
         }
         
-        sut.performLogin()
+        sut.performLogin(user: "adminuser@keepcoding.es", password: "abc12345")
         
         // Then
         await fulfillment(of: [expectation], timeout: 3.0)
@@ -89,4 +86,3 @@ final class AppStateTest: XCTestCase {
         XCTAssertEqual(sut.status, .home)
     }
 }
-

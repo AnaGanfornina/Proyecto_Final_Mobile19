@@ -12,7 +12,6 @@ struct TrainingDTOToDomainMapper {
         .init(id: dto.id,
               name: dto.name,
               goalId: dto.goalId,
-              date: dto.date
-        )
+              date: dto.date)
     }
 }

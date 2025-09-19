@@ -10,8 +10,10 @@ import Fluent
 
 struct UserController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
+        let adminRoutes = routes.grouped(JWTToken.authenticator(), AdminMiddelware())
+        adminRoutes.get("users", use: getAll) // Solo admin
+        
         routes.group("users") { users in
-            users.get(use: getAll)
             users.group(":userID") { user in
                 user.get(use: getByID)
                 user.patch(use: update)

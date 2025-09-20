@@ -34,22 +34,9 @@
 		C3B3CE4A2E7C9843004B95B2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C3A2F55F2E7E6A1B0090A562 /* Exceptions for "FitTrack_iOS" folder in "FitTrack_iOS" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"FitTrack-iOS-Info.plist",
-			);
-			target = A1E8BEA62E69E940007218D4 /* FitTrack_iOS */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A1E8BEA92E69E940007218D4 /* FitTrack_iOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				C3A2F55F2E7E6A1B0090A562 /* Exceptions for "FitTrack_iOS" folder in "FitTrack_iOS" target */,
-			);
 			path = FitTrack_iOS;
 			sourceTree = "<group>";
 		};

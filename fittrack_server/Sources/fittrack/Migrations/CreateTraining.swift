@@ -13,6 +13,7 @@ struct CreateTraining: AsyncMigration {
             .id()
             .field("name", .string, .required)
             .field("goal_id", .uuid, .references("goals", "id"))
+            .field("scheduled_at", .datetime, .required)
             .field("created_at", .datetime)
             .field("updated_at", .datetime)
             .create()
@@ -24,3 +25,5 @@ struct CreateTraining: AsyncMigration {
             .delete()
     }
 }
+
+

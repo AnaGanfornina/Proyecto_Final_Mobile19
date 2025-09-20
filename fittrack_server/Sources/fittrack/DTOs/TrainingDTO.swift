@@ -17,7 +17,8 @@ struct TrainingDTO: Content {
         .init(
             id: id ?? UUID(),
             name: name,
-            goalId: goalId
+            goalId: goalId,
+            scheduledAt: scheduledAt
         )
     }
 }
@@ -28,7 +29,7 @@ extension Training {
             id: id ?? UUID(),
             name: name,
             goalId: $goal.id,
-            scheduledAt: scheduled_at
+            scheduledAt: scheduledAt
         )
     }
 }

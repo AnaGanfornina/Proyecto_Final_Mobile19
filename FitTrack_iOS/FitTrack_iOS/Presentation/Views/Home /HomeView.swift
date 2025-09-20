@@ -38,10 +38,10 @@ struct HomeView: View {
                     .padding(.horizontal)
                 
                 // MARK: - Navigation Destinations
-                .navigationDestination(isPresented: $showCreateClient) {
+                .sheet(isPresented: $showCreateClient) {
                     CreateClientView()
                 }
-                .navigationDestination(isPresented: $showNewTraining) {
+                .sheet(isPresented: $showNewTraining) {
                     NewTrainingView(selectedClient: $selectedClient)
                 }
                 

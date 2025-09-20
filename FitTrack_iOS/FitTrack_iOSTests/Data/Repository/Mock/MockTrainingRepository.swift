@@ -11,6 +11,11 @@ import Foundation
 final class MockTrainingRepository: TrainingRepositoryProtocol {
     var dataReceived: Training? = nil
     
+    func getAll() async throws -> [FitTrack_iOS.Training] {
+        // TODO: Add mock implementation
+        return []
+    }
+    
     func create(name: String, goalId: UUID) async throws -> Training {
         guard let dataReceived else {
             throw AppError.network("The request could not be understood or was missing required parameters")

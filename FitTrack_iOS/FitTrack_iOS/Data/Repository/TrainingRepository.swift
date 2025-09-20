@@ -1,5 +1,5 @@
 //
-//  UserRepository.swift
+//  TrainingRepository.swift
 //  FitTrack_iOS
 //
 //  Created by Ariana Rodríguez on 19/09/25.
@@ -8,6 +8,7 @@
 import Foundation
 
 protocol TrainingRepositoryProtocol {
+    func getAll() async throws -> [Training]
     func create(name: String, goalId: UUID) async throws -> Training
 }
 
@@ -16,6 +17,21 @@ final class TrainingRepository: TrainingRepositoryProtocol {
     
     init(apiSession: APISessionContract = APISession.shared) {
         self.apiSession = apiSession
+    }
+    
+    func getAll() async throws -> [Training] {
+        let trainingDTOList = try await apiSession.request(
+            GetTrainingsURLRequest()
+        )
+        let trainingList = trainingDTOList.map {
+            TrainingDTOToDomainMapper().map($0)
+        }
+        
+        guard !trainingList.isEmpty else {
+            throw AppError.emptyList()
+        }
+        
+        return trainingList
     }
     
     func create(name: String, goalId: UUID) async throws -> Training {

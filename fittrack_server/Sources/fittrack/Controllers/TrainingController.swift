@@ -10,9 +10,10 @@ import Fluent
 struct TrainingController: RouteCollection {
     
     func boot(routes: any RoutesBuilder) throws {
-        let tokenProtected = routes.grouped(JWTToken.authenticator(), JWTToken.guardMiddleware())
+       // let tokenProtected = routes.grouped(JWTToken.authenticator(), JWTToken.guardMiddleware())
         
-        tokenProtected.group("trainings") { trainings in
+       // tokenProtected.group("trainings") { trainings in
+        routes.group("trainings") { trainings in
             trainings.post(use: create)
             trainings.get(use: getAll)
             trainings.group(":trainingID") { training in

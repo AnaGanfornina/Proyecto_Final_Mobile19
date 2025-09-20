@@ -26,6 +26,7 @@ struct AuthController: RouteCollection {
 
 extension AuthController {
     func register(req: Request) async throws -> JWTTokenDTO {
+
         //validate data
         try UserRegisterDTO.validate(content: req)
         
@@ -53,6 +54,7 @@ extension AuthController {
             withRequest: req
         )
     }
+     
     
     func login(req: Request) async throws -> JWTTokenDTO {
         

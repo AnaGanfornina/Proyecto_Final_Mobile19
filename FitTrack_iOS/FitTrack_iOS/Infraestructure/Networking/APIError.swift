@@ -28,10 +28,11 @@ extension APIError {
         )
     }
     
-    static func badRequest(url: String) -> Self {
+    static func badRequest(url: String, statusCode: Int?) -> Self {
         APIError(
             url: url,
-            reason: "Bad request"
+            reason: "The request could not be understood or was missing required parameters",
+            statusCode: statusCode
         )
     }
     

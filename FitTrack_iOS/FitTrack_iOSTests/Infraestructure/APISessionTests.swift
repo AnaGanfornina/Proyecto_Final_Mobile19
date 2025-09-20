@@ -81,4 +81,61 @@ final class APISessionTests: XCTestCase {
         XCTAssertEqual(unauthorizedAPIError.reason, "Wrong email or password. Please log in again.")
         XCTAssertEqual(unauthorizedAPIError.statusCode, 401)
     }
+    
+    func testCreateTrainingURLRequest() async throws {
+        // Given
+        var receivedRequest: URLRequest?
+        MockURLProtocol.requestHandler = { request in
+            receivedRequest = request
+            let url = try XCTUnwrap(request.url)
+            let httpResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url, statusCode: 200))
+            let fileURL = try XCTUnwrap(Bundle(for: APISessionTests.self).url(forResource: "training", withExtension: "json"))
+            let data = try XCTUnwrap(Data(contentsOf: fileURL))
+            return (httpResponse, data)
+        }
+        
+        // When
+        let createTrainingURLRequest = CreateTrainingURLRequest(
+            name: "Fuerza: Full Body",
+            goalId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID()
+        )
+        let training = try await sut.request(createTrainingURLRequest)
+        
+        // Then
+        XCTAssertEqual(receivedRequest?.url?.path(), "/api/trainings")
+        XCTAssertEqual(receivedRequest?.httpMethod, "POST")
+        let trainingDTO = try XCTUnwrap(training)
+        XCTAssertEqual(trainingDTO.id, UUID(uuidString: "DAB7C5C0-0579-4D01-A01D-002D3F6D8985"))
+        XCTAssertEqual(trainingDTO.name, "Fuerza: Full Body")
+        XCTAssertEqual(trainingDTO.goalId, UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679"))
+    }
+    
+    func testCreateTrainingURLRequest_ShouldReturnError() async throws {
+        // Given
+        MockURLProtocol.requestHandler = { request in
+            let url = try XCTUnwrap(request.url)
+            let request = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url, statusCode: 400))
+            return (request, Data())
+        }
+        
+        // When
+        let createTrainingURLRequest = CreateTrainingURLRequest(
+            name: "Fuerza: Full Body",
+            goalId: UUID(uuidString: "12345") ?? UUID()
+        )
+        
+        var apiError: APIError?
+        do {
+            let _ = try await sut.request(createTrainingURLRequest)
+            XCTFail("Training error expected")
+        } catch let error as APIError {
+            apiError = error
+        }
+        
+        // Then
+        let badRequestAPIError = try XCTUnwrap(apiError)
+        XCTAssertEqual(badRequestAPIError.url, "/api/trainings")
+        XCTAssertEqual(badRequestAPIError.reason, "The request could not be understood or was missing required parameters")
+        XCTAssertEqual(badRequestAPIError.statusCode, 400)
+    }
 }

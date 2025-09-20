@@ -49,6 +49,8 @@ final class APISession: APISessionContract {
                     throw APIError.decoding(url: request.path)
                 }
             }
+        case 400:
+            throw APIError.badRequest(url: request.path, statusCode: statusCode)
         case 401:
             throw APIError.unauthorized(url: request.path, statusCode: statusCode)
         default:

@@ -32,7 +32,7 @@ extension AuthController {
         // decode data and hash pass
         let registerDTO = try req.content.decode(UserRegisterDTO.self)
         
-        // Verify unic mail
+        // Verify unique mail
         if try await User.query(on: req.db)
             .filter(\.$email == registerDTO.email)
             .first() != nil {

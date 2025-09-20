@@ -11,6 +11,7 @@ struct TrainingDTO: Content {
     let id: UUID?
     let name: String
     let goalId: UUID
+    let scheduledAt: Date
     
     func toModel() -> Training {
         .init(
@@ -26,7 +27,8 @@ extension Training {
         .init(
             id: id ?? UUID(),
             name: name,
-            goalId: $goal.id
+            goalId: $goal.id,
+            scheduledAt: scheduled_at
         )
     }
 }

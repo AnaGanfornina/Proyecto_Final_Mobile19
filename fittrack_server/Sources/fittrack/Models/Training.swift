@@ -20,6 +20,9 @@ final class Training: Model, Content, @unchecked Sendable {
     @Parent(key: "goal_id")
     var goal: Goal
     
+    @Field(key: "scheduled_at")
+    var scheduled_at: Date 
+    
     @Timestamp(key: "created_at", on: .create)
     var created_at: Date?
     

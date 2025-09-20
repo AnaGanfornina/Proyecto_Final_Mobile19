@@ -1,5 +1,5 @@
 //
-//  AppStateTest.swift
+//  AppStateTests.swift
 //  FitTrack_iOSTests
 //
 //  Created by Ana Ganfornina Arques on 5/9/25.

@@ -1,5 +1,5 @@
 //
-//  GetTrainingUseCase.swift
+//  CreateTrainingUseCaseTests.swift
 //  FitTrack_iOS
 //
 //  Created by Ariana Rodríguez on 19/09/25.

@@ -9,7 +9,7 @@ import XCTest
 @testable import FitTrack_iOS
 
 final class LoginRepositoryTests: XCTestCase {
-    var sut: LoginRepository!
+    var sut: LoginRepositoryProtocol!
 
     override func setUpWithError() throws {
         try super.setUpWithError()

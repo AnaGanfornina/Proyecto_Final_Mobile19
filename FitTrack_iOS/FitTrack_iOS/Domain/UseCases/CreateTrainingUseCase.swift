@@ -12,9 +12,9 @@ protocol CreateTrainingUseCaseProtocol {
 }
 
 final class CreateTrainingUseCase: CreateTrainingUseCaseProtocol {
-    private let trainingRepository: TrainingRepository
+    private let trainingRepository: TrainingRepositoryProtocol
     
-    init(trainingRepository: TrainingRepository = TrainingRepository()) {
+    init(trainingRepository: TrainingRepositoryProtocol = TrainingRepository()) {
         self.trainingRepository = trainingRepository
     }
     

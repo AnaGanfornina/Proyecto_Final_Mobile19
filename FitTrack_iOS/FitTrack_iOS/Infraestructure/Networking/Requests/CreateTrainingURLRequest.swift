@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CreateTrainingURLequest: URLRequestComponents {
+struct CreateTrainingURLRequest: URLRequestComponents {
     typealias Response = TrainingDTO
     var path: String = "/api/trainings"
     var httpMethod: HTTPMethod = .POST
@@ -22,7 +22,7 @@ struct CreateTrainingURLequest: URLRequestComponents {
     }
 }
 
-extension CreateTrainingURLequest {
+extension CreateTrainingURLRequest {
     struct Body: Encodable {
         let name: String
         let goalId: String

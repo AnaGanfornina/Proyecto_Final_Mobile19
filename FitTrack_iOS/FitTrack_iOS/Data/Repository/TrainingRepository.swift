@@ -20,7 +20,7 @@ final class TrainingRepository: TrainingRepositoryProtocol {
     
     func create(name: String, goalId: UUID) async throws -> Training {
         let trainginDTO = try await apiSession.request(
-            CreateTrainingURLequest(
+            CreateTrainingURLRequest(
                 name: name,
                 goalId: goalId
             )

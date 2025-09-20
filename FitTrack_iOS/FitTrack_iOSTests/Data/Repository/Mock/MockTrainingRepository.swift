@@ -11,7 +11,7 @@ import Foundation
 final class MockTrainingRepository: TrainingRepositoryProtocol {
     var dataReceived: Training? = nil
     
-    func getAll() async throws -> [FitTrack_iOS.Training] {
+    func getAll(filter: String?) async throws -> [Training] {
         // TODO: Add mock implementation
         return []
     }

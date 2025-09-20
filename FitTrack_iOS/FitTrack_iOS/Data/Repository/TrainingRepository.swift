@@ -8,7 +8,7 @@
 import Foundation
 
 protocol TrainingRepositoryProtocol {
-    func getAll() async throws -> [Training]
+    func getAll(filter: String?) async throws -> [Training]
     func create(name: String, goalId: UUID) async throws -> Training
 }
 
@@ -19,9 +19,9 @@ final class TrainingRepository: TrainingRepositoryProtocol {
         self.apiSession = apiSession
     }
     
-    func getAll() async throws -> [Training] {
+    func getAll(filter: String?) async throws -> [Training] {
         let trainingDTOList = try await apiSession.request(
-            GetTrainingsURLRequest()
+            GetTrainingsURLRequest(filter: filter)
         )
         let trainingList = trainingDTOList.map {
             TrainingDTOToDomainMapper().map($0)

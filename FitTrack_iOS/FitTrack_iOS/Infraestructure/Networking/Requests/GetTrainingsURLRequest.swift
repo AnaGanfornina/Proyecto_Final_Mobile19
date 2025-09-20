@@ -14,7 +14,9 @@ struct GetTrainingsURLRequest: URLRequestComponents {
     var authorized: Bool = true
     var queryParameters: [String : String]?
     
-    init() {
-        queryParameters = ["filterBy": "today"]
+    init(filter: String?) {
+        if let filter {
+            queryParameters = ["filter": filter]
+        }
     }
 }

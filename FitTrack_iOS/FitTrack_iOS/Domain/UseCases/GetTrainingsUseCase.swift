@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GetTrainingsUseCaseProtocol {
-    func run() async throws -> [Training]
+    func run(filter: String?) async throws -> [Training]
 }
 
 final class GetTrainingsUseCase: GetTrainingsUseCaseProtocol {
@@ -18,7 +18,7 @@ final class GetTrainingsUseCase: GetTrainingsUseCaseProtocol {
         self.userRepository = userRepository
     }
     
-    func run() async throws -> [Training] {
-        try await userRepository.getAll()
+    func run(filter: String?) async throws -> [Training] {
+        try await userRepository.getAll(filter: filter)
     }
 }

@@ -27,14 +27,23 @@ struct AuthController: RouteCollection {
 extension AuthController {
     func register(req: Request) async throws -> JWTTokenDTO {
         //validate data
-        //try UserRegisterDTO.validate(content: req)
+        try UserRegisterDTO.validate(content: req)
         
         // decode data and hash pass
-        let userDTO = try req.content.decode(UserDTO.self)
-        let hashedPassword = try await req.password.async.hash(userDTO.passwordHash ?? "")
+        let registerDTO = try req.content.decode(UserRegisterDTO.self)
+        
+        // Verify unique mail
+        if try await User.query(on: req.db)
+            .filter(\.$email == registerDTO.email)
+            .first() != nil {
+            throw Abort(.conflict, reason: "Email already registered")
+        }
+        
+        // Hash password
+        let hashedPassword = try await req.password.async.hash(registerDTO.password)
         
         // save to user DB
-        let user = userDTO.toModel(withHashedPassword: hashedPassword)
+        let user = registerDTO.toModel(withHashedPassword: hashedPassword)
         try await user.create(on: req.db)
         
         // create JWT

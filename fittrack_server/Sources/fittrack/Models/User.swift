@@ -63,7 +63,7 @@ extension User {
             id: id,
             name: name,
             email: email,
-            passwordHash: password,
+            password: password,
             role: role,
             coachId: $coach.id
         )

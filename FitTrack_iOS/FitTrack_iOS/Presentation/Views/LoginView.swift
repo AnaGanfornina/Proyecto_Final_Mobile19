@@ -13,6 +13,7 @@ struct LoginView: View {
     @State private var username = ""
     @State private var password = ""
     @State private var rememberMe = false
+    @State private var showAlert = false
     
     var body: some View {
         ZStack {
@@ -38,14 +39,23 @@ struct LoginView: View {
                         .background(Color.white)
                         .cornerRadius(15)
                         .padding(.horizontal)
-                    
+                        .textInputAutocapitalization(.never)
+                    if appState.inlineError == .email {
+                        Text(appState.inlineError.localizedDescription)
+                            .foregroundColor(.red)
+                            .font(.footnote)
+                    }
                     // Password Field
                     SecureField("Password", text: $password)
                         .padding()
                         .background(Color.white)
                         .cornerRadius(15)
                         .padding(.horizontal, 20)
-                    
+                    if appState.inlineError == .password {
+                        Text(appState.inlineError.localizedDescription)
+                            .foregroundColor(.red)
+                            .font(.footnote)
+                    }
                     // Horizontal container for Toggle "Remember me" and "Forgot Password"
                     HStack {
                         // Toggle "Remember me"
@@ -67,7 +77,16 @@ struct LoginView: View {
                     
                     // Login Button
                     Button {
-                        appState.performLogin(user: "UserTest", password: "UserPassword")
+                        appState.performLogin(
+                            user: username,
+                            password: password
+                        )
+                        
+                        DispatchQueue.main.async {
+                            if  appState.fullScreenError != nil {
+                                showAlert = true
+                            }
+                        }
                     } label: {
                         Text("Iniciar Sesión")
                             .font(.headline)
@@ -96,6 +115,19 @@ struct LoginView: View {
                 }  // 2nd VStack
             } // 1st VStack
             .padding()
+            .onChange(of: appState.fullScreenError, { oldValue, newValue in
+                showAlert = newValue != nil
+            })
+            .alert("Ocurrió un error", isPresented: $showAlert) {
+                Button("Aceptar", role: .cancel) {
+                    appState.fullScreenError = nil
+                    showAlert = false
+                }
+            } message: {
+                if let errorMessage = appState.fullScreenError {
+                    Text(errorMessage)
+                }
+            }
         } // ZStack
     }
 }

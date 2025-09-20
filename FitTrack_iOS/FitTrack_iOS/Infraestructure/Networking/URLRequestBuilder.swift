@@ -16,8 +16,11 @@ final class URLRequestBuilder {
     
     private func url() throws -> URL {
         var urlComponents: URLComponents = URLComponents()
-        urlComponents.scheme = "https"
+        // TODO: Remplazar por htttps cuando el servidor sea remoto
+        urlComponents.scheme = "http"
         urlComponents.host = urlRequestComponents.host
+        // TODO: Remover el puerto cuando el servidor sea remoto
+        urlComponents.port = 8080
         urlComponents.path = urlRequestComponents.path
         
         if let queryParameters = urlRequestComponents.queryParameters, !queryParameters.isEmpty {

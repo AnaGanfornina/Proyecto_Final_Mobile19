@@ -11,6 +11,8 @@ import Foundation
 @Observable
 final class AppState: ObservableObject {
     var status = Status.none  // TODO: Cambiar a Status.none cuando sepamos qué hacer con la EmptyView
+    var inlineError: RegexLintError = .none
+    var fullScreenError: String?
     
     private var loginUseCase: LoginUseCaseProtocol
     private var getSessionUseCase: GetSessionUseCaseProtocol
@@ -53,11 +55,12 @@ final class AppState: ObservableObject {
                 try await loginUseCase.run(user: user, password: password)
                 status = .home
             } catch let error as RegexLintError {
-                // TODO: Update status with inline error
-                status = .none
+                status = .login
+                inlineError = error
             } catch let error as APIError {
-                // TODO: Update status with full screen error
-                status = .none
+                status = .login
+                inlineError = .none
+                fullScreenError = error.reason
             }
         }
     }

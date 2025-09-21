@@ -77,7 +77,7 @@ struct ActivityWidgetCard: View {
                     .frame(width: 30, height: 30)
                     .padding(.trailing, 16)
             }
-            .background(.purple1.opacity(0.7), in: RoundedRectangle(cornerRadius: 12))
+            .background(.purple1.opacity(0.5), in: RoundedRectangle(cornerRadius: 12))
         } // Geometry Reader
         .frame(height: 72) // Set the card height
         .padding(.horizontal, 2)

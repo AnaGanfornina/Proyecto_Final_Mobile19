@@ -50,7 +50,7 @@ struct ClientCell: View {
             
             // Chevron symbol to the right
             Image(systemName: "chevron.right")
-                .foregroundStyle(.gray)
+                .foregroundStyle(.purple2)
         }
         
     } // ClientCell View
@@ -137,10 +137,20 @@ struct ClientsListView: View {
             List {
                 // Order the sections alphabetically
                 ForEach(groupedClients.keys.sorted(), id: \.self) { key in
-                    Section(header: Text(key)) {
+                    Section(header:
+                                Text(key)
+                        .font(.headline)
+                        .foregroundColor(.purple2) // morado
+                    ) {
                         // Show each client in the current section
                         ForEach(groupedClients[key]!) { client in
                             ClientCell(client: client)
+                                .listRowSeparatorTint(.purple2)
+                                .onTapGesture {
+                                            // TODO: The action will be implemented here, for example:
+                                            // selectedClient = client
+                                            // showClientDetail = true
+                                        }
                         }
                     }
                 }

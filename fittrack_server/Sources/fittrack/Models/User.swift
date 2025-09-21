@@ -65,7 +65,7 @@ extension User {
             email: email,
             password: password,
             role: role,
-            coachId: $coach.id
+            coachID: $coach.id
         )
     }
 }

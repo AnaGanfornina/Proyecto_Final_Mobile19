@@ -31,6 +31,8 @@ extension TrainingController {
         let training = trainingDTO.toModel()
         try await training.create(on: req.db)
         
+        
+        // TODO: ELIMINAR PRINT
         print("Training created \(training)")
         return training.toDTO()
     }
@@ -55,6 +57,8 @@ extension TrainingController {
             let trainees = try await User.query(on: req.db)
                 .filter(\.$coach.$id == coachID)
                 .all()
+            
+            // TODO: ELIMINAR PRINTS
             print("CoachID from token:", coachID!)
             print("Trainees found for this coach:", trainees.map { ($0.id, $0.name, $0.$coach.id) })
             

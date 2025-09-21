@@ -37,7 +37,12 @@ struct UserDTO: Content {
     var email: String?
     var password: String?
     var role: UserRole?
-    var coachId: UUID?
+    var coachID: UUID?
+    
+    enum CodingKeys: String, CodingKey {
+        case name, email, password, role
+        case coachID = "coach_id"
+    }
     
     func toModel(withHashedPassword password: String) -> User {
         return User(
@@ -45,7 +50,7 @@ struct UserDTO: Content {
             email: email ?? "",
             passwordHash: password,
             role: role ?? .coach,
-            coachId: coachId
+            coachId: coachID
         )
     }
 }

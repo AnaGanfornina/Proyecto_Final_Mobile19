@@ -58,7 +58,7 @@ extension UserController {
             user.role = role
         }
         
-        if let coachId = userDTO.coachId {
+        if let coachId = userDTO.coachID {
             user.$coach.id = coachId
         }
         

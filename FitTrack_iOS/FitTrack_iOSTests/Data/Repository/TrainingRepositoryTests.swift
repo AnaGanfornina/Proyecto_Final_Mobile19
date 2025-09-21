@@ -38,14 +38,15 @@ final class TrainingRepositoryTests: XCTestCase {
         // When
         let training = try await sut.create(
             name: "Fuerza: Full Body",
-            traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID()
+            traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID(),
+            scheduledAt: "2025-09-20T14:06:36Z"
         )
         
         // Then
         let unwrappedTraining = try XCTUnwrap(training)
         XCTAssertEqual(unwrappedTraining.id, UUID(uuidString: "DAB7C5C0-0579-4D01-A01D-002D3F6D8985"))
         XCTAssertEqual(unwrappedTraining.name, "Fuerza: Full Body")
-        XCTAssertEqual(unwrappedTraining.coachId, UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679"))
+        XCTAssertEqual(unwrappedTraining.scheduledAt, "2025-09-20T14:06:36Z")
     }
     
     func testCreateTraining_ShouldReturnError() async throws {
@@ -61,7 +62,8 @@ final class TrainingRepositoryTests: XCTestCase {
         do {
             let _ = try await sut.create(
                 name: "Fuerza: Full Body",
-                traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID()
+                traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID(),
+                scheduledAt: "2025-09-20T14:06:36Z"
             )
             XCTFail("Training error expected")
         } catch let error as APIError {

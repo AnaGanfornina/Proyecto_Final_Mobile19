@@ -12,7 +12,7 @@ enum TrainingData {
     static let givenItem = Training(
         id: UUID(uuidString: "DAB7C5C0-0579-4D01-A01D-002D3F6D8985"),
         name: "Fuerza: Full Body",
-        date: Date(),
-        traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679"),
+        scheduledAt: "2025-09-20T14:06:36Z",
+        traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679")
         )
 }

@@ -10,6 +10,6 @@ import Foundation
 struct Training {
     let id: UUID?
     let name: String?
-    let date: Date?
+    let scheduledAt: String?
     let traineeId: UUID?
 }

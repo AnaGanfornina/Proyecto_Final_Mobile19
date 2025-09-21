@@ -14,10 +14,11 @@ struct CreateTrainingURLRequest: URLRequestComponents {
     var authorized: Bool = true
     var body: (any Encodable)?
     
-    init(name: String, traineeId: UUID) {
+    init(name: String, traineeId: UUID, scheduledAt: String) throws {
         body = Body(
             name: name,
-            traineeId: traineeId.uuidString
+            traineeId: traineeId,
+            scheduledAt: scheduledAt
         )
     }
 }
@@ -25,7 +26,14 @@ struct CreateTrainingURLRequest: URLRequestComponents {
 extension CreateTrainingURLRequest {
     struct Body: Encodable {
         let name: String
-        let traineeId: String
+        let traineeId: UUID
+        let scheduledAt: String
         // TODO: Send exercises data
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case traineeId = "trainee_id"
+        case scheduledAt
     }
 }

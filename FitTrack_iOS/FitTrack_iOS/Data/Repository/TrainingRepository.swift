@@ -9,7 +9,7 @@ import Foundation
 
 protocol TrainingRepositoryProtocol {
     func getAll(filter: String?) async throws -> [Training]
-    func create(name: String, traineeId: UUID) async throws -> Training
+    func create(name: String, traineeId: UUID, scheduledAt: String) async throws -> Training
 }
 
 final class TrainingRepository: TrainingRepositoryProtocol {
@@ -34,11 +34,12 @@ final class TrainingRepository: TrainingRepositoryProtocol {
         return trainingList
     }
     
-    func create(name: String, traineeId: UUID) async throws -> Training {
+    func create(name: String, traineeId: UUID, scheduledAt: String) async throws -> Training {
         let trainginDTO = try await apiSession.request(
             CreateTrainingURLRequest(
                 name: name,
-                traineeId: traineeId
+                traineeId: traineeId,
+                scheduledAt: scheduledAt
             )
         )
         

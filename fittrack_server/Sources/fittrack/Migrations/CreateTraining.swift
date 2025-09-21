@@ -12,7 +12,8 @@ struct CreateTraining: AsyncMigration {
         try await database.schema("trainings")
             .id()
             .field("name", .string, .required)
-            .field("goal_id", .uuid, .references("goals", "id"))
+            .field("trainee_id", .uuid, .references("users", "id"))
+            .field("scheduled_at", .datetime, .required)
             .field("created_at", .datetime)
             .field("updated_at", .datetime)
             .create()
@@ -20,7 +21,9 @@ struct CreateTraining: AsyncMigration {
     
     func revert(on database: any Database) async throws {
         try await database.schema("trainings")
-            .deleteField("goal_id")
+            .deleteField("trainee_id")
             .delete()
     }
 }
+
+

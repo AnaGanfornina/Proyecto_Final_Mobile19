@@ -54,6 +54,18 @@ extension UserController {
             user.password = password
         }
         
+        if let role = userDTO.role {
+            user.role = role
+        }
+        
+        if let coachId = userDTO.coachID {
+            user.$coach.id = coachId
+        }
+        
+        if let goal = user.goal {
+            user.goal = goal
+        }
+        
         try await user.update(on: req.db)
         return user.toDTO()
     }

@@ -16,7 +16,7 @@ struct UserRegisterDTO: Content {
     let coachID: UUID?
     
     enum CodingKeys: String, CodingKey {
-        case name, email, password, role
+        case id, name, email, password, role
         case coachID = "coach_id"
     }
     
@@ -40,7 +40,7 @@ struct UserDTO: Content {
     var coachID: UUID?
     
     enum CodingKeys: String, CodingKey {
-        case name, email, password, role
+        case id, name, email, password, role
         case coachID = "coach_id"
     }
     

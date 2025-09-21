@@ -40,11 +40,13 @@ enum RegexLintError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .email:
-            "Email format is invalid"
+            AppLogger.debug("Email format is invalid")
+            return "The username or password is incorrect"
         case .password:
-            "The password must have at least 8 characters"
+            AppLogger.debug("The password must have at least 8 characters")
+            return "The username or password is incorrect"
         case .none:
-            nil
+            return nil
         }
     }
 }

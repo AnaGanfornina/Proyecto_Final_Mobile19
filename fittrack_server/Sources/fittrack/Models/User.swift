@@ -29,11 +29,11 @@ final class User: Model, Content, @unchecked Sendable {
     @Field(key: "role")
     var role: UserRole
     
+    @Field(key: "goal")
+    var goal: String?
+    
     @OptionalParent(key: "coach_id")
     var coach: User?
-    
-    @Children(for: \.$trainee)
-    var goals: [Goal]
     
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?

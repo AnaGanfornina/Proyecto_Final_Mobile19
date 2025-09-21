@@ -10,10 +10,10 @@ import Fluent
 struct TrainingController: RouteCollection {
     
     func boot(routes: any RoutesBuilder) throws {
-       // let tokenProtected = routes.grouped(JWTToken.authenticator(), JWTToken.guardMiddleware())
+        let tokenProtected = routes.grouped(JWTToken.authenticator(), JWTToken.guardMiddleware())
         
-       // tokenProtected.group("trainings") { trainings in
-        routes.group("trainings") { trainings in
+        tokenProtected.group("trainings") { trainings in
+        //routes.group("trainings") { trainings in
             trainings.post(use: create)
             trainings.get(use: getAll)
             trainings.group(":trainingID") { training in
@@ -31,6 +31,7 @@ extension TrainingController {
         let training = trainingDTO.toModel()
         try await training.create(on: req.db)
         
+        print("Training created \(training)")
         return training.toDTO()
     }
     
@@ -40,7 +41,6 @@ extension TrainingController {
         let token = try req.auth.require(JWTToken.self)
         let coachID = UUID(token.userID.value)
 
-        
         let filter = try? req.query.get(String.self, at: "filter")
         // var query = Training.query(on: req.db)
         
@@ -51,23 +51,41 @@ extension TrainingController {
                 throw Abort(.internalServerError, reason: "Error calculating end of day")
             }
             
+            // Filter trainees with the coachID
+            let trainees = try await User.query(on: req.db)
+                .filter(\.$coach.$id == coachID)
+                .all()
+            print("CoachID from token:", coachID!)
+            print("Trainees found for this coach:", trainees.map { ($0.id, $0.name, $0.$coach.id) })
+            
+            print("Trainees found for coach \(String(describing: coachID)):", trainees.map { $0.id })
+            
+            let traineeIDs = trainees.compactMap { $0.id }
+            
             // Query with joins to filter coach and date
             let trainings = try await Training.query(on: req.db)
-                .join(parent: \Training.$goal)
-                .join(User.self, on: \Goal.$trainee.$id == \User.$id)
-                .filter(User.self, \User.$coach.$id == coachID)
-                .filter(Training.self, \Training.$scheduledAt >= startOfToday)
-                .filter(Training.self, \Training.$scheduledAt < endOfDay)
-                .sort(\Training.$scheduledAt, .ascending)
+                .filter(\.$trainee.$id ~~ traineeIDs) // Filtrar por traineesIds
+                .filter(\.$scheduledAt >= startOfToday)
+                .filter(\.$scheduledAt < endOfDay)
+                .sort(\.$scheduledAt, .ascending)
                 .all()
             
             return trainings.map { $0.toDTO()}
         } else {
-            let trainings = try await Training.query(on: req.db)
-                .join(parent:\Training.$goal)
-                .join(User.self, on: \Goal.$trainee.$id == \User.$id)
-                .filter(User.self, \User.$coach.$id == coachID)
+            // Obtain all trainees of the coach
+            let trainees = try await User.query(on: req.db)
+                .filter(\.$coach.$id == coachID)
                 .all()
+
+            let traineeIDs = trainees.compactMap { $0.id }
+          
+            
+            // Obtain all trainings from trainees
+            let trainings = try await Training.query(on: req.db)
+                .filter(\.$trainee.$id ~~ traineeIDs)
+                .all()
+            
+            print("Trainings found:", trainings.map { $0.id })
             
             return trainings.map {$0.toDTO()}
         }
@@ -87,7 +105,11 @@ extension TrainingController {
             }
             
             let trainingDTO = try req.content.decode(TrainingDTO.self)
-            training.$goal.id = trainingDTO.goalId
+           
+            training.name = trainingDTO.name
+            training.$trainee.id = trainingDTO.traineeID
+            training.scheduledAt = trainingDTO.scheduledAt
+            
             
             try await training.update(on: req.db)
             

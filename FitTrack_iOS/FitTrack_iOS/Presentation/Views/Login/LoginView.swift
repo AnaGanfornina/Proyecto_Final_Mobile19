@@ -30,35 +30,38 @@ struct LoginView: View {
                     .font(.system(size: 40, weight: .bold))
                     .foregroundColor(.white)
                     .padding(.top, 20)
-
-                // User and Password
+                
+                // / User and Password Section
                 VStack(spacing: 24) {
-                    // Username text field
-                    TextField("Username", text: $username)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(15)
-                        .padding(.horizontal)
-                        .textInputAutocapitalization(.never)
-                    if appState.inlineError == .email {
+                    
+                    VStack (spacing: 16){
+                        // Username text field
+                        TextField("Username", text: $username)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(16)
+                            .textInputAutocapitalization(.never)
+                        
+                         // Password Field
+                         SecureField("Password", text: $password)
+                             .padding()
+                             .background(Color.white)
+                             .cornerRadius(16)
+                    }
+                   
+                    // Error Message
+                    
+                    if appState.inlineError != .none {
                         Text(appState.inlineError.localizedDescription)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.vertical, 9)
+                            .background(.white.opacity(0.44))
                             .foregroundColor(.red)
                             .font(.footnote)
                     }
-                    // Password Field
-                    SecureField("Password", text: $password)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(15)
-                        .padding(.horizontal, 20)
-                    if appState.inlineError == .password {
-                        Text(appState.inlineError.localizedDescription)
-                            .foregroundColor(.red)
-                            .font(.footnote)
-                    }
-                    // Horizontal container for Toggle "Remember me" and "Forgot Password"
+                    // Remember Me & Forgot Password
                     HStack {
-                        // Toggle "Remember me"
+                       
                         Toggle("  Recuérdame", isOn: $rememberMe)
                             .foregroundColor(.white)
                             .underline() // Underlined text
@@ -72,8 +75,8 @@ struct LoginView: View {
                                 .foregroundColor(.white)
                                 .underline()
                         }
-                    } //H Stack
-                    .padding(.horizontal, 20)
+                    } //HStack
+                    
                     
                     // Login Button
                     Button {
@@ -94,14 +97,14 @@ struct LoginView: View {
                             .padding()
                             .frame(maxWidth: .infinity)
                             .background(Color.purple)
-                            .cornerRadius(15)
-                            .padding(.horizontal, 20)
+                            .cornerRadius(16)
                     }
-                    // Bottom Texts to Sign-Up
+                    
+                    // Sign-up Section
                     HStack {
-                        //Sign-up at the bottom
                         Text("¿No tiene cuenta?")
                             .foregroundColor(.white)
+                        
                         Button {
                             // TODO: Sign-Up
                         } label: {
@@ -113,6 +116,7 @@ struct LoginView: View {
                     }
                     .padding(.top, 10)
                 }  // 2nd VStack
+                .padding(.horizontal, 20)
             } // 1st VStack
             .padding()
             .onChange(of: appState.fullScreenError, { oldValue, newValue in
@@ -131,7 +135,6 @@ struct LoginView: View {
         } // ZStack
     }
 }
-
 #Preview {
     LoginView()
         .environment(AppState())

@@ -58,6 +58,8 @@ struct ClientCell: View {
 }
 
 struct ClientsListView: View {
+    // Used to hide Bottom Tab bar if needed
+    @Binding var isTabBarHidden: Bool
     // TODO: This will eventually be cleaned up and pulled from a mock located elsewhere.
     let mockClients: [Client] = [
         Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Luis", lastName: "Quintero"),
@@ -153,5 +155,5 @@ struct ClientsListView: View {
 
 
 #Preview {
-    ClientsListView()
+    ClientsListView(isTabBarHidden: .constant(false))
 }

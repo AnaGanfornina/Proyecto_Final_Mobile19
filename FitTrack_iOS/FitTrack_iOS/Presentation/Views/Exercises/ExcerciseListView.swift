@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct ExcerciseListView: View {
+    // Used to hide Bottom Tab bar if needed
+    @Binding var isTabBarHidden: Bool
     var body: some View {
         Text("Exercise List")
     }
 }
 
 #Preview {
-    ExcerciseListView()
+    ExcerciseListView(isTabBarHidden: .constant(false))
 }

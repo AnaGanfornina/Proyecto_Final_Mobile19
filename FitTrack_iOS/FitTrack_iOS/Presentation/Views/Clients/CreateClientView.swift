@@ -130,6 +130,7 @@ struct CreateClientView: View {
                         // Title Text
                         Button {
                             // TODO: Save the created client action
+                            dismiss()
                             isTabBarHidden = false // Show tab bar when going back
                         } label: {
                             Text("OK")

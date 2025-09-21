@@ -16,7 +16,7 @@ final class MockTrainingRepository: TrainingRepositoryProtocol {
         return []
     }
     
-    func create(name: String, goalId: UUID) async throws -> Training {
+    func create(name: String, traineeId: UUID) async throws -> Training {
         guard let dataReceived else {
             throw AppError.network("The request could not be understood or was missing required parameters")
         }

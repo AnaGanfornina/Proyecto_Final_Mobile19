@@ -26,14 +26,14 @@ final class CreateTrainingCaseTests: XCTestCase {
         // When
         let training = try await sut.run(
             name: "Fuerza: Full Body",
-            goalId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID()
+            traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID()
         )
         
         // Then
         let unwrappedTraining = try XCTUnwrap(training)
         XCTAssertEqual(unwrappedTraining.id, UUID(uuidString: "DAB7C5C0-0579-4D01-A01D-002D3F6D8985"))
         XCTAssertEqual(unwrappedTraining.name, "Fuerza: Full Body")
-        XCTAssertEqual(unwrappedTraining.goalId, UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679"))
+        XCTAssertEqual(unwrappedTraining.coachId, UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679"))
     }
     
     func testCreateTraining_WhenDataIsCorrupted() async throws {
@@ -45,7 +45,7 @@ final class CreateTrainingCaseTests: XCTestCase {
         do {
             let _ = try await sut.run(
                 name: "Fuerza: Full Body",
-                goalId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID()
+                traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID()
             )
             XCTFail("Training error expected")
         } catch let error as AppError {

@@ -97,7 +97,7 @@ final class APISessionTests: XCTestCase {
         // When
         let createTrainingURLRequest = CreateTrainingURLRequest(
             name: "Fuerza: Full Body",
-            goalId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID()
+            traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID()
         )
         let training = try await sut.request(createTrainingURLRequest)
         
@@ -107,7 +107,7 @@ final class APISessionTests: XCTestCase {
         let trainingDTO = try XCTUnwrap(training)
         XCTAssertEqual(trainingDTO.id, UUID(uuidString: "DAB7C5C0-0579-4D01-A01D-002D3F6D8985"))
         XCTAssertEqual(trainingDTO.name, "Fuerza: Full Body")
-        XCTAssertEqual(trainingDTO.goalId, UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679"))
+        XCTAssertEqual(trainingDTO.coachId, UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679"))
     }
     
     func testCreateTrainingURLRequest_ShouldReturnError() async throws {
@@ -121,7 +121,7 @@ final class APISessionTests: XCTestCase {
         // When
         let createTrainingURLRequest = CreateTrainingURLRequest(
             name: "Fuerza: Full Body",
-            goalId: UUID(uuidString: "12345") ?? UUID()
+            traineeId: UUID(uuidString: "12345") ?? UUID()
         )
         
         var apiError: APIError?

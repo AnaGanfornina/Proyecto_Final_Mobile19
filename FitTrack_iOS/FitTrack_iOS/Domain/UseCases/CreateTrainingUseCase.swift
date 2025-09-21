@@ -8,7 +8,7 @@
 import Foundation
 
 protocol CreateTrainingUseCaseProtocol {
-    func run(name: String, goalId: UUID) async throws -> Training
+    func run(name: String, traineeId: UUID) async throws -> Training
 }
 
 final class CreateTrainingUseCase: CreateTrainingUseCaseProtocol {
@@ -18,7 +18,7 @@ final class CreateTrainingUseCase: CreateTrainingUseCaseProtocol {
         self.trainingRepository = trainingRepository
     }
     
-    func run(name: String, goalId: UUID) async throws -> Training {
-        try await trainingRepository.create(name: name, goalId: goalId)
+    func run(name: String, traineeId: UUID) async throws -> Training {
+        try await trainingRepository.create(name: name, traineeId: traineeId)
     }
 }

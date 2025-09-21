@@ -10,6 +10,6 @@ import Foundation
 struct TrainingDTO: Decodable {
     let id: UUID?
     let name: String?
-    let goalId: UUID?
     let date: Date?
+    let coachId: UUID?
 }

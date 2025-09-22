@@ -14,6 +14,8 @@ final class AppState: ObservableObject {
     var inlineError: RegexLintError = .none
     var fullScreenError: String?
     
+    var isLoading = false
+    
     private var loginUseCase: LoginUseCaseProtocol
     private var getSessionUseCase: GetSessionUseCaseProtocol
     
@@ -48,19 +50,22 @@ final class AppState: ObservableObject {
        /// - Important: This method runs asynchronously on a `Task`, so the state
        ///   changes may occur after a short delay.
     func performLogin(user: String, password: String) {
-        status = .loading
+       isLoading = true
         
         Task { @MainActor in
             do {
                 try await loginUseCase.run(user: user, password: password)
                 status = .home
+                isLoading = false
             } catch let error as RegexLintError {
                 status = .login
                 inlineError = error
+                isLoading = false
             } catch let error as APIError {
                 status = .login
                 inlineError = .none
                 fullScreenError = error.reason
+                isLoading = false
             }
         }
     }
@@ -71,7 +76,7 @@ final class AppState: ObservableObject {
     /// If it's none, check onboarding and login
     func determineInitialState() async {
         guard status == .none else { return }
-        status = .loading
+        isLoading = false
         
         // Check onBoarding
         let hasSeenOnBoarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")

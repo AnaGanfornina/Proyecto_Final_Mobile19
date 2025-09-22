@@ -15,6 +15,12 @@ struct LoginView: View {
     @State private var rememberMe = false
     @State private var showAlert = false
     
+    // To check if any text fields have an error
+    private var hasFieldError: Bool {
+            return appState.inlineError != .none
+        }
+        
+    
     var body: some View {
         ZStack {
             // BackGround Gradient
@@ -38,20 +44,32 @@ struct LoginView: View {
                         // Username text field
                         TextField("Username", text: $username)
                             .padding()
-                            .background(Color.white)
+                            .background(hasFieldError ? Color.red.opacity(0.3) : Color.white)
+                            .background(.white)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .inset(by: 0.5)
+                                    .stroke(hasFieldError ? Color.red : Color.clear, lineWidth: 1)
+                            )
                             .cornerRadius(16)
                             .textInputAutocapitalization(.never)
                         
                          // Password Field
                          SecureField("Password", text: $password)
                              .padding()
-                             .background(Color.white)
+                             .background(hasFieldError ? Color.red.opacity(0.3) : Color.white)
+                             .background(.white)
+                             .overlay(
+                                 RoundedRectangle(cornerRadius: 16)
+                                     .inset(by: 0.5)
+                                     .stroke(hasFieldError ? Color.red : Color.clear, lineWidth: 1)
+                             )
                              .cornerRadius(16)
                     }
                    
                     // Error Message
                     
-                    if appState.inlineError != .none {
+                    if hasFieldError {
                         HStack {
                             Text(appState.inlineError.localizedDescription)
                                 .frame(maxWidth: .infinity)
@@ -64,13 +82,13 @@ struct LoginView: View {
                         .padding(.horizontal, -40) // Compensa el padding del VStack padre
                     }
                     // Remember Me & Forgot Password
-                    HStack {
+                    HStack{
                         
                         Toggle("  Recuérdame", isOn: $rememberMe)
                             .foregroundColor(.white)
                             .underline() // Underlined text
                         
-                        Spacer()
+                       Spacer()
                         
                         Button {
                             // TODO: Password reset logic

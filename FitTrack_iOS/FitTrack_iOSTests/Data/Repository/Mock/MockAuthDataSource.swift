@@ -17,9 +17,8 @@ final class MockAuthDataSource: AuthDataSourceProtocol {
         return jwt
     }
     
-    func set(_ jwt: Data) async throws {
-        let jwtString = String(decoding: jwt, as: UTF8.self)
-        UserDefaults.standard.setValue(jwtString, forKey: "jwtDebug")
+    func set(_ jwt: String) async throws {
+        UserDefaults.standard.setValue(jwt, forKey: "jwtDebug")
     }
     
     func clear() async throws {

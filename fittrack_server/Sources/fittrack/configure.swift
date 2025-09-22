@@ -13,7 +13,7 @@ public func configure(_ app: Application) async throws {
     let jwtKey = "jwt"
     //guard let _ = Environment.process.API_KEY else { fatalError("API_KEY required")}
     
-    app.databases.use(DatabaseConfigurationFactory.sqlite(.file("db.sqlite")), as: .sqlite)
+    app.databases.use(DatabaseConfigurationFactory.sqlite(.file("dbfittrack.sqlite")), as: .sqlite)
 
     // Set password algorithm
     app.passwords.use(.bcrypt)
@@ -24,7 +24,6 @@ public func configure(_ app: Application) async throws {
 
     // Add migrations
     app.migrations.add(CreateUser())
-    app.migrations.add(CreateGoal())
     app.migrations.add(CreateTraining())
     try await app.autoMigrate()
 

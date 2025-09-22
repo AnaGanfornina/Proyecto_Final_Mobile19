@@ -17,8 +17,8 @@ final class Training: Model, Content, @unchecked Sendable {
     @Field(key: "name")
     var name: String
     
-    @Parent(key: "goal_id")
-    var goal: Goal
+    @Field(key: "scheduled_at")
+    var scheduledAt: Date
     
     @Timestamp(key: "created_at", on: .create)
     var created_at: Date?
@@ -26,13 +26,19 @@ final class Training: Model, Content, @unchecked Sendable {
     @Timestamp(key: "updated_at", on: .create)
     var updated_at: Date?
     
+    @Parent(key: "trainee_id")
+    var trainee: User
+    
     init() {}
     
     init(id: UUID,
          name: String,
-         goalId: UUID) {
+         traineeID: UUID,
+         scheduledAt:Date
+    ) {
         self.id = id
         self.name = name
-        self.$goal.id = goalId
+        self.$trainee.id = traineeID
+        self.scheduledAt = scheduledAt
     }
 }

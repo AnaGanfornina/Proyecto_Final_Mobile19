@@ -10,13 +10,20 @@ import Vapor
 struct TrainingDTO: Content {
     let id: UUID?
     let name: String
-    let goalId: UUID
+    let traineeID: UUID
+    let scheduledAt: Date
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name, scheduledAt
+        case traineeID = "trainee_id"
+    }
     
     func toModel() -> Training {
         .init(
             id: id ?? UUID(),
             name: name,
-            goalId: goalId
+            traineeID: traineeID,
+            scheduledAt: scheduledAt
         )
     }
 }
@@ -26,7 +33,8 @@ extension Training {
         .init(
             id: id ?? UUID(),
             name: name,
-            goalId: $goal.id
+            traineeID: $trainee.id,
+            scheduledAt: scheduledAt
         )
     }
 }

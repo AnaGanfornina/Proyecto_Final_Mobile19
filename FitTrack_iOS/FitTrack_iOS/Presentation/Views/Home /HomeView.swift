@@ -41,6 +41,7 @@ struct HomeView: View {
                     .padding(.horizontal)
                 
                 // MARK: - Navigation Destinations
+
                     .navigationDestination(isPresented: $showCreateClient) {
                         CreateClientView(isTabBarHidden: $isTabBarHidden)
                             .onAppear { isTabBarHidden = true }   // Hides TabBar
@@ -51,6 +52,7 @@ struct HomeView: View {
                             .onAppear { isTabBarHidden = true }   // Hides TabBar
                             .onDisappear { isTabBarHidden = false } // Shows it when Back Home
                     }
+
                 
                 // MARK: - Action Buttons (Crear Cliente / Nuevo Entrenamiento)
                 HStack(spacing: 16) {

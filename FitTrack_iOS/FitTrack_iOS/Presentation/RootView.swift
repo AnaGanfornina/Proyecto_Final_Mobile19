@@ -17,8 +17,6 @@ struct RootView: View {
         case .none:
             EmptyView()
             
-        case .loading:
-            LoadingView()
             
         case .onBoarding:
             OnBoardingView()

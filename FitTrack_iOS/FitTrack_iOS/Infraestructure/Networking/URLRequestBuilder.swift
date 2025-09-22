@@ -53,7 +53,7 @@ final class URLRequestBuilder {
             return urlRequest
         } catch {
             AppLogger.debug("Failed to create an URL request")
-            throw APIError.badRequest(url: urlRequestComponents.path)
+            throw APIError.badRequest(url: urlRequestComponents.path, statusCode: 400)
         }
     }
 }

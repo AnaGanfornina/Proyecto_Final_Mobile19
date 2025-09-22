@@ -26,6 +26,7 @@ struct AuthController: RouteCollection {
 
 extension AuthController {
     func register(req: Request) async throws -> JWTTokenDTO {
+
         //validate data
         try UserRegisterDTO.validate(content: req)
         
@@ -37,6 +38,18 @@ extension AuthController {
             .filter(\.$email == registerDTO.email)
             .first() != nil {
             throw Abort(.conflict, reason: "Email already registered")
+        }
+        
+        // If trainee, there must be a coach
+        if registerDTO.role == .trainee {
+            guard let coachID = registerDTO.coachID else {
+                throw Abort(.badRequest, reason: "Trainee must have a coachID")
+            }
+            
+            guard let coach = try await User.find(coachID, on: req.db),
+                  coach.role == .coach else {
+                throw Abort(.badRequest, reason: "Coach not found or invalid")
+            }
         }
         
         // Hash password
@@ -53,6 +66,7 @@ extension AuthController {
             withRequest: req
         )
     }
+     
     
     func login(req: Request) async throws -> JWTTokenDTO {
         

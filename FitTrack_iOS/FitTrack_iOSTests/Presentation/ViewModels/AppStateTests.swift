@@ -1,5 +1,5 @@
 //
-//  AppStateTest.swift
+//  AppStateTests.swift
 //  FitTrack_iOSTests
 //
 //  Created by Ana Ganfornina Arques on 5/9/25.
@@ -48,11 +48,10 @@ final class AppStateTests: XCTestCase {
         sut.performLogin(user: "adminuser@keepcoding.es", password: "abc12345")
         
         let observer = Task {
-            while sut.status == .login {    // Espera a que deje de ser .login
-                try await Task.sleep(nanoseconds: 10_000_000)
+            while sut.status == .login {
+                XCTAssertTrue(sut.isLoading)
+                try await Task.sleep(nanoseconds: 10_000_000)// Espera a que deje de ser .login
             }
-            
-            XCTAssertEqual(self.sut.status, .loading)
             expectation.fulfill()
         }
         
@@ -64,10 +63,11 @@ final class AppStateTests: XCTestCase {
         
     }
     
-    /// Test para comprobar que pasa del estado .login a .loading. Es decir pasa de la pantalla de Login a la de la loading.
+    /// Test para comprobar que pasa del estado de estar gargando a la home.
     func test_LoadingToHome() async throws {
         // Given
-        sut.status = Status.loading
+        //sut.status = Status.loading
+        sut.isLoading = true
         let expectation = expectation(description: "Login completed")
         
         // When
@@ -81,8 +81,10 @@ final class AppStateTests: XCTestCase {
         sut.performLogin(user: "adminuser@keepcoding.es", password: "abc12345")
         
         // Then
+       
         await fulfillment(of: [expectation], timeout: 3.0)
         observer.cancel()
         XCTAssertEqual(sut.status, .home)
+        XCTAssertFalse(sut.isLoading)
     }
 }

@@ -95,7 +95,7 @@ final class APISessionTests: XCTestCase {
         }
         
         // When
-        let createTrainingURLRequest = try CreateTrainingURLRequest(
+        let createTrainingURLRequest = CreateTrainingURLRequest(
             name: "Fuerza: Full Body",
             traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID(),
             scheduledAt: "2025-09-20T14:06:36Z"
@@ -121,7 +121,7 @@ final class APISessionTests: XCTestCase {
         }
         
         // When
-        let createTrainingURLRequest = try CreateTrainingURLRequest(
+        let createTrainingURLRequest = CreateTrainingURLRequest(
             name: "Fuerza: Full Body",
             traineeId: UUID(uuidString: "12345") ?? UUID(),
             scheduledAt: "2025-09-20T14:06:36Z"

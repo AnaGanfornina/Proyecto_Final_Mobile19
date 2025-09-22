@@ -14,7 +14,7 @@ struct CreateTrainingURLRequest: URLRequestComponents {
     var authorized: Bool = true
     var body: (any Encodable)?
     
-    init(name: String, traineeId: UUID, scheduledAt: String) throws {
+    init(name: String, traineeId: UUID, scheduledAt: String) {
         body = Body(
             name: name,
             traineeId: traineeId,

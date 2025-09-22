@@ -57,7 +57,7 @@ final class TrainingRepositoryTests: XCTestCase {
             return (request, Data())
         }
         
-       // When
+        // When
         var apiError: APIError?
         do {
             let _ = try await sut.create(
@@ -75,5 +75,23 @@ final class TrainingRepositoryTests: XCTestCase {
         XCTAssertEqual(badRequestAPIError.url, "/api/trainings")
         XCTAssertEqual(badRequestAPIError.reason, "The request could not be understood or was missing required parameters")
         XCTAssertEqual(badRequestAPIError.statusCode, 400)
+    }
+    
+    func testGetTrainings_ShouldSucceed() async throws {
+        // Given
+        MockURLProtocol.requestHandler = { request in
+            let url = try XCTUnwrap(request.url)
+            let httpURLResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url))
+            let fileURL = try XCTUnwrap(Bundle(for: TrainingRepositoryTests.self).url(forResource: "trainings", withExtension: "json"))
+            let jwtData = try XCTUnwrap(Data(contentsOf: fileURL))
+            return (httpURLResponse, jwtData)
+        }
+        
+        // When
+        let trainings = try await sut.getAll(filter: nil)
+        
+        // Then
+        let unwrappedTrainingList = try XCTUnwrap(trainings)
+        XCTAssertEqual(unwrappedTrainingList.count, 3)
     }
 }

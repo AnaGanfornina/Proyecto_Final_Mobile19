@@ -10,10 +10,24 @@ import Foundation
 
 final class MockTrainingRepository: TrainingRepositoryProtocol {
     var dataReceived: Training? = nil
+    var trainingListRecived: [Training]? = nil
     
     func getAll(filter: String?) async throws -> [Training] {
-        // TODO: Add mock implementation
-        return []
+        guard let trainingListRecived else {
+            throw AppError.network("The request could not be understood or was missing required parameters")
+        }
+        
+        guard !trainingListRecived.isEmpty else {
+            throw AppError.emptyList()
+        }
+        
+        guard filter != nil else {
+            return trainingListRecived
+        }
+        
+        return trainingListRecived.filter {
+            $0.scheduledAt == "2025-09-21T14:06:36Z"
+        }
     }
     
     func create(name: String, traineeId: UUID, scheduledAt: String) async throws -> Training {

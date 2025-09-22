@@ -12,13 +12,13 @@ protocol GetTrainingsUseCaseProtocol {
 }
 
 final class GetTrainingsUseCase: GetTrainingsUseCaseProtocol {
-    private let userRepository: TrainingRepositoryProtocol
+    private let trainingRepository: TrainingRepositoryProtocol
     
-    init(userRepository: TrainingRepositoryProtocol) {
-        self.userRepository = userRepository
+    init(trainingRepository: TrainingRepositoryProtocol) {
+        self.trainingRepository = trainingRepository
     }
     
     func run(filter: String?) async throws -> [Training] {
-        try await userRepository.getAll(filter: filter)
+        try await trainingRepository.getAll(filter: filter)
     }
 }

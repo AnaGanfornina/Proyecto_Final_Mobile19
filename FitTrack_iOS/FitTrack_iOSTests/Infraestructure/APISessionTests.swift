@@ -141,4 +141,27 @@ final class APISessionTests: XCTestCase {
         XCTAssertEqual(badRequestAPIError.reason, "The request could not be understood or was missing required parameters")
         XCTAssertEqual(badRequestAPIError.statusCode, 400)
     }
+    
+    func testGetTrainings_ShouldSucceed() async throws {
+        // Given
+        var receivedRequest: URLRequest?
+        MockURLProtocol.requestHandler = { request in
+            receivedRequest = request
+            let url = try XCTUnwrap(request.url)
+            let httpURLResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url))
+            let fileURL = try XCTUnwrap(Bundle(for: TrainingRepositoryTests.self).url(forResource: "trainings", withExtension: "json"))
+            let jwtData = try XCTUnwrap(Data(contentsOf: fileURL))
+            return (httpURLResponse, jwtData)
+        }
+        
+        // When
+        let trainings = try await sut.request(
+            GetTrainingsURLRequest(filter: nil)
+        )
+        
+        // Then
+        XCTAssertEqual(receivedRequest?.url?.path(), "/api/trainings")
+        XCTAssertEqual(receivedRequest?.httpMethod, "GET")
+        XCTAssertEqual(trainings.count, 3)
+    }
 }

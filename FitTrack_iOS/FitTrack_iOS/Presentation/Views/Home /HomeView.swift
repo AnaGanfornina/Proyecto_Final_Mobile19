@@ -40,9 +40,8 @@ struct HomeView: View {
                 // MARK: - Navigation Destinations
                 .sheet(isPresented: $showCreateClient) {
                     CreateClientView()
-                }
-                .sheet(isPresented: $showNewTraining) {
-                    NewTrainingView(selectedClient: $selectedClient)
+                }.sheet(isPresented: $showNewTraining) {
+                    NewTrainingView(selectedClient: $selectedClient, trainingViewModel: TrainingViewModel())
                 }
                 
                 // MARK: - Action Buttons (Crear Cliente / Nuevo Entrenamiento)

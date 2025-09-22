@@ -10,7 +10,7 @@ import KeychainSwift
 
 protocol AuthDataSourceProtocol {
     func get() async throws -> String
-    func set(_ jwt: Data) async throws
+    func set(_ jwt: String) async throws
     func clear() async throws
 }
 
@@ -26,7 +26,7 @@ final class AuthDataSource: AuthDataSourceProtocol {
         return jwt
     }
     
-    func set(_ jwt: Data) async throws {
+    func set(_ jwt: String) async throws {
         guard keychain.set(jwt, forKey: "jwtData") else {
             AppLogger.debug("Failed to save session, try again")
             throw AppError.session("Failed to save session, try again")

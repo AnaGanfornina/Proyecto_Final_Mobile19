@@ -8,7 +8,7 @@
 import Foundation
 
 struct LoginURLRequest: URLRequestComponents {
-    typealias Response = Data
+    typealias Response = LoginDTO
     var path: String = "/api/auth/login"
     var httpMethod: HTTPMethod = .POST
     var authorized: Bool = false

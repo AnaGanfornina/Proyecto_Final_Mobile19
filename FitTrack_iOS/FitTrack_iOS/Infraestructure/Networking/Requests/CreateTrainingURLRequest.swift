@@ -28,12 +28,12 @@ extension CreateTrainingURLRequest {
         let name: String
         let traineeId: UUID
         let scheduledAt: String
-        // TODO: Send exercises data
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case name
-        case traineeId = "trainee_id"
-        case scheduledAt
+        // TODO: Sent exercises data
+        
+        enum CodingKeys: String, CodingKey {
+            case name
+            case traineeId = "trainee_id"
+            case scheduledAt
+        }
     }
 }

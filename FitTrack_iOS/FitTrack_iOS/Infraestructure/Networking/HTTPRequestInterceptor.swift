@@ -24,7 +24,7 @@ final class HTTPRequestInterceptor: HTTPRequestInterceptorProtocol {
     
     func intercept(_ request: inout URLRequest) async throws {
         let jwt = try await authLocalDataSource.get()
-        AppLogger.debug("Bearer token created: \(jwt)")
+        AppLogger.debug("Bearer token get from DS: \(jwt)")
         request.setValue("Bearer \(jwt)", forHTTPHeaderField: "Authorization")
     }
 }

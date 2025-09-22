@@ -3,6 +3,9 @@ import SwiftUI
 struct NewTrainingView: View {
     @Binding var selectedClient: String?
     @Environment(\.dismiss) private var dismiss
+    @State var trainingViewModel: TrainingViewModel
+    @State var disableCreateButton: Bool = false
+    @State private var showAlert = false
     
     // Datos de ejemplo de clientes
     let clients = ["Perico palotes", "Benito Camelas", "Nikito Nipongo"] // MOCK momentaneo, mas adelante API
@@ -79,21 +82,37 @@ struct NewTrainingView: View {
 
                         Spacer()
                         Button("Crear") {
-                            print("Cliente: \(selectedClient ?? "Ninguno")")
-                            print("Objetivo: \(objective)")
-                            print("Fecha: \(selectedDate)")
-                            print("Hora: \(selectedTime)")
-                            dismiss()
+                            trainingViewModel.create(
+                                // TODO: Replace by training name
+                                name: objective,
+                                //TODO: Set from a Mock
+                                traineeId: UUID(uuidString: "0B75E4C6-C4F1-4376-A77E-047987D70881") ?? UUID(),
+                                scheduledAt: selectedDate
+                            )
                         }
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(12)
+                        .disabled(disableCreateButton)
                         Spacer()
             
                 .navigationTitle("Nuevo entrenamiento")
             }
-            
+            .onChange(of: trainingViewModel.state, { oldValue, newValue in
+                switch newValue {
+                case .none:
+                    debugPrint("None")
+                case .loading:
+                    disableCreateButton = true
+                case .loaded:
+                    dismiss()
+                case .error:
+                    disableCreateButton = false
+                    showAlert = true
+                }
+                trainingViewModel.state = .none
+            })
             // Selector de fecha
             .sheet(isPresented: $showDatePicker) {
                 DatePicker("Selecciona una fecha", selection: $selectedDate, displayedComponents: .date)
@@ -107,8 +126,15 @@ struct NewTrainingView: View {
                     .labelsHidden()
                     .padding()
             }
-        }
+            .alert("Ocurrió un error", isPresented: $showAlert) {
+                Button("Aceptar", role: .cancel) {
+                    showAlert = false
+                }
+            } message: {
+                Text("Revisa que tus datos estén correctos")
+            }
     }
+}
     
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
@@ -150,5 +176,5 @@ struct ClientListView: View {
 
 
 #Preview {
-    NewTrainingView(selectedClient: .constant(nil))
+    NewTrainingView(selectedClient: .constant(nil), trainingViewModel: TrainingViewModel())
 }

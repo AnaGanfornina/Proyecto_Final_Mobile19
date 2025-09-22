@@ -23,10 +23,14 @@ final class LoginRepository: LoginRepositoryProtocol{
     }
     
     func login(user: String, password: String) async throws {
-        let jwtData = try await apiSession.request(
+        let loginData = try await apiSession.request(
             LoginURLRequest(user: user, password: password)
         )
-        try await authDataSource.set(jwtData)
+        guard let jwt = loginData.accessToken else {
+            throw AppError.session("Session not found or invalid, log in again")
+        }
+        
+        try await authDataSource.set(jwt)
     }
     
     func getSession() async throws -> String {

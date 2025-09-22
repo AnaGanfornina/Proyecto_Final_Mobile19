@@ -11,7 +11,6 @@ protocol HTTPRequestInterceptorProtocol {
     /// Implements an interception
     /// - Parameters:
     ///   - request: a mutable object of type `(URLRequest)`
-    ///   - authorized: an object of type `(Bool)` that represents if the endpoint requires token
     func intercept(_ request: inout URLRequest) async throws
 }
 

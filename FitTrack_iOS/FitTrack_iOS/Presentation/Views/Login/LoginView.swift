@@ -114,22 +114,27 @@ struct LoginView: View {
                         }
                     } label: {
 
-
-                        if appState.isLoading {
-                            ProgressView()
-                        } else {
-                            Text("Iniciar Sesión")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.purple)
-                                .cornerRadius(16)
+                        HStack {
+                            if appState.isLoading {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(1.2) 
+                            } else {
+                                Text("Iniciar Sesión")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                            }
                         }
-
+                        
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.purple)
+                        .cornerRadius(16)
                     }
+
+                    .disabled(appState.isLoading)
                     
-                    // Sign-up Section
+                    // Bottom Texts to Sign-Up
                     HStack {
                         Text("¿No tiene cuenta?")
                             .foregroundColor(.white)

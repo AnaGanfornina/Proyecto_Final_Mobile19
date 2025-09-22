@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ClientsView: View {
+    // Used to hide Bottom Tab bar if needed
+    @Binding var isTabBarHidden: Bool
     @Binding var selectedClient: String?
     @Environment(\.dismiss) private var dismiss
     @State private var clients = ["Perico palotes", "Benito Camelas", "Nikito Nipongo"]
@@ -17,7 +19,7 @@ struct ClientsView: View {
             VStack{
                 // Barra superior con botones
                
-                NavigationLink(destination: CreateClientView()) {
+                NavigationLink(destination: CreateClientView(isTabBarHidden: $isTabBarHidden)) {
                     Image(systemName: "plus.circle.fill")
                         .resizable()
                         .frame(width: 30, height: 30)
@@ -45,5 +47,5 @@ struct ClientsView: View {
 }
 
 #Preview {
-    ClientsView(selectedClient: .constant(nil))
+    ClientsView(isTabBarHidden: .constant(false), selectedClient: .constant(nil))
 }

@@ -9,7 +9,6 @@ import Vapor
 import JWTKit
 
 /// Payload es el protocolo para indicar todo lo que va a contener el JWTToken
-/// Habría que implementar el uso del rol de administrador en el payload???
 
 struct JWTToken: JWTPayload, Authenticatable {
     

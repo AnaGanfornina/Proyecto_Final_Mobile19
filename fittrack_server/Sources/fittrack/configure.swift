@@ -13,8 +13,20 @@ public func configure(_ app: Application) async throws {
     let jwtKey = "jwt"
     //guard let _ = Environment.process.API_KEY else { fatalError("API_KEY required")}
     
-    app.databases.use(DatabaseConfigurationFactory.sqlite(.file("dbfittrack.sqlite")), as: .sqlite)
+    //app.databases.use(DatabaseConfigurationFactory.sqlite(.file("dbfittrack.sqlite")), as: .sqlite)
 
+    switch app.environment {
+    case .production:
+        // create PostgreSQL connection
+        app.databases.use(DatabaseConfigurationFactory.sqlite(.file("db.sqlite")), as: .sqlite)
+        
+    default:
+        app.databases.use(DatabaseConfigurationFactory.sqlite(.file("db.sqlite")), as: .sqlite)
+        
+    }
+    
+    
+    
     // Set password algorithm
     app.passwords.use(.bcrypt)
     
@@ -25,8 +37,11 @@ public func configure(_ app: Application) async throws {
     // Add migrations
     app.migrations.add(CreateUser())
     app.migrations.add(CreateTraining())
-    try await app.autoMigrate()
-
+    
+    if app.environment == .development {
+        try await app.autoMigrate()
+    }
+ 
     // register routes
     try routes(app)
 }

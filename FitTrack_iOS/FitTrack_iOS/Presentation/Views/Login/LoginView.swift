@@ -52,16 +52,20 @@ struct LoginView: View {
                     // Error Message
                     
                     if appState.inlineError != .none {
-                        Text(appState.inlineError.localizedDescription)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.vertical, 9)
-                            .background(.white.opacity(0.44))
-                            .foregroundColor(.red)
-                            .font(.footnote)
+                        HStack {
+                            Text(appState.inlineError.localizedDescription)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(.white.opacity(0.44))
+                                .foregroundColor(.red)
+                                .font(.footnote)
+                                .fontWeight(.medium)
+                        }
+                        .padding(.horizontal, -40) // Compensa el padding del VStack padre
                     }
                     // Remember Me & Forgot Password
                     HStack {
-                       
+                        
                         Toggle("  Recuérdame", isOn: $rememberMe)
                             .foregroundColor(.white)
                             .underline() // Underlined text

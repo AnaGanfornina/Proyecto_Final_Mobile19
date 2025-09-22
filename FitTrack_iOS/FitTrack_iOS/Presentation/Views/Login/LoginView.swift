@@ -17,9 +17,9 @@ struct LoginView: View {
     
     // To check if any text fields have an error
     private var hasFieldError: Bool {
-            return appState.inlineError != .none
-        }
-        
+        return appState.inlineError != .none
+    }
+    
     
     var body: some View {
         ZStack {

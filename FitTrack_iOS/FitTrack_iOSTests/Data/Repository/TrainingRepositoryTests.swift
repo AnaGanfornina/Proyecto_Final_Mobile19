@@ -38,14 +38,15 @@ final class TrainingRepositoryTests: XCTestCase {
         // When
         let training = try await sut.create(
             name: "Fuerza: Full Body",
-            goalId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID()
+            traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID(),
+            scheduledAt: "2025-09-20T14:06:36Z"
         )
         
         // Then
         let unwrappedTraining = try XCTUnwrap(training)
         XCTAssertEqual(unwrappedTraining.id, UUID(uuidString: "DAB7C5C0-0579-4D01-A01D-002D3F6D8985"))
         XCTAssertEqual(unwrappedTraining.name, "Fuerza: Full Body")
-        XCTAssertEqual(unwrappedTraining.goalId, UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679"))
+        XCTAssertEqual(unwrappedTraining.scheduledAt, "2025-09-20T14:06:36Z")
     }
     
     func testCreateTraining_ShouldReturnError() async throws {
@@ -56,12 +57,13 @@ final class TrainingRepositoryTests: XCTestCase {
             return (request, Data())
         }
         
-       // When
+        // When
         var apiError: APIError?
         do {
             let _ = try await sut.create(
                 name: "Fuerza: Full Body",
-                goalId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID()
+                traineeId: UUID(uuidString: "E0D9DD1C-496F-4E9A-A944-44DB158A1679") ?? UUID(),
+                scheduledAt: "2025-09-20T14:06:36Z"
             )
             XCTFail("Training error expected")
         } catch let error as APIError {
@@ -73,5 +75,23 @@ final class TrainingRepositoryTests: XCTestCase {
         XCTAssertEqual(badRequestAPIError.url, "/api/trainings")
         XCTAssertEqual(badRequestAPIError.reason, "The request could not be understood or was missing required parameters")
         XCTAssertEqual(badRequestAPIError.statusCode, 400)
+    }
+    
+    func testGetTrainings_ShouldSucceed() async throws {
+        // Given
+        MockURLProtocol.requestHandler = { request in
+            let url = try XCTUnwrap(request.url)
+            let httpURLResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url))
+            let fileURL = try XCTUnwrap(Bundle(for: TrainingRepositoryTests.self).url(forResource: "trainings", withExtension: "json"))
+            let jwtData = try XCTUnwrap(Data(contentsOf: fileURL))
+            return (httpURLResponse, jwtData)
+        }
+        
+        // When
+        let trainings = try await sut.getAll(filter: nil)
+        
+        // Then
+        let unwrappedTrainingList = try XCTUnwrap(trainings)
+        XCTAssertEqual(unwrappedTrainingList.count, 3)
     }
 }

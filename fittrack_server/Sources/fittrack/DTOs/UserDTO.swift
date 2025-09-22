@@ -16,7 +16,7 @@ struct UserRegisterDTO: Content {
     let coachID: UUID?
     
     enum CodingKeys: String, CodingKey {
-        case id, name, email, password, role
+        case name, email, password, role
         case coachID = "coach_id"
     }
     

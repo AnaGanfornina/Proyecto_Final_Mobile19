@@ -113,13 +113,20 @@ struct LoginView: View {
                             }
                         }
                     } label: {
-                        Text("Iniciar Sesión")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.purple)
-                            .cornerRadius(16)
+
+
+                        if appState.isLoading {
+                            ProgressView()
+                        } else {
+                            Text("Iniciar Sesión")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.purple)
+                                .cornerRadius(16)
+                        }
+
                     }
                     
                     // Sign-up Section

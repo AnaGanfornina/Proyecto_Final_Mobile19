@@ -107,6 +107,10 @@ extension AuthController {
         let tokens = JWTToken.generateTokens(for: username, andID: userID)
         async let accessToken = req.jwt.sign(tokens.accessToken)
         async let refreshToken = req.jwt.sign(tokens.refreshToken)
-        return try await JWTTokenDTO(accessToken: accessToken, refreshToken: refreshToken)
+        return try await JWTTokenDTO(
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+            userID: userID
+        )
     }
 }

@@ -8,7 +8,12 @@
 import Vapor
 
 struct JWTTokenDTO: Content {
-    
     let accessToken: String
     let refreshToken: String
+    let userID: UUID
+    
+    enum CodingKeys: String, CodingKey {
+        case accessToken, refreshToken
+        case userID = "user_id"
+    }
 }

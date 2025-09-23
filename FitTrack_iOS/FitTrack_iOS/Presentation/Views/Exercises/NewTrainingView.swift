@@ -40,60 +40,129 @@ struct NewTrainingView: View {
                     VStack {
                         Text("Cliente")
                             .modifier(TextStyle())
+                        GeometryReader { geo in
+                            let cardHeight = geo.size.height
+                            HStack {
+                                // TODO: Poner imagen del cliente seleccionado y un if por si aún no se selecciona cliente, poner imagen por defecto
+                                Image("sarah")
+                                    .resizable() // Makes image adapt frame size
+                                    .aspectRatio(1, contentMode: .fill)
+                                    .frame(width: cardHeight, height: cardHeight) // Card height used to fill the entire Card Height and width so its a perfect square
+                                    .clipped()
+                                    .clipShape(.containerRelative) /// Instead of corner raidus, it adjusts to its container cornerRadius
                         
-                        HStack {
-                            Image("sarah")
-                                .resizable() // Makes image adapt frame size
-                                .modifier(ClientImageStyle())
-                            
-                            Text(selectedClient ?? "Seleccionar cliente")
-                                .foregroundColor(selectedClient == nil ? .gray : .primary)
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 24, weight: .semibold))
-                                .foregroundStyle(LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing))
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                                .padding()
-                        }
+                                // Select Client
+                                Text(selectedClient ?? "Seleccionar cliente")
+                                    .foregroundColor(selectedClient == nil ? .gray : .primary)
+                                    .frame(width: 180)
+                                // Chevron right
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 24, weight: .semibold))
+                                    .foregroundStyle(LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing))
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .padding()
+                            } // HStack
+                            .background(.purple1.opacity(0.5), in: RoundedRectangle(cornerRadius: 12))
+                            .frame(height: 72)
+                        } // Geometry Reader
+                        
+                        .frame(height: 62) // Set the card height
+                        .padding(.horizontal, 2)
+                        .padding(.vertical, 4)
                     }
+                    
                 }
                 
-                // Escribir objetivo
+                // Objective
                 TextField("Objetivo", text: $objective)
+                    .frame(height: 28)
                     .modifier(TextFieldStyle())
                 
-                
+                // Training section
                 Text("Entrenamiento")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                // Seleccionar fecha
+                
+                // MARK: Training Date / Show Date Picker
                 Button(action: { showDatePicker = true }) {
                     HStack {
-                        Text("Fecha")
-                        Spacer()
-                        Text(formattedDate(selectedDate))
-                            .foregroundColor(.gray)
-                    }
+                        // TODO: Poner imagen del cliente seleccionado y un if por si aún no se selecciona cliente, poner imagen por defecto
+                        Image(systemName: "calendar")
+                            .resizable() // Makes image adapt frame size
+                            .frame(maxWidth: 30, maxHeight: 30)
+                            .foregroundColor(.purple2)
+                            .padding()
+                        
+                        // Select Date
+                        Text((formattedDate(selectedDate)))
+                            .foregroundColor(.primary)
+                            .frame(width: 180)
+                        // Chevron right
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 24, weight: .semibold))
+                            .foregroundStyle(LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing))
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding()
+                    } // HStack
+                    .background(.purple1.opacity(0.5), in: RoundedRectangle(cornerRadius: 12))
                 }
                 
-                // Seleccionar hora
+                // MARK: Training Time / Show Time Picker
                 Button(action: { showTimePicker = true }) {
                     HStack {
-                        Text("Hora")
-                        Spacer()
+                        // TODO: Poner imagen del cliente seleccionado y un if por si aún no se selecciona cliente, poner imagen por defecto
+                        Image(systemName: "clock")
+                            .resizable() // Makes image adapt frame size
+                            .frame(maxWidth: 30, maxHeight: 30)
+                            .foregroundColor(.purple2)
+                            .padding()
+                        
+                        // Select Time
                         Text(formattedTime(selectedTime))
-                            .foregroundColor(.gray)
-                    }
+                            .foregroundColor(.primary)
+                            .frame(width: 180)
+                        // Chevron right
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 24, weight: .semibold))
+                            .foregroundStyle(LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing))
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding()
+                    } // HStack
+                    .background(.purple1.opacity(0.5), in: RoundedRectangle(cornerRadius: 12))
                 }
+                
+                
+                
                 NavigationLink(destination: AddExercisesView()) {
                     HStack {
-                        Text("Seleccionar ejercicios")
-                        Spacer()
+                        // TODO: Poner imagen del cliente seleccionado y un if por si aún no se selecciona cliente, poner imagen por defecto
+                        Image(systemName: "dumbbell")
+                            .font(.title)
+                            .foregroundColor(.purple2)
+                            .padding(.leading, 10)
+                        
+                        // Select Client
+                        Text((formattedDate(selectedDate)))
+                            .foregroundColor(.primary)
+                            .frame(width: 180)
+                        
+                        // Selected Exercises
                         Text(selectedExercises ?? "0")
                             .foregroundColor(.gray)
-                    }
+                            .padding(.leading, 48)
+                        // Chevron right
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 24, weight: .semibold))
+                            .foregroundStyle(LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing))
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding()
+                    } // HStack
+                    .background(.purple1.opacity(0.5), in: RoundedRectangle(cornerRadius: 12))
                 }
+                
+                
                 Spacer()
                 Button("Crear") {
                     trainingViewModel.create(
@@ -225,11 +294,11 @@ struct TextStyle: ViewModifier {
 struct ClientImageStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .scaledToFill()          // Maintain proportion and fill the frame
-            .frame(width: 48, height: 48)
-            .clipShape(RoundedRectangle(cornerRadius: 8)) // Clip images as RoundedRectangles
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.2), lineWidth: 1)) // Gray order
-            .shadow(radius: 1)       // Smooth shadow
+//            .scaledToFill()          // Maintain proportion and fill the frame
+//            .frame(width: 48, height: 48)
+//            .clipShape(RoundedRectangle(cornerRadius: 8)) // Clip images as RoundedRectangles
+//            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.2), lineWidth: 1)) // Gray order
+//            .shadow(radius: 1)       // Smooth shadow
     }
 }
 

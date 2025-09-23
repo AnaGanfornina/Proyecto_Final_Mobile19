@@ -139,8 +139,8 @@ struct ClientsListViewPicker: View {
                         .font(.headline)
                         .foregroundColor(.purple2) // morado
                     ) {
-                        // Show each client in the current section
-                        ForEach(groupedClients[key]!) { client in
+                        // Show each client in the current section and pass selected client to NewTrainingView
+                        ForEach(groupedClients[key]!, id: \.id) { client in
                             ClientCellPicker(client: client)
                                 .listRowSeparatorTint(.purple2)
                                 .onTapGesture {

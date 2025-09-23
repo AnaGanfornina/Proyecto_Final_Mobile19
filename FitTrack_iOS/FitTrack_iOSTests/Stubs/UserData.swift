@@ -10,18 +10,44 @@ import Foundation
 
 enum UserData {
     static let givenUser = User(
-        name: "Álvaro Entrena",
+        id: nil,
         email: "alvaro@gmail.com",
         password: "abcd1234",
         role: .coach,
-        metrics: nil
+        profile: Profile(
+            name: "Alvaro Entrena",
+            coachId: nil,
+            age: nil,
+            weight: nil,
+            height: nil
+        )
+    )
+    
+    static let givenUserWithWrongEmail = User(
+        id: nil,
+        email: "nagumo",
+        password: "abcd1234",
+        role: .trainee,
+        profile: Profile (
+            name: "Ariana Nagumo",
+            coachId: nil,
+            age: nil,
+            weight: nil,
+            height: nil
+        )
     )
     
     static let givenUserDTO = UserDTO(
-        name: "Álvaro Entrena",
+        id: nil,
         email: "alvaro@gmail.com",
         password: "abcd1234",
-        role: UserRoleDTO(from: .coach),
-        metrics: nil
+        role: RoleDTO(from: .coach),
+        profile: ProfileDTO(
+            name: "Alvaro Entrena",
+            coachId: nil,
+            age: nil,
+            weight: nil,
+            height: nil
+        )
     )
 }

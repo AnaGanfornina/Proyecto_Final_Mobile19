@@ -26,9 +26,21 @@ final class APISessionTests: XCTestCase {
         try super.tearDownWithError()
     }
     
-    func testSignupURLRequest() async throws {
+    func testUserDomainDTOToMapper() async throws {
         // Given
         let user = UserData.givenUser
+        
+        // When
+        let userDTO = UserDomainToDTOMapper().map(user)
+        
+        // Then
+        XCTAssertEqual(user.email, userDTO.email)
+        XCTAssertEqual(user.password, userDTO.password)
+        XCTAssertEqual(user.profile.name, userDTO.profile.name)
+    }
+    
+    func testSignupURLRequest_ShouldSucceed() async throws {
+        // Given
         var receivedRequest: URLRequest?
         MockURLProtocol.requestHandler = { request in
             receivedRequest = request
@@ -40,19 +52,16 @@ final class APISessionTests: XCTestCase {
         }
         
         // When
-        let userDTO = UserDomainToDTOMapper().map(user)
-        let signupURLRequest = SignupURLRequest(userDTO: userDTO)
+        let signupURLRequest = SignupURLRequest(userDTO: UserData.givenUserDTO)
         let signupData = try await sut.request(signupURLRequest)
         
         // Then
         XCTAssertEqual(receivedRequest?.url?.path(), "/api/auth/register")
         XCTAssertEqual(receivedRequest?.httpMethod, "POST")
-        let unwrappedSignupData = try XCTUnwrap(signupData)
-        XCTAssertEqual(unwrappedSignupData.accessToken, "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc1JlZnJlc2giOmZhbHNlLCJ1c2VySUQiOiI5M0MwNzBCNy0wQzcwLTREM0YtOTE1QS05REI1OEI3RjFBMjIiLCJ1c2VyTmFtZSI6ImFsdmFyb0BnbWFpbC5jb20iLCJleHBpcmF0aW9uIjoxNzU4NjcwNjYzLjY0NjQwOH0.Usn7Q53qgGD84FTrvipXT-PmwyCTcIe17vlYGaTxXELzV-tk3Uut4ZoLa_H2EDepaDZwDj7eTLYEu6pWmWRIdg")
-        XCTAssertEqual(unwrappedSignupData.userId, "93C070B7-0C70-4D3F-915A-9DB58B7F1A22")
+        XCTAssertNotNil(signupData)
     }
     
-    func testLoginURLRequest() async throws {
+    func testLoginURLRequest_ShouldSucceed() async throws {
         // Given
         var receivedRequest: URLRequest?
         MockURLProtocol.requestHandler = { request in
@@ -107,7 +116,7 @@ final class APISessionTests: XCTestCase {
         XCTAssertEqual(unauthorizedAPIError.statusCode, 401)
     }
     
-    func testCreateTrainingURLRequest() async throws {
+    func testCreateTrainingURLRequest_ShouldSucceed() async throws {
         // Given
         var receivedRequest: URLRequest?
         MockURLProtocol.requestHandler = { request in

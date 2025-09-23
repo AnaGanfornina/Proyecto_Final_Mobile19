@@ -40,13 +40,7 @@ final class SignupUseCaseTests: XCTestCase {
     
     func testSignup_WhenCredentialsAreInvalid_ShouldReturnRegexError() async throws {
         // Given
-        let user = User(
-            name: "Ariana Nagumo",
-            email: "nagumo",
-            password: "abcd1234",
-            role: .trainee,
-            metrics: nil
-        )
+        let user = UserData.givenUserWithWrongEmail
         
         // When
         var signupError: RegexLintError?

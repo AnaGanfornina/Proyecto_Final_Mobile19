@@ -11,8 +11,10 @@ import Foundation
 final class MockAuthRepository: AuthRepositoryProtocol {
     var receivedData: Data? = nil
     
-    func signup(user: FitTrack_iOS.User) async throws {
-        // TODO: Implement mock logic
+    func signup(user: User) async throws {
+        guard receivedData != nil else  {
+            throw AppError.session("Failed to save session, try again")
+        }
     }
     
     func login(user: String, password: String) async throws {

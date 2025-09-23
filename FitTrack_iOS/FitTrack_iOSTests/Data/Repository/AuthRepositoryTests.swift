@@ -28,6 +28,24 @@ final class AuthRepositoryTests: XCTestCase {
         try super.tearDownWithError()
     }
     
+    func testSignup_ShouldSucceed() async throws {
+        // Given
+        let user = UserData.givenUser
+        MockURLProtocol.requestHandler = { request in
+            let url = try XCTUnwrap(request.url)
+            let httpURLResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url))
+            let fileURL = try XCTUnwrap(Bundle(for: AuthRepositoryTests.self).url(forResource: "jwt", withExtension: "json"))
+            let jwtData = try XCTUnwrap(Data(contentsOf: fileURL))
+            return (httpURLResponse, jwtData)
+        }
+        
+        // When
+        let successResponse: () = try await sut.signup(user: user)
+        
+        // Then
+        XCTAssertNotNil(successResponse)
+    }
+    
     func testLogin_WhenCredentialsAreValid_ShouldSucceed() async throws {
         // Given
         MockURLProtocol.requestHandler = { request in

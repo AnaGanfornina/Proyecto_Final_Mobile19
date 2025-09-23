@@ -25,7 +25,7 @@ final class LoginUserCaseTests: XCTestCase {
     }
     
     /// Test para comprobar que el login se ha hecho correctamente, pues este devuele true
-    func test_login_ReturnSuccess() async throws{
+    func testLogin_ReturnSuccess() async throws{
         // Given
         let fileURL = try XCTUnwrap(Bundle(for: LoginUserCaseTests.self).url(forResource: "jwt", withExtension: "json"))
         let data = try XCTUnwrap(Data(contentsOf: fileURL))

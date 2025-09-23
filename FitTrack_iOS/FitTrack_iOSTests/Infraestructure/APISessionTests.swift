@@ -28,6 +28,7 @@ final class APISessionTests: XCTestCase {
     
     func testSignupURLRequest() async throws {
         // Given
+        let user = UserData.givenUser
         var receivedRequest: URLRequest?
         MockURLProtocol.requestHandler = { request in
             receivedRequest = request
@@ -39,7 +40,8 @@ final class APISessionTests: XCTestCase {
         }
         
         // When
-        let signupURLRequest = SignupURLRequest(userDTO: UserData.givenUserDTO)
+        let userDTO = UserDomainToDTOMapper().map(user)
+        let signupURLRequest = SignupURLRequest(userDTO: userDTO)
         let signupData = try await sut.request(signupURLRequest)
         
         // Then

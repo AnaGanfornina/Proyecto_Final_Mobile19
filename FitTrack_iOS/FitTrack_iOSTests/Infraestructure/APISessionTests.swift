@@ -56,7 +56,7 @@ final class APISessionTests: XCTestCase {
         let signupData = try await sut.request(signupURLRequest)
         
         // Then
-        XCTAssertEqual(receivedRequest?.url?.path(), "/api/auth/register")
+        XCTAssertEqual(receivedRequest?.url?.path(), "/api/auth/register/coach")
         XCTAssertEqual(receivedRequest?.httpMethod, "POST")
         XCTAssertNotNil(signupData)
     }

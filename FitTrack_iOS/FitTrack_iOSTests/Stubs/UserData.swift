@@ -16,6 +16,7 @@ enum UserData {
         role: .coach,
         profile: Profile(
             name: "Alvaro Entrena",
+            goal: "Maratón de Madrid",
             coachId: nil,
             age: nil,
             weight: nil,
@@ -30,6 +31,7 @@ enum UserData {
         role: .trainee,
         profile: Profile (
             name: "Ariana Nagumo",
+            goal: "Maratón de la Ciudad de México",
             coachId: nil,
             age: nil,
             weight: nil,
@@ -44,6 +46,7 @@ enum UserData {
         role: RoleDTO(from: .coach),
         profile: ProfileDTO(
             name: "Alvaro Entrena",
+            goal: "Maratón de Madrid",
             coachId: nil,
             age: nil,
             weight: nil,

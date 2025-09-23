@@ -21,6 +21,7 @@ struct User {
 
 struct Profile {
     let name: String
+    let goal: String?
     let coachId: String?
     let age: Int?
     let weight: Double?

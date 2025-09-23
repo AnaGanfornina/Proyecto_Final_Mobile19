@@ -9,12 +9,15 @@ import Foundation
 
 struct SignupURLRequest: URLRequestComponents {
     typealias Response = AuthDTO
-    var path: String = "/api/auth/register"
+    var path: String
     var httpMethod: HTTPMethod = .POST
     var authorized: Bool = false
     var body: (any Encodable)?
     
     init(userDTO: UserDTO) {
+        path = userDTO.role == .coach
+        ? "/api/auth/register/coach"
+        : "/api/auth/register/trainee"
         body = userDTO
     }
 }

@@ -43,13 +43,14 @@ struct UserDTO: Encodable {
 
 struct ProfileDTO: Encodable {
     let name: String
+    let goal: String?
     let coachId: String?
     let age: Int?
     let weight: Double?
     let height: Double?
     
     enum CodingKeys: String, CodingKey {
-        case name
+        case name, goal
         case coachId = "coach_id"
         case age, weight, height
     }
@@ -57,6 +58,7 @@ struct ProfileDTO: Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(goal, forKey: .name)
         try container.encodeIfPresent(coachId, forKey: .coachId)
         try container.encodeIfPresent(age, forKey: .age)
         try container.encodeIfPresent(weight, forKey: .weight)

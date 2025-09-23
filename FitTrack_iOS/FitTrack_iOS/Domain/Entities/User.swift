@@ -7,21 +7,22 @@
 
 import Foundation
 
-enum UserRole {
+enum Role {
     case coach, trainee
 }
 
 struct User {
-    let name: String
+    let id: String?
     let email: String
     let password: String
-    let role: UserRole
-    let metrics: UserMetrics?
+    let role: Role
+    let profile: Profile
 }
 
-struct UserMetrics {
-    let coachId: String
-    let age: Int
-    let weight: Double
-    let height: Double
+struct Profile {
+    let name: String
+    let coachId: String?
+    let age: Int?
+    let weight: Double?
+    let height: Double?
 }

@@ -26,6 +26,30 @@ final class APISessionTests: XCTestCase {
         try super.tearDownWithError()
     }
     
+    func testSignupURLRequest() async throws {
+        // Given
+        var receivedRequest: URLRequest?
+        MockURLProtocol.requestHandler = { request in
+            receivedRequest = request
+            let url = try XCTUnwrap(request.url)
+            let httpResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url, statusCode: 200))
+            let fileURL = try XCTUnwrap(Bundle(for: APISessionTests.self).url(forResource: "jwt", withExtension: "json"))
+            let data = try XCTUnwrap(Data(contentsOf: fileURL))
+            return (httpResponse, data)
+        }
+        
+        // When
+        let signupURLRequest = SignupURLRequest(userDTO: UserData.givenUserDTO)
+        let signupData = try await sut.request(signupURLRequest)
+        
+        // Then
+        XCTAssertEqual(receivedRequest?.url?.path(), "/api/auth/register")
+        XCTAssertEqual(receivedRequest?.httpMethod, "POST")
+        let unwrappedSignupData = try XCTUnwrap(signupData)
+        XCTAssertEqual(unwrappedSignupData.accessToken, "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc1JlZnJlc2giOmZhbHNlLCJ1c2VySUQiOiI5M0MwNzBCNy0wQzcwLTREM0YtOTE1QS05REI1OEI3RjFBMjIiLCJ1c2VyTmFtZSI6ImFsdmFyb0BnbWFpbC5jb20iLCJleHBpcmF0aW9uIjoxNzU4NjcwNjYzLjY0NjQwOH0.Usn7Q53qgGD84FTrvipXT-PmwyCTcIe17vlYGaTxXELzV-tk3Uut4ZoLa_H2EDepaDZwDj7eTLYEu6pWmWRIdg")
+        XCTAssertEqual(unwrappedSignupData.userId, "93C070B7-0C70-4D3F-915A-9DB58B7F1A22")
+    }
+    
     func testLoginURLRequest() async throws {
         // Given
         var receivedRequest: URLRequest?
@@ -48,7 +72,6 @@ final class APISessionTests: XCTestCase {
         // Then
         XCTAssertEqual(receivedRequest?.url?.path(), "/api/auth/login")
         XCTAssertEqual(receivedRequest?.httpMethod, "POST")
-        XCTAssertEqual(receivedRequest?.url?.path(), "/api/auth/login")
         XCTAssertEqual(receivedRequest?.value(forHTTPHeaderField: "Authorization"), "Basic YWRtaW51c2VyQGtlZXBjb2RpbmcuZXM6YWJjMTIzNDU=")
         XCTAssertNotNil(jwtData)
     }

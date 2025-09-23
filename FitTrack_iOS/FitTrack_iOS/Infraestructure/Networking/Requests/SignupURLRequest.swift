@@ -9,7 +9,7 @@ import Foundation
 
 struct SignupURLRequest: URLRequestComponents {
     typealias Response = AuthDTO
-    var path: String = "/api/auth"
+    var path: String = "/api/auth/register"
     var httpMethod: HTTPMethod = .POST
     var authorized: Bool = false
     var body: (any Encodable)?

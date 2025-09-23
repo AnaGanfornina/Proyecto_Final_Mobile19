@@ -12,9 +12,9 @@ protocol LoginUseCaseProtocol {
 }
 
 final class LoginUseCase: LoginUseCaseProtocol {
-    private let repository: any LoginRepositoryProtocol
+    private let repository: any AuthRepositoryProtocol
     
-    init(repository: LoginRepositoryProtocol = LoginRepository()) {
+    init(repository: AuthRepositoryProtocol = AuthRepository()) {
         self.repository = repository
     }
     

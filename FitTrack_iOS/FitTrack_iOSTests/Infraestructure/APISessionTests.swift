@@ -26,14 +26,49 @@ final class APISessionTests: XCTestCase {
         try super.tearDownWithError()
     }
     
-    func testLoginURLRequest() async throws {
+    func testUserDomainDTOToMapper() async throws {
+        // Given
+        let user = UserData.givenUser
+        
+        // When
+        let userDTO = UserDomainToDTOMapper().map(user)
+        
+        // Then
+        XCTAssertEqual(user.email, userDTO.email)
+        XCTAssertEqual(user.password, userDTO.password)
+        XCTAssertEqual(user.profile.name, userDTO.profile.name)
+    }
+    
+    func testSignupURLRequest_ShouldSucceed() async throws {
         // Given
         var receivedRequest: URLRequest?
         MockURLProtocol.requestHandler = { request in
             receivedRequest = request
             let url = try XCTUnwrap(request.url)
             let httpResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url, statusCode: 200))
-            let fileURL = try XCTUnwrap(Bundle(for: APISessionTests.self).url(forResource: "jwt", withExtension: "txt"))
+            let fileURL = try XCTUnwrap(Bundle(for: APISessionTests.self).url(forResource: "jwt", withExtension: "json"))
+            let data = try XCTUnwrap(Data(contentsOf: fileURL))
+            return (httpResponse, data)
+        }
+        
+        // When
+        let signupURLRequest = SignupURLRequest(userDTO: UserData.givenUserDTO)
+        let signupData = try await sut.request(signupURLRequest)
+        
+        // Then
+        XCTAssertEqual(receivedRequest?.url?.path(), "/api/auth/register/coach")
+        XCTAssertEqual(receivedRequest?.httpMethod, "POST")
+        XCTAssertNotNil(signupData)
+    }
+    
+    func testLoginURLRequest_ShouldSucceed() async throws {
+        // Given
+        var receivedRequest: URLRequest?
+        MockURLProtocol.requestHandler = { request in
+            receivedRequest = request
+            let url = try XCTUnwrap(request.url)
+            let httpResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url, statusCode: 200))
+            let fileURL = try XCTUnwrap(Bundle(for: APISessionTests.self).url(forResource: "jwt", withExtension: "json"))
             let data = try XCTUnwrap(Data(contentsOf: fileURL))
             return (httpResponse, data)
         }
@@ -48,7 +83,6 @@ final class APISessionTests: XCTestCase {
         // Then
         XCTAssertEqual(receivedRequest?.url?.path(), "/api/auth/login")
         XCTAssertEqual(receivedRequest?.httpMethod, "POST")
-        XCTAssertEqual(receivedRequest?.url?.path(), "/api/auth/login")
         XCTAssertEqual(receivedRequest?.value(forHTTPHeaderField: "Authorization"), "Basic YWRtaW51c2VyQGtlZXBjb2RpbmcuZXM6YWJjMTIzNDU=")
         XCTAssertNotNil(jwtData)
     }
@@ -82,7 +116,7 @@ final class APISessionTests: XCTestCase {
         XCTAssertEqual(unauthorizedAPIError.statusCode, 401)
     }
     
-    func testCreateTrainingURLRequest() async throws {
+    func testCreateTrainingURLRequest_ShouldSucceed() async throws {
         // Given
         var receivedRequest: URLRequest?
         MockURLProtocol.requestHandler = { request in

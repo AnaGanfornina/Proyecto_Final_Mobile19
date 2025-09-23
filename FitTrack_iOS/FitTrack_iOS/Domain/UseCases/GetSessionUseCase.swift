@@ -12,13 +12,13 @@ protocol GetSessionUseCaseProtocol {
 }
 
 final class GetSessionUseCase: GetSessionUseCaseProtocol {
-    private let loginRepository: LoginRepositoryProtocol
+    private let authRepository: AuthRepositoryProtocol
     
-    init(loginRepository: LoginRepositoryProtocol = LoginRepository()) {
-        self.loginRepository = loginRepository
+    init(authRepository: AuthRepositoryProtocol = AuthRepository()) {
+        self.authRepository = authRepository
     }
     
     func run() async throws {
-        let _ = try await loginRepository.getSession()
+        let _ = try await authRepository.getSession()
     }
 }

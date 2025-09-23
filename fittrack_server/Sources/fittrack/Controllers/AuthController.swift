@@ -11,7 +11,13 @@ import Vapor
 struct AuthController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
         routes.group("auth") { auth in
-            auth.post("register", use: register)
+            
+            auth.post("register_coach", use: registerCoach)
+            
+            auth.group(JWTToken.authenticator(),JWTToken.guardMiddleware()) { secure in
+                secure.post("register_trainee", use: registerTrainee)
+            }
+            
             auth.group(User.authenticator(), User.guardMiddleware()) { builder in
                 builder.post("login", use: login)
             }
@@ -25,71 +31,83 @@ struct AuthController: RouteCollection {
 
 
 extension AuthController {
-    func register(req: Request) async throws -> JWTTokenDTO {
+    func registerCoach(req: Request) async throws -> JWTTokenDTO {
         
-      
-        
-        
-        
-        //validate data
+        // Validate and decode
         try UserRegisterDTO.validate(content: req)
         
-        // decode data and hash pass
         let registerDTO = try req.content.decode(UserRegisterDTO.self)
         
-        // Verify unique mail
         if try await User.query(on: req.db)
             .filter(\.$email == registerDTO.email)
             .first() != nil {
             throw Abort(.conflict, reason: "Email already registered")
         }
         
-        // If trainee, there must be a coach
-        if registerDTO.role == .trainee {
-            // Obtain coachID from token of user
-            let token = try req.auth.require(JWTToken.self)
-            guard let coachID = UUID(token.userID.value) else {
-                throw Abort(.unauthorized, reason: "Invalid coach token")
-            }
-            
-            // Asign coach ID
-            var traineeDTO = registerDTO
-            traineeDTO.coachID = coachID
-            
-            // Verify coach exist and it's really a coach
-            guard let coach = try await User.find(coachID, on: req.db), coach.role == .coach else {
-                throw Abort(.badRequest, reason: "Coach not found or invalid")
-            }
-        }
-        
-        // Hash password
+        // If coach, no token
         let hashedPassword = try await req.password.async.hash(registerDTO.password)
-        
-        // save to user DB
         let user = registerDTO.toModel(withHashedPassword: hashedPassword)
         try await user.create(on: req.db)
         
-        // create JWT
         return try await generateJWTTokens(
             for: user.email,
             and: user.requireID(),
             withRequest: req
         )
     }
-}
-
-
-func login(req: Request) async throws -> JWTTokenDTO {
     
-    let user = try req.auth.require(User.self)
+    func registerTrainee(req: Request) async throws -> JWTTokenDTO {
+        // Validate and decode
+        try UserRegisterDTO.validate(content: req)
+        let registerDTO = try req.content.decode(UserRegisterDTO.self)
+        
+        if try await User.query(on: req.db)
+            .filter(\.$email == registerDTO.email)
+            .first() != nil {
+            throw Abort(.conflict, reason: "Email already registered")
+        }
+        
+        // Request with token
+        let token = try req.auth.require(JWTToken.self)
+        
+        guard let coachID = UUID(token.userID.value) else {
+            throw Abort(.unauthorized, reason: "Invalid coach token")
+        }
+        
+        // Verify if coach exists
+        guard let coach = try await User.find(coachID, on: req.db), coach.role == .coach else {
+            throw Abort(.badRequest, reason: "Coach not found or invalid")
+        }
+        
+        // Overwrite coachID on DTO
+        var traineeDTO = registerDTO
+        traineeDTO.coachID = coachID
+        
+        // Create user with traineeDTO
+        let hashedPassword = try await req.password.async.hash(traineeDTO.password)
+        let user = traineeDTO.toModel(withHashedPassword: hashedPassword)
+        try await user.create(on: req.db)
+        
+        return try await generateJWTTokens(
+            for: user.email,
+            and: user.requireID(),
+            withRequest: req
+        )
+    }
     
-    // Create JWT
     
-    return try await generateJWTTokens(
-        for: user.email,
-        and: user.requireID(),
-        withRequest: req
-    )
+    func login(req: Request) async throws -> JWTTokenDTO {
+        
+        let user = try req.auth.require(User.self)
+        
+        // Create JWT
+        
+        return try await generateJWTTokens(
+            for: user.email,
+            and: user.requireID(),
+            withRequest: req
+        )
+    }
 }
 
 func refresh(req: Request) async throws -> JWTTokenDTO {

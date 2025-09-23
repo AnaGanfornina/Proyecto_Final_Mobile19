@@ -28,12 +28,10 @@ final class AuthRepository: AuthRepositoryProtocol{
         let signupData = try await apiSession.request(
             SignupURLRequest(userDTO: userDTO)
         )
-        guard let jwt = signupData.accessToken,
-              let userId = signupData.userId else {
+        guard let jwt = signupData.accessToken else {
             throw AppError.session("Session not found or invalid, log in again")
         }
-        // Save userId into UserDefaults to use it to get data related to the main user
-        UserDefaults.standard.set(userId, forKey: "userId")
+        
         try await authDataSource.set(jwt)
     }
     
@@ -41,12 +39,10 @@ final class AuthRepository: AuthRepositoryProtocol{
         let loginData = try await apiSession.request(
             LoginURLRequest(user: user, password: password)
         )
-        guard let jwt = loginData.accessToken,
-              let userId = loginData.userId else {
+        guard let jwt = loginData.accessToken else {
             throw AppError.session("Session not found or invalid, log in again")
         }
-        // Save userId into UserDefaults to use it to get data related to the main user
-        UserDefaults.standard.set(userId, forKey: "userId")
+        
         try await authDataSource.set(jwt)
     }
     

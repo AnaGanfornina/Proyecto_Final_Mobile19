@@ -23,10 +23,33 @@ struct UserController: RouteCollection {
     }
 }
 
+extension UserController {
+    struct CoachWithTraineesDTO: Content {
+        let coach: UserDTO
+        let trainees: [UserDTO]
+    }
+}
+
 
 extension UserController {
     func getAll(_ req: Request) async throws -> [UserDTO] {
-        try await User.query(on: req.db).all().map { $0.toDTO() }
+        // Obtain JWT token and take coachID
+        let token = try req.auth.require(JWTToken.self)
+        guard let coachID = UUID(token.userID.value) else {
+            throw Abort(.unauthorized, reason: "Error obtaining coachID")
+        }
+        
+        guard let coach = try await User.find(coachID, on: req.db) else {
+            throw Abort(.notFound, reason: "Coach not found")
+        }
+        print("CoachID: \(String(describing: coach.id))")
+        
+        // Obtain all trainees of the coach
+        let trainees = try await User.query(on: req.db)
+            .filter(\.$coach.$id == coachID)
+            .all()
+        
+        return trainees.map { $0.toDTO() }
     }
     
     func getByID(_ req: Request) async throws -> UserDTO {

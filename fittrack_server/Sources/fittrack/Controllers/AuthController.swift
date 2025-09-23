@@ -26,7 +26,11 @@ struct AuthController: RouteCollection {
 
 extension AuthController {
     func register(req: Request) async throws -> JWTTokenDTO {
-
+        
+      
+        
+        
+        
         //validate data
         try UserRegisterDTO.validate(content: req)
         
@@ -42,12 +46,18 @@ extension AuthController {
         
         // If trainee, there must be a coach
         if registerDTO.role == .trainee {
-            guard let coachID = registerDTO.coachID else {
-                throw Abort(.badRequest, reason: "Trainee must have a coachID")
+            // Obtain coachID from token of user
+            let token = try req.auth.require(JWTToken.self)
+            guard let coachID = UUID(token.userID.value) else {
+                throw Abort(.unauthorized, reason: "Invalid coach token")
             }
             
-            guard let coach = try await User.find(coachID, on: req.db),
-                  coach.role == .coach else {
+            // Asign coach ID
+            var traineeDTO = registerDTO
+            traineeDTO.coachID = coachID
+            
+            // Verify coach exist and it's really a coach
+            guard let coach = try await User.find(coachID, on: req.db), coach.role == .coach else {
                 throw Abort(.badRequest, reason: "Coach not found or invalid")
             }
         }
@@ -66,47 +76,49 @@ extension AuthController {
             withRequest: req
         )
     }
-     
-    
-    func login(req: Request) async throws -> JWTTokenDTO {
-        
-        let user = try req.auth.require(User.self)
-        
-        // Create JWT
-        
-        return try await generateJWTTokens(
-            for: user.email,
-            and: user.requireID(),
-            withRequest: req
-        )
-    }
-    
-    func refresh(req: Request) async throws -> JWTTokenDTO {
-        let token = try req.auth.require(JWTToken.self)
-        
-        guard token.isRefresh.value else {
-            throw Abort(.unauthorized)
-        }
-        
-        guard let uuid = UUID(token.userID.value) else {
-            throw Abort(.unauthorized)
-        }
-        
-        return try await generateJWTTokens(
-            for: token.userName.value,
-            and: uuid,
-            withRequest: req
-        )
-    }
-    
-    private func generateJWTTokens(
-        for username: String,
-        and userID: UUID,
-        withRequest req: Request
-    ) async throws -> JWTTokenDTO {
-        let tokens = JWTToken.generateTokens(for: username, andID: userID)
-        async let accessToken = req.jwt.sign(tokens.accessToken)
-        async let refreshToken = req.jwt.sign(tokens.refreshToken)
-        return try await JWTTokenDTO(accessToken: accessToken, refreshToken: refreshToken)
-    }
 }
+
+
+func login(req: Request) async throws -> JWTTokenDTO {
+    
+    let user = try req.auth.require(User.self)
+    
+    // Create JWT
+    
+    return try await generateJWTTokens(
+        for: user.email,
+        and: user.requireID(),
+        withRequest: req
+    )
+}
+
+func refresh(req: Request) async throws -> JWTTokenDTO {
+    let token = try req.auth.require(JWTToken.self)
+    
+    guard token.isRefresh.value else {
+        throw Abort(.unauthorized)
+    }
+    
+    guard let uuid = UUID(token.userID.value) else {
+        throw Abort(.unauthorized)
+    }
+    
+    return try await generateJWTTokens(
+        for: token.userName.value,
+        and: uuid,
+        withRequest: req
+    )
+}
+
+private func generateJWTTokens(
+    for username: String,
+    and userID: UUID,
+    withRequest req: Request
+) async throws -> JWTTokenDTO {
+    let tokens = JWTToken.generateTokens(for: username, andID: userID)
+    async let accessToken = req.jwt.sign(tokens.accessToken)
+    async let refreshToken = req.jwt.sign(tokens.refreshToken)
+    return try await JWTTokenDTO(accessToken: accessToken, refreshToken: refreshToken)
+}
+
+

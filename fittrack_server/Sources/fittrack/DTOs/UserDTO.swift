@@ -13,10 +13,14 @@ struct UserRegisterDTO: Content {
     let email: String
     let password: String
     let role: UserRole
-    let coachID: UUID?
+    var coachID: UUID?
+    let goal: String?
+    let age: Int?
+    let height: Int?
+    let weight: Int?
     
     enum CodingKeys: String, CodingKey {
-        case name, email, password, role
+        case name, email, password, role, goal, age, height, weight
         case coachID = "coach_id"
     }
     
@@ -26,7 +30,11 @@ struct UserRegisterDTO: Content {
             email: email,
             passwordHash: password,
             role: role,
-            coachId: coachID
+            coachId: coachID,
+            goal: goal,
+            age: age,
+            height: height,
+            weight: weight
             )
     }
 }
@@ -38,9 +46,13 @@ struct UserDTO: Content {
     var password: String?
     var role: UserRole?
     var coachID: UUID?
+    var goal: String?
+    let age: Int?
+    let height: Int?
+    let weight: Int?
     
     enum CodingKeys: String, CodingKey {
-        case id, name, email, password, role
+        case id, name, email, password, role, goal, age, height, weight
         case coachID = "coach_id"
     }
     
@@ -50,7 +62,11 @@ struct UserDTO: Content {
             email: email ?? "",
             passwordHash: password,
             role: role ?? .coach,
-            coachId: coachID
+            coachId: coachID,
+            goal: goal,
+            age: age,
+            height: height,
+            weight: weight
         )
     }
 }

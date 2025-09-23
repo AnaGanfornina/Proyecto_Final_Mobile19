@@ -12,12 +12,14 @@ struct AuthController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
         routes.group("auth") { auth in
             
-            auth.post("register_coach", use: registerCoach)
-            
-            auth.group(JWTToken.authenticator(),JWTToken.guardMiddleware()) { secure in
-                secure.post("register_trainee", use: registerTrainee)
+            auth.group("register") { register in
+                register.post("coach", use: registerCoach)
+                
+                register.group(JWTToken.authenticator(),JWTToken.guardMiddleware()) { secure in
+                    secure.post("trainee", use: registerTrainee)
             }
-            
+        }
+    
             auth.group(User.authenticator(), User.guardMiddleware()) { builder in
                 builder.post("login", use: login)
             }
@@ -28,6 +30,7 @@ struct AuthController: RouteCollection {
         }
     }
 }
+
 
 
 extension AuthController {

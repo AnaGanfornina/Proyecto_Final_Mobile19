@@ -11,7 +11,7 @@ import SwiftUI
 struct MainTabBar: View {
     /// Tracks which tab is currently selected (0: Home, 1: Clients, 2: Exercises) Home as Default
     @State private var selectedTab: Int = 0
-    @State private var isTabBarHidden: Bool = false // 👈 Control de visibilidad
+    @State private var isTabBarHidden: Bool = false // TabBar Visibility control
 
     var body: some View {
         VStack(spacing: 0) {

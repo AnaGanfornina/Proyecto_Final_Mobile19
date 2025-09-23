@@ -32,7 +32,9 @@ struct NewTrainingView: View {
                         destination: ClientsListViewPicker(
                             selectedClient: $selectedClient,
                             isTabBarHidden: $isTabBarHidden
+                                
                         )
+                        
                     ) {
                         VStack {
                             Text("Cliente")
@@ -129,7 +131,7 @@ struct NewTrainingView: View {
                     }
                     
                     // MARK: Training Exercises / Show Exercises Picker
-                    NavigationLink(destination: AddExercisesView()) {
+                    NavigationLink(destination: AddExercisesView(isTabBarHidden: $isTabBarHidden)) {
                         HStack {
                             Image(systemName: "dumbbell")
                                 .font(.title)

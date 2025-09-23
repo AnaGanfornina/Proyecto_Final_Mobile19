@@ -153,11 +153,12 @@ struct ClientsListViewPicker: View {
                         }
                     }
                 }
-            }
+            } // List
             .navigationTitle("Lista de Clientes") // Screen Title
             .searchable(text: $searchText, prompt: "Buscar clientes") // Searchbar Hint Text
             .listStyle(.inset) // Remove gray list color
             .padding(.bottom, 24) // Used to end Client List at the same height as the MainTabBar Divider
+            .onAppear { isTabBarHidden = true }   // Hides TabBar
         }
     }
 }

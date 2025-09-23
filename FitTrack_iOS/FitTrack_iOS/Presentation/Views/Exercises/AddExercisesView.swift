@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AddExercisesView: View {
+    // Used to hide Bottom Tab bar if needed
+    @Binding var isTabBarHidden: Bool
     
     @State private var selectedExercises = ["Bench press", "Squat", "Deadlift", "Pull-up", "Shoulder Press", "Bicep Curl"]
     
@@ -102,9 +104,11 @@ struct AddExercisesView: View {
                 }
             }
         }
+        .onAppear { isTabBarHidden = true }   // Hides TabBar
     }
+    
 }
     
     #Preview {
-        AddExercisesView()
+        AddExercisesView(isTabBarHidden: .constant(false))
     }

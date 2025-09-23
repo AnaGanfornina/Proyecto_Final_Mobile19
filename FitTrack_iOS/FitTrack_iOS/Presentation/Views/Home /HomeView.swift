@@ -11,6 +11,9 @@ struct HomeView: View {
     // Used to hide Bottom Tab bar if needed
     @Binding var isTabBarHidden: Bool
     
+    // Training ViewModel
+    @State private var trainingViewModel = TrainingViewModel()
+    
     @State private var selectedClient: String? = nil
     @State private var showCreateClient = false
     @State private var showNewTraining = false
@@ -48,7 +51,7 @@ struct HomeView: View {
                             .onDisappear { isTabBarHidden = false } // Shows it when Back Home
                     }
                     .navigationDestination(isPresented: $showNewTraining) {
-                        NewTrainingView(selectedClient: $selectedClient)
+                        NewTrainingView(selectedClient: $selectedClient, isTabBarHidden: $isTabBarHidden, trainingViewModel: trainingViewModel)
                             .onAppear { isTabBarHidden = true }   // Hides TabBar
                             .onDisappear { isTabBarHidden = false } // Shows it when Back Home
                     }

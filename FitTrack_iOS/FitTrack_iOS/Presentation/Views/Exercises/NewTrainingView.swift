@@ -69,6 +69,7 @@ struct NewTrainingView: View {
                         .frame(height: 62) // Set the card height
                         .padding(.horizontal, 2)
                         .padding(.vertical, 4)
+                        .padding(.bottom, 16)
                     }
                     
                 }
@@ -77,6 +78,7 @@ struct NewTrainingView: View {
                 TextField("Objetivo", text: $objective)
                     .frame(height: 28)
                     .modifier(TextFieldStyle())
+                    .padding(.bottom, 16)
                 
                 // Training section
                 Text("Entrenamiento")
@@ -98,7 +100,7 @@ struct NewTrainingView: View {
                         // Select Date
                         Text((formattedDate(selectedDate)))
                             .foregroundColor(.primary)
-                            .frame(width: 180)
+                        
                         // Chevron right
                         Image(systemName: "chevron.right")
                             .font(.system(size: 24, weight: .semibold))
@@ -122,7 +124,7 @@ struct NewTrainingView: View {
                         // Select Time
                         Text(formattedTime(selectedTime))
                             .foregroundColor(.primary)
-                            .frame(width: 180)
+            
                         // Chevron right
                         Image(systemName: "chevron.right")
                             .font(.system(size: 24, weight: .semibold))
@@ -134,29 +136,31 @@ struct NewTrainingView: View {
                 }
                 
                 
-                
+                // MARK: Training Exercises / Show Exercises Picker
                 NavigationLink(destination: AddExercisesView()) {
                     HStack {
                         // TODO: Poner imagen del cliente seleccionado y un if por si aún no se selecciona cliente, poner imagen por defecto
                         Image(systemName: "dumbbell")
                             .font(.title)
                             .foregroundColor(.purple2)
-                            .padding(.leading, 10)
+                            .padding(.leading, 12)
                         
                         // Select Client
-                        Text((formattedDate(selectedDate)))
+                        Text("Ejercicios")
                             .foregroundColor(.primary)
-                            .frame(width: 180)
+                            .padding(.leading, 10)
                         
                         // Selected Exercises
                         Text(selectedExercises ?? "0")
                             .foregroundColor(.gray)
-                            .padding(.leading, 48)
+                            .padding(.leading, 100)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        
                         // Chevron right
                         Image(systemName: "chevron.right")
                             .font(.system(size: 24, weight: .semibold))
                             .foregroundStyle(LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing))
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .frame(alignment: .trailing)
                             .padding()
                     } // HStack
                     .background(.purple1.opacity(0.5), in: RoundedRectangle(cornerRadius: 12))
@@ -164,6 +168,7 @@ struct NewTrainingView: View {
                 
                 
                 Spacer()
+                
                 Button("Crear") {
                     trainingViewModel.create(
                         // TODO: Replace by training name
@@ -174,10 +179,14 @@ struct NewTrainingView: View {
                     )
                 }
                 .padding()
+                .frame(maxWidth: .infinity) // Large button
                 .background(Color.purple2)
                 .foregroundColor(.white)
                 .cornerRadius(12)
+                .font(.title3)        // tamaño del texto
+                .fontWeight(.semibold)    // negrita
                 .disabled(disableCreateButton)
+                
                 Spacer()
             } // VStack
             .padding()

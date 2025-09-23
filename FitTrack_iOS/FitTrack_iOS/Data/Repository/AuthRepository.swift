@@ -1,5 +1,5 @@
 //
-//  LoginRepository.swift
+//  AuthRepository.swift
 //  FitTrack_iOS
 //
 //  Created by Ana Ganfornina Arques on 7/9/25.
@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol LoginRepositoryProtocol {
+protocol AuthRepositoryProtocol {
     func login(user: String, password: String) async throws
     func getSession() async throws -> String
 }
 
-final class LoginRepository: LoginRepositoryProtocol{
+final class AuthRepository: AuthRepositoryProtocol{
     private var apiSession:  APISessionContract
     private var authDataSource: AuthDataSourceProtocol
     

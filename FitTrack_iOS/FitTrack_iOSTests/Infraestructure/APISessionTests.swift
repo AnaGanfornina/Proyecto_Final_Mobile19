@@ -33,7 +33,7 @@ final class APISessionTests: XCTestCase {
             receivedRequest = request
             let url = try XCTUnwrap(request.url)
             let httpResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url, statusCode: 200))
-            let fileURL = try XCTUnwrap(Bundle(for: APISessionTests.self).url(forResource: "jwt", withExtension: "txt"))
+            let fileURL = try XCTUnwrap(Bundle(for: APISessionTests.self).url(forResource: "jwt", withExtension: "json"))
             let data = try XCTUnwrap(Data(contentsOf: fileURL))
             return (httpResponse, data)
         }

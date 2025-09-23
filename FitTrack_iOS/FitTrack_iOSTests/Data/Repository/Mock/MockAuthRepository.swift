@@ -1,5 +1,5 @@
 //
-//  MockLoginRepository.swift
+//  MockAuthRepository.swift
 //  FitTrack_iOS
 //
 //  Created by Ariana Rodríguez on 17/09/25.
@@ -8,7 +8,7 @@
 import Foundation
 @testable import FitTrack_iOS
 
-final class MockLoginRepository: LoginRepositoryProtocol {
+final class MockAuthRepository: AuthRepositoryProtocol {
     var receivedData: Data? = nil
     
     func login(user: String, password: String) async throws {

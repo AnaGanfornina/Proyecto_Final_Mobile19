@@ -1,5 +1,5 @@
 //
-//  LoginRepositoryTests.swift
+//  LoginAuthTests.swift
 //  FitTrack_iOSTests
 //
 //  Created by Ana Ganfornina Arques on 8/9/25.
@@ -8,8 +8,8 @@
 import XCTest
 @testable import FitTrack_iOS
 
-final class LoginRepositoryTests: XCTestCase {
-    var sut: LoginRepositoryProtocol!
+final class AuthRepositoryTests: XCTestCase {
+    var sut: AuthRepositoryProtocol!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -17,7 +17,7 @@ final class LoginRepositoryTests: XCTestCase {
         urlSessionConfiguration.protocolClasses = [MockURLProtocol.self]
         let urlSession = URLSession(configuration: urlSessionConfiguration)
         let mockApiSession = APISession(urlSession: urlSession)
-        sut = LoginRepository(
+        sut = AuthRepository(
             apiSession: mockApiSession,
             authDatasource: MockAuthDataSource()
         )
@@ -33,7 +33,7 @@ final class LoginRepositoryTests: XCTestCase {
         MockURLProtocol.requestHandler = { request in
             let url = try XCTUnwrap(request.url)
             let httpURLResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url))
-            let fileURL = try XCTUnwrap(Bundle(for: LoginRepositoryTests.self).url(forResource: "jwt", withExtension: "txt"))
+            let fileURL = try XCTUnwrap(Bundle(for: AuthRepositoryTests.self).url(forResource: "jwt", withExtension: "json"))
             let jwtData = try XCTUnwrap(Data(contentsOf: fileURL))
             return (httpURLResponse, jwtData)
         }

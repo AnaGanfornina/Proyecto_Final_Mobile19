@@ -10,26 +10,26 @@ import XCTest
 
 final class LoginUserCaseTests: XCTestCase {
     var sut: LoginUseCaseProtocol!
-    var mockLoginRepository: MockLoginRepository!
+    var mockAuthRepository: MockAuthRepository!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        mockLoginRepository = MockLoginRepository()
-        sut = LoginUseCase(repository: mockLoginRepository)
+        mockAuthRepository = MockAuthRepository()
+        sut = LoginUseCase(repository: mockAuthRepository)
     }
     
     override func tearDownWithError() throws {
         sut = nil
-        mockLoginRepository = nil
+        mockAuthRepository = nil
         try super.tearDownWithError()
     }
     
     /// Test para comprobar que el login se ha hecho correctamente, pues este devuele true
     func test_login_ReturnSuccess() async throws{
         // Given
-        let fileURL = try XCTUnwrap(Bundle(for: LoginUserCaseTests.self).url(forResource: "jwt", withExtension: "txt"))
+        let fileURL = try XCTUnwrap(Bundle(for: LoginUserCaseTests.self).url(forResource: "jwt", withExtension: "json"))
         let data = try XCTUnwrap(Data(contentsOf: fileURL))
-        mockLoginRepository.receivedData = data
+        mockAuthRepository.receivedData = data
         
         // When
         let successResponse: () = try await sut.run(user: "regularuser@keepcoding.es", password: "Regularuser1")

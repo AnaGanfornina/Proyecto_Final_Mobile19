@@ -36,10 +36,10 @@ final class User: Model, Content, @unchecked Sendable {
     var age: Int?
     
     @Field(key: "height")
-    var height: Int?
+    var height: Double?
     
     @Field(key: "weight")
-    var weight: Int?
+    var weight: Double?
     
     @OptionalParent(key: "coach_id")
     var coach: User?
@@ -59,8 +59,8 @@ final class User: Model, Content, @unchecked Sendable {
          coachId: UUID?,
          goal: String? = nil,
          age: Int? = nil,
-         height: Int? = nil,
-         weight: Int? = nil
+         height: Double? = nil,
+         weight: Double? = nil
     ) {
         self.name = name
         self.email = email
@@ -77,17 +77,19 @@ final class User: Model, Content, @unchecked Sendable {
 extension User {
     
     func toDTO() -> UserDTO {
-        UserDTO(
-            id: id,
+        let profile = ProfileDTO(
             name: name,
-            email: email,
-            password: password,
-            role: role,
             coachID: $coach.id,
             goal: goal,
             age: age,
             height: height,
             weight: weight
+        )
+        return UserDTO(id:id,
+                       email: email,
+                       password: password,
+                       role: role,
+                       profile: profile
         )
     }
 }

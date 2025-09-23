@@ -81,7 +81,7 @@ extension AuthController {
         
         // Overwrite coachID on DTO
         var traineeDTO = registerDTO
-        traineeDTO.coachID = coachID
+        traineeDTO.profile?.coachID = coachID
         
         // Create user with traineeDTO
         let hashedPassword = try await req.password.async.hash(traineeDTO.password)

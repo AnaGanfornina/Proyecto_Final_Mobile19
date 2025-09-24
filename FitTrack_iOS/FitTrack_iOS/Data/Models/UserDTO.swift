@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RoleDTO: Codable {
+enum RoleDTO: String, Codable {
     case coach, trainee
     
     init(from role: Role) {
@@ -48,7 +48,7 @@ struct UserDTO: Codable {
     /// - Parameters:
     ///   - decoder: an object of type `(Decoder)` that can decode JSON into Swift types
     init(from decoder: any Decoder) throws {
-        var container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decodeIfPresent(String.self, forKey: .id)
         email = try container.decode(String.self, forKey: .email)
         password = try container.decode(String.self, forKey: .password)

@@ -51,7 +51,7 @@ final class URLRequestBuilder {
                     urlRequest.httpBody = try JSONEncoder().encode(body)
                     if let httpBody = urlRequest.httpBody,
                        let jsonString = String(data: httpBody, encoding: .utf8) {
-                        AppLogger.debug("HTTP Body created: \(jsonString)")
+                        AppLogger.debug("HTTP Body created: \(jsonString) sent to \(String(describing: urlRequest.url))")
                     }
                 } catch {
                     AppLogger.debug(error.localizedDescription)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RoleDTO: Encodable {
+enum RoleDTO: String, Encodable {
     case coach, trainee
     
     init(from role: Role) {
@@ -27,6 +27,18 @@ struct UserDTO: Encodable {
     let role: RoleDTO
     let profile: ProfileDTO
     
+    init(id: String? = nil,
+         email: String,
+         password: String,
+         role: RoleDTO,
+         profile: ProfileDTO) {
+        self.id = id
+        self.email = email
+        self.password = password
+        self.role = role
+        self.profile = profile
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id, email, password, role, profile
     }
@@ -36,7 +48,7 @@ struct UserDTO: Encodable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encode(email, forKey: .email)
         try container.encode(password, forKey: .password)
-        try container.encode(role, forKey: .role)
+        try container.encode(role.rawValue, forKey: .role)
         try container.encode(profile, forKey: .profile)
     }
 }
@@ -49,6 +61,20 @@ struct ProfileDTO: Encodable {
     let weight: Double?
     let height: Double?
     
+    init(name: String,
+         goal: String? = nil,
+         coachId: String? = nil,
+         age: Int? = nil,
+         weight: Double? = nil,
+         height: Double? = nil) {
+        self.name = name
+        self.goal = goal
+        self.coachId = coachId
+        self.age = age
+        self.weight = weight
+        self.height = height
+    }
+    
     enum CodingKeys: String, CodingKey {
         case name, goal
         case coachId = "coach_id"
@@ -58,7 +84,7 @@ struct ProfileDTO: Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)
-        try container.encodeIfPresent(goal, forKey: .name)
+        try container.encodeIfPresent(goal, forKey: .goal)
         try container.encodeIfPresent(coachId, forKey: .coachId)
         try container.encodeIfPresent(age, forKey: .age)
         try container.encodeIfPresent(weight, forKey: .weight)

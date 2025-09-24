@@ -6,26 +6,26 @@ import JWT
 
 // configures your application
 public func configure(_ app: Application) async throws {
-    // uncomment to serve files from /Public folder
-    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
-
-    // TODO: Undo changes
-    let jwtKey = "jwt"
-    //guard let _ = Environment.process.API_KEY else { fatalError("API_KEY required")}
-    
-    //app.databases.use(DatabaseConfigurationFactory.sqlite(.file("dbfittrack.sqlite")), as: .sqlite)
-
-    switch app.environment {
-    case .production:
-        // create PostgreSQL connection
-        app.databases.use(DatabaseConfigurationFactory.sqlite(.file("db.sqlite")), as: .sqlite)
-        
-    default:
-        app.databases.use(DatabaseConfigurationFactory.sqlite(.file("db.sqlite")), as: .sqlite)
-        
+  
+    // JWT Key from environment
+    guard let jwtKey = Environment.get("JWT_KEY") else {
+        app.logger.warning("JWT_SECRET not found ")
+        fatalError("JWT_SECRET required - create a file env.development")
     }
     
+    // Configurate environments
+    switch app.environment {
+    case .development:
+        app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
+        app.logger.info("Using sqlite for development")
+    case .production:
+        app.databases.use(.sqlite(.file("prod_database.sqlite")), as: .sqlite)
+        app.logger.info("Production configuration")
+    default:
+        fatalError("Unsupported environment: \(app.environment)")
+    }
     
+    app.logger.info("Current Environment: \(app.environment)")
     
     // Set password algorithm
     app.passwords.use(.bcrypt)
@@ -37,11 +37,8 @@ public func configure(_ app: Application) async throws {
     // Add migrations
     app.migrations.add(CreateUser())
     app.migrations.add(CreateTraining())
-    
-    if app.environment == .development {
-        try await app.autoMigrate()
-    }
- 
+    try await app.autoMigrate()
+
     // register routes
     try routes(app)
 }

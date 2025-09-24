@@ -9,6 +9,15 @@ import Foundation
 
 enum Role {
     case coach, trainee
+    
+    init(from role: RoleDTO) {
+        switch role {
+        case .coach:
+            self = .coach
+        case .trainee:
+            self = .trainee
+        }
+    }
 }
 
 struct User {

@@ -17,6 +17,18 @@ struct User {
     let password: String
     let role: Role
     let profile: Profile
+    
+    init(id: String? = nil,
+         email: String,
+         password: String,
+         role: Role,
+         profile: Profile) {
+        self.id = id
+        self.email = email
+        self.password = password
+        self.role = role
+        self.profile = profile
+    }
 }
 
 struct Profile {
@@ -26,4 +38,18 @@ struct Profile {
     let age: Int?
     let weight: Double?
     let height: Double?
+    
+    init(name: String,
+         goal: String? = nil,
+         coachId: String? = nil,
+         age: Int? = nil,
+         weight: Double? = nil,
+         height: Double? = nil) {
+        self.name = name
+        self.goal = goal
+        self.coachId = coachId
+        self.age = age
+        self.weight = weight
+        self.height = height
+    }
 }

@@ -47,7 +47,16 @@ final class URLRequestBuilder {
             ].merging(urlRequestComponents.headers) { $1 }
             
             if let body = urlRequestComponents.body {
-                urlRequest.httpBody = try JSONEncoder().encode(body)
+                do {
+                    urlRequest.httpBody = try JSONEncoder().encode(body)
+                    if let httpBody = urlRequest.httpBody,
+                       let jsonString = String(data: httpBody, encoding: .utf8) {
+                        AppLogger.debug("HTTP Body created: \(jsonString)")
+                    }
+                } catch {
+                    AppLogger.debug(error.localizedDescription)
+                    throw APIError.decoding(url: urlRequestComponents.path)
+                }
             }
             
             return urlRequest

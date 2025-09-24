@@ -9,8 +9,7 @@ import Foundation
 
 struct UserDomainToDTOMapper {
     func map(_ domain: User) -> UserDTO {
-        .init(id: nil,
-              email: domain.email,
+        .init(email: domain.email,
               password: domain.password,
               role: RoleDTO(from: domain.role),
               profile: ProfileDomainToDTOMapper().map(domain.profile)

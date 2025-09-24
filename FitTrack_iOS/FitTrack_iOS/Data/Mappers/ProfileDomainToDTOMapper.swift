@@ -18,13 +18,7 @@ struct ProfileDomainToDTOMapper {
                   height: domain.height
             )
         } else {
-            .init(name: domain.name,
-                  goal: nil,
-                  coachId: nil,
-                  age: nil,
-                  weight: nil,
-                  height: nil
-            )
+            .init(name: domain.name)
         }
     }
 }

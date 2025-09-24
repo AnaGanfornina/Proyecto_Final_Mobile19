@@ -64,7 +64,7 @@ struct UserDTO: Codable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encode(email, forKey: .email)
         try container.encode(password, forKey: .password)
-        try container.encode(role, forKey: .role)
+        try container.encode(role.rawValue, forKey: .role)
         try container.encode(profile, forKey: .profile)
     }
 }
@@ -76,7 +76,7 @@ struct ProfileDTO: Codable {
     let age: Int?
     let weight: Double?
     let height: Double?
-    
+
     /// A basic constructor that creates a DTO from inside layers
     init(name: String,
          goal: String? = nil,
@@ -117,7 +117,7 @@ struct ProfileDTO: Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)
-        try container.encodeIfPresent(goal, forKey: .name)
+        try container.encodeIfPresent(goal, forKey: .goal)
         try container.encodeIfPresent(coachId, forKey: .coachId)
         try container.encodeIfPresent(age, forKey: .age)
         try container.encodeIfPresent(weight, forKey: .weight)

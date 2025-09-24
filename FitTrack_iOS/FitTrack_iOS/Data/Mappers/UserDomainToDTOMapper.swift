@@ -12,7 +12,7 @@ struct UserDomainToDTOMapper {
         .init(email: domain.email,
               password: domain.password,
               role: RoleDTO(from: domain.role),
-              profile: ProfileDomainToDTOMapper().map(domain.profile)
+              profile: ProfileDomainToDTOMapper().map(domain.profile, role: domain.role)
         )
     }
 }

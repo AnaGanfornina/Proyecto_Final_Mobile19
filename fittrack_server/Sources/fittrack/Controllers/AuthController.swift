@@ -12,6 +12,7 @@ struct AuthController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
         routes.group("auth") { auth in
             
+
             auth.group(RateLimitIPMiddleware()) { secure in
                 secure.post("register_coach", use: registerCoach)
             }
@@ -21,6 +22,7 @@ struct AuthController: RouteCollection {
             }
             
             auth.group(User.authenticator(), User.guardMiddleware(), RateLimitIPMiddleware()) { builder in
+
                 builder.post("login", use: login)
             }
             auth.group(JWTToken.authenticator(), JWTToken.guardMiddleware()) { builder in
@@ -30,6 +32,7 @@ struct AuthController: RouteCollection {
         }
     }
 }
+
 
 
 extension AuthController {

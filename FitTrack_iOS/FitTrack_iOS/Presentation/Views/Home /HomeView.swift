@@ -48,7 +48,7 @@ struct HomeView: View {
                             .onDisappear { isTabBarHidden = false } // Shows it when Back Home
                     }
                     .navigationDestination(isPresented: $showNewTraining) {
-                        NewTrainingView(selectedClient: $selectedClient)
+                        NewTrainingView(selectedClient: $selectedClient, trainingViewModel: TrainingViewModel())
                             .onAppear { isTabBarHidden = true }   // Hides TabBar
                             .onDisappear { isTabBarHidden = false } // Shows it when Back Home
                     }

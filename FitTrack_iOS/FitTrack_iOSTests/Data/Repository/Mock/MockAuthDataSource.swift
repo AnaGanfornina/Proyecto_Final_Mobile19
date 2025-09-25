@@ -1,5 +1,5 @@
 //
-//  MockLoginRepository.swift
+//  MockAuthRepository.swift
 //  FitTrack_iOS
 //
 //  Created by Ariana Rodríguez on 16/09/25.

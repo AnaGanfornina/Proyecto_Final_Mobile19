@@ -10,25 +10,25 @@ import XCTest
 
 final class GetSessionUseCaseTests: XCTestCase {
     var sut: GetSessionUseCaseProtocol!
-    var mockLoginRepository: MockLoginRepository!
+    var mockAuthRepository: MockAuthRepository!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        mockLoginRepository = MockLoginRepository()
-        sut = GetSessionUseCase(loginRepository: mockLoginRepository)
+        mockAuthRepository = MockAuthRepository()
+        sut = GetSessionUseCase(authRepository: mockAuthRepository)
     }
     
     override func tearDownWithError() throws {
-        mockLoginRepository = nil
+        mockAuthRepository = nil
         sut = nil
         try super.tearDownWithError()
     }
     
     func testGetSession_WhenIsSuccess() async throws {
         // Given
-        let fileURL = try XCTUnwrap(Bundle(for: GetSessionUseCaseTests.self).url(forResource: "jwt", withExtension: "txt"))
+        let fileURL = try XCTUnwrap(Bundle(for: GetSessionUseCaseTests.self).url(forResource: "jwt", withExtension: "json"))
         let jwtData = try XCTUnwrap(Data(contentsOf: fileURL))
-        mockLoginRepository.receivedData = jwtData
+        mockAuthRepository.receivedData = jwtData
         
         // When
         let successResponse: () = try await sut.run()

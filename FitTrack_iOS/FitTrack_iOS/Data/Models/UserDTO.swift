@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RoleDTO: String, Encodable {
+enum RoleDTO: String, Codable {
     case coach, trainee
     
     init(from role: Role) {
@@ -20,13 +20,14 @@ enum RoleDTO: String, Encodable {
     }
 }
 
-struct UserDTO: Encodable {
+struct UserDTO: Codable {
     let id: String?
     let email: String
     let password: String
     let role: RoleDTO
     let profile: ProfileDTO
     
+    /// A basic constructor that creates a DTO from inside layers
     init(id: String? = nil,
          email: String,
          password: String,
@@ -43,6 +44,21 @@ struct UserDTO: Encodable {
         case id, email, password, role, profile
     }
     
+    /// A constructor that implements the decoding of a JSON object into a Swift type and is used to create a DTO
+    /// - Parameters:
+    ///   - decoder: an object of type `(Decoder)` that can decode JSON into Swift types
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(String.self, forKey: .id)
+        email = try container.decode(String.self, forKey: .email)
+        password = try container.decode(String.self, forKey: .password)
+        role = try container.decode(RoleDTO.self, forKey: .role)
+        profile = try container.decode(ProfileDTO.self, forKey: .profile)
+    }
+    
+    /// A function that implements the encoding of a Swift type into JSON and is used to create a HTTPBody
+    /// - Parameters:
+    ///   - encoder: an object of type `(Encoder)` that can encode Swift types into JSON
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(id, forKey: .id)
@@ -53,14 +69,15 @@ struct UserDTO: Encodable {
     }
 }
 
-struct ProfileDTO: Encodable {
+struct ProfileDTO: Codable {
     let name: String
     let goal: String?
     let coachId: String?
     let age: Int?
     let weight: Double?
     let height: Double?
-    
+
+    /// A basic constructor that creates a DTO from inside layers
     init(name: String,
          goal: String? = nil,
          coachId: String? = nil,
@@ -81,6 +98,22 @@ struct ProfileDTO: Encodable {
         case age, weight, height
     }
     
+    /// A constructor that implements the decoding of a JSON object into a Swift type and is used to create a DTO
+    /// - Parameters:
+    ///   - decoder: an object of type `(Decoder)` that can decode JSON into Swift types
+    init(from decoder: any Decoder) throws {
+        var container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        goal = try container.decodeIfPresent(String.self, forKey: .goal)
+        coachId = try container.decodeIfPresent(String.self, forKey: .coachId)
+        age = try container.decodeIfPresent(Int.self, forKey: .age)
+        weight = try container.decodeIfPresent(Double.self, forKey: .weight)
+        height = try container.decodeIfPresent(Double.self, forKey: .height)
+    }
+    
+    /// A function that implements the encoding of a Swift type into JSON and is used to create a HTTPBody
+    /// - Parameters:
+    ///   - encoder: an object of type `(Encoder)` that can encode Swift types into JSON
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)

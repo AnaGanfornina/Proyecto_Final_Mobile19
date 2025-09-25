@@ -7,8 +7,17 @@
 
 import Foundation
 
-enum Role {
+enum Role: String {
     case coach, trainee
+    
+    init(from role: RoleDTO) {
+        switch role {
+        case .coach:
+            self = .coach
+        case .trainee:
+            self = .trainee
+        }
+    }
 }
 
 struct User {

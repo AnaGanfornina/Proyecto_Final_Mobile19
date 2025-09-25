@@ -28,14 +28,6 @@ struct CreateClientView: View {
     
     var body: some View {
         ScrollView {
-            ZStack {
-                
-                LinearGradient(gradient: Gradient(
-                    colors: [Color.purple2,Color.purple2.opacity(0.7)]),
-                               startPoint: .top,
-                               endPoint: .bottom)
-                .edgesIgnoringSafeArea(.all) // Fill Full Screen
-                
                 VStack(spacing: 16) {
                     
                     //Group -> We dont use Form because it needs to be customized
@@ -137,6 +129,7 @@ struct CreateClientView: View {
                                 dismiss()
                                 isTabBarHidden = false // Show tab bar when going back
                             } label: {
+                                
                                 Image(systemName: "chevron.left")
                                     .font(.system(size: 18, weight: .semibold))
                                     .foregroundColor(.purple)
@@ -144,7 +137,7 @@ struct CreateClientView: View {
                             
                             // Texto junto al chevron
                             Text("Nuevo Cliente")
-                                .foregroundColor(.black)
+                                .foregroundColor(.purple3)
                                 .fontWeight(.bold)
                                 .font(.title2)
                                 .frame(minWidth: 150)
@@ -154,6 +147,7 @@ struct CreateClientView: View {
                                 // TODO: Save the created client action
                                 dismiss()
                                 isTabBarHidden = false // Show tab bar when going back
+                                
                             } label: {
                                 Text("OK")
                                     .foregroundColor(.purple)
@@ -163,8 +157,15 @@ struct CreateClientView: View {
                         }
                     } // Toolbar
                 }
-            }
         } // ScrllView
+        .background(
+            
+            LinearGradient(gradient: Gradient(
+                colors: [Color.purple2,Color.purple2.opacity(0.7)]),
+                           startPoint: .top,
+                           endPoint: .bottom)
+            .edgesIgnoringSafeArea(.bottom) // Fill Full Screen
+        )
     }
 }
 
@@ -177,7 +178,7 @@ struct CustomTextFieldStyle: ViewModifier {
             .cornerRadius(8)
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.purple2.opacity(1), lineWidth: 1.5)
+                    .stroke(Color.purple2.opacity(1), lineWidth: 1)
             )
     }
 }

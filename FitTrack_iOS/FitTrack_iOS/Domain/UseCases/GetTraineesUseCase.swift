@@ -6,7 +6,7 @@
 //
 
 protocol GetTraineesUseCaseProtocol {
-    func getTrainees() async throws -> [User]
+    func run() async throws -> [User]
 }
 
 final class GetTraineesUseCase: GetTraineesUseCaseProtocol {
@@ -16,7 +16,7 @@ final class GetTraineesUseCase: GetTraineesUseCaseProtocol {
         self.userRepository = userRepository
     }
     
-    func getTrainees() async throws -> [User] {
+    func run() async throws -> [User] {
         try await userRepository.getTrainees()
     }
 }

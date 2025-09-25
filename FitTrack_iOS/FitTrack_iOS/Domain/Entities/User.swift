@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Role {
+enum Role: String {
     case coach, trainee
     
     init(from role: RoleDTO) {

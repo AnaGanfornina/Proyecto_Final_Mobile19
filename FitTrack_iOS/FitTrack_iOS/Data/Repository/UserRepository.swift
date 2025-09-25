@@ -22,9 +22,6 @@ final class UserRepository: UserRepositoryProtocol {
         let traineeDTOs = try await apiSession.request(
             GetTraineesURLRequest()
         )
-        guard !traineeDTOs.isEmpty else {
-            throw AppError.emptyList()
-        }
         
         return traineeDTOs.map {
             UserDTOToDomainMapper().map($0)

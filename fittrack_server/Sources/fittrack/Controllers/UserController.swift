@@ -10,11 +10,13 @@ import Fluent
 
 struct UserController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
-        let adminRoutes = routes.grouped(JWTToken.authenticator(), AdminMiddelware())
+        let adminRoutes = routes.grouped(JWTToken.authenticator(), AdminMiddelware(), RateLimitUserMiddleware())
         adminRoutes.get("users", use: getAll) // Solo admin
         
+        let userRoutes = routes.grouped(RateLimitUserMiddleware())
+        
         routes.group("users") { users in
-            users.group(":userID") { user in
+            userRoutes.group(":userID") { user in
                 user.get(use: getByID)
                 user.patch(use: update)
                 user.delete(use: delete)

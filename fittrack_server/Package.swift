@@ -16,6 +16,7 @@ let package = Package(
         // 🔵 Non-blocking, event-driven networking for Swift. Used for custom executors
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.65.0"),
         // Other dependencies...
+        // Jwt token
         .package(url: "https://github.com/vapor/jwt.git", from: "5.0.0"),
     ],
     targets: [
@@ -35,7 +36,7 @@ let package = Package(
             name: "fittrack_serverTests",
             dependencies: [
                 .target(name: "fittrack_server"),
-                .product(name: "VaporTesting", package: "vapor"),
+                .product(name: "VaporTesting", package: "vapor")
             ],
             swiftSettings: swiftSettings
         )

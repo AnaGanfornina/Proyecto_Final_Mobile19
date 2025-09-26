@@ -50,7 +50,6 @@ struct OnBoardingView: View {
                                 // Moving Circle in the Opposite Direction (Move to left)
                                     .offset(x: -activeIntro.circleOffset)
                             }
-                    
                     }
                     
                     // Onboarding Buttons (login, register, Apple)

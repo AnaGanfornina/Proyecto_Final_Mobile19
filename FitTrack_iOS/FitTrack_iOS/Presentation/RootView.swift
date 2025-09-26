@@ -19,10 +19,8 @@ struct RootView: View {
             
             
         case .onBoarding:
-//            OnBoardingView()
-//                .preferredColorScheme(.dark) /// Used for black stroke besides buttons
-            UserRegistrationView()
-//            LoginView()
+            OnBoardingView()
+                .preferredColorScheme(.dark) /// Used for black stroke besides buttons
         case .login:
             LoginView()
             

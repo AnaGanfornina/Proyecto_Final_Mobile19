@@ -16,6 +16,7 @@ struct UserRegistrationView: View {
     @State private var showPassword = false
     @State private var showConfirmPassword = false
     
+    // TODO: Add AppState,Fields and BUtton Logic
     var body: some View {
         ZStack {
             // MARK: - Background Gradient

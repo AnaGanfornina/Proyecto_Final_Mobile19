@@ -120,3 +120,14 @@ final class AppState: ObservableObject {
         self.status = .none
     }
 }
+
+
+// MARK: - Extension to mock de appState
+
+extension AppState {
+    func mockState () -> AppState {
+        let appState = AppState()
+        appState.status = .home
+        return appState
+    }
+}

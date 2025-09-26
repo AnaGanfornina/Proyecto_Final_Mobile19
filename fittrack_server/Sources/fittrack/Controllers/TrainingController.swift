@@ -13,10 +13,12 @@ struct TrainingController: RouteCollection {
         let tokenProtected = routes.grouped(JWTToken.authenticator(), JWTToken.guardMiddleware())
         
         tokenProtected.group("trainings") { trainings in
-        //routes.group("trainings") { trainings in
+            //routes.group("trainings") { trainings in
             trainings.post(use: create)
             trainings.get(use: getAll)
-            trainings.group(":trainingID") { training in
+        }
+        tokenProtected.group("training") { training in
+            training.group(":trainingID") { training in
                 training.get(use: getByID)
                 training.patch(use: update)
                 training.delete(use: delete)

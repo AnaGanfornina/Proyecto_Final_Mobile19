@@ -31,13 +31,13 @@ struct LoginView: View {
             .edgesIgnoringSafeArea(.all) // Fill Full Screen
             
             VStack(spacing: 140) {
-                //Welcome title Text
+                // MARK: - Welcome title Text
                 Text("Bienvenido")
                     .font(.system(size: 40, weight: .bold))
                     .foregroundColor(.white)
                     .padding(.top, 20)
                 
-                // / User and Password Section
+                // MARK: - User and Password Section
                 VStack(spacing: 24) {
                     
                     VStack (spacing: 16){
@@ -141,6 +141,7 @@ struct LoginView: View {
                         
                         Button {
                             // TODO: Sign-Up
+                            
                         } label: {
                             Text("Regístrate")
                                 .fontWeight(.bold)

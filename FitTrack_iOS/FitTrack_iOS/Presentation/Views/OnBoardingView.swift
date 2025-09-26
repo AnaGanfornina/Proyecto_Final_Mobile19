@@ -10,6 +10,8 @@ import SwiftUI
 struct OnBoardingView: View {
     @Environment(AppState.self) var appState
     
+    @Binding var isTabBarHidden: Bool 
+    
     // MARK: - Animated Onboarding Texts
     @State private var intros: [Intro] = sampleIntros
     @State private var activeIntro: Intro?
@@ -94,8 +96,9 @@ struct OnBoardingView: View {
             // TODO: Registration action (to be implemented)
             NavigationLink {
                 //NewRegisterView(registerViewModel: RegisterViewModel())
-                //CreateClientView(isTabBarHidden: true)
-            }label: {
+                CreateClientView(isTabBarHidden: $isTabBarHidden, registerViewModel: RegisterViewModel())
+                    .onAppear { isTabBarHidden = true }
+            } label: {
                 //appState.performNewRegister()
                 Label("Registrarse", systemImage: "person.badge.plus")
                     .foregroundStyle(.white)
@@ -181,7 +184,7 @@ struct OnBoardingView: View {
 }
 
 #Preview {
-    OnBoardingView()
+    OnBoardingView(isTabBarHidden: .constant(false))
         .environment(AppState())
         .preferredColorScheme(.dark) /// Used for black stroke besides buttons
 }

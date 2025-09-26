@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+/*
 
 struct NewRegisterView: View {
     // Used to hide Bottom Tab bar if needed
@@ -92,7 +92,7 @@ struct NewRegisterView: View {
                                 
                                 //Use case to register the new user
                                 
-                                registerViewModel.create(name: nombre, email: correo, password: password)
+                                //registerViewModel.create(name: nombre, email: correo, password: password, role: <#Role#>)
                                 
                                 //perform login
                                 
@@ -134,3 +134,4 @@ struct NewRegisterView: View {
 }
 
 
+*/

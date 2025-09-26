@@ -11,11 +11,13 @@ struct CreateClientView: View {
     // Used to hide Bottom Tab bar if needed
     @Binding var isTabBarHidden: Bool
     @Environment(\.dismiss) private var dismiss // Dismiss View
+    @Environment(AppState.self) var appState
+    
     
     @State var registerViewModel: RegisterViewModel
 #if DEBUG
-    @State private var nombre = "Juan"
-    @State private var correo = "juan@gmail.com"
+    @State private var nombre = "Andrea"
+    @State private var correo = "Andrea@gmail.com"
     @State private var password = "1234567"
    
     @State private var altura = "1"
@@ -118,6 +120,7 @@ struct CreateClientView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                    
                     Divider()
                         .background(Color.white)
                     
@@ -185,12 +188,28 @@ struct CreateClientView: View {
                             
                             // Title Text
                             Button {
-                                // TODO: Save the created client action
-                                registerViewModel.create(name: nombre, email: correo, password: password)
+                          
+                                let role: Role = appState.status == .home ? .coach : .trainee
+                                
+                                registerViewModel.create(name: nombre, email: correo, password: password, role: role)
                                 
                                 dismiss()
                                 isTabBarHidden = false // Show tab bar when going back
                                 
+                                //PerformLogin or come back
+                                switch role {
+                                case .coach:
+                                    //perform login
+                                    
+                                    appState.performLogin(
+                                        user: nombre,
+                                        password: password
+                                    )
+                                case .trainee:
+                                    dismiss()
+                                    isTabBarHidden = false // Show tab bar when going back
+                                }
+                               
                             } label: {
                                 Text("OK")
                                     .foregroundColor(.purple)
@@ -209,6 +228,10 @@ struct CreateClientView: View {
                            endPoint: .bottom)
             .edgesIgnoringSafeArea(.bottom) // Fill Full Screen
         )
+        //Force light style in navigation bar
+        .toolbarBackground(Color.white, for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
+        .toolbarColorScheme(.light, for: .navigationBar)
     }
 }
 
@@ -219,14 +242,18 @@ struct CustomTextFieldStyle: ViewModifier {
             .autocapitalization(.none)
             .disableAutocorrection(true)
             .padding()
-            .background(Color(.white))
+            .background(Color.white) // Fondo blanco forzado
+            .foregroundColor(.black) // Texto negro forzado
             .cornerRadius(8)
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(Color.purple2.opacity(1), lineWidth: 1)
             )
+            .colorScheme(.light) // Fuerza esquema claro para el TextEditor
     }
 }
+
+
 
 /// A custom modifier for the Title Texts of each TextField
 struct CustomTextStyle: ViewModifier {
@@ -240,8 +267,9 @@ struct CustomTextStyle: ViewModifier {
 
 #Preview {
     NavigationStack {
-        CreateClientView(isTabBarHidden: .constant(false), registerViewModel: RegisterViewModel())
-    }
+            CreateClientView(isTabBarHidden: .constant(false), registerViewModel: RegisterViewModel())
+                .environment(AppState()) 
+        }
 }
 
 

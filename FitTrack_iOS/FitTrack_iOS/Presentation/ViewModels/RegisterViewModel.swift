@@ -22,11 +22,12 @@ enum RegisterViewState: Equatable {
          state = .none
      }
      
-     func create(name: String, email: String, password: String) {
+    func create(name: String, email: String, password: String, role:Role) {
          state = .loading
          let newUser = User (
             email: email,
-            password: password, role: .trainee,
+            password: password,
+            role: role,
             profile: Profile(name:name)
          )
          Task { @MainActor in

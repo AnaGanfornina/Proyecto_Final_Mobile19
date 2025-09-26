@@ -19,7 +19,7 @@ struct RootView: View {
             
             
         case .onBoarding:
-            OnBoardingView()
+            OnBoardingView(isTabBarHidden: .constant(false))
                 .preferredColorScheme(.dark) /// Used for black stroke besides buttons
             
         case .login:

@@ -13,6 +13,11 @@ struct CreateClientView: View {
     @Environment(\.dismiss) private var dismiss // Dismiss View
     @Environment(AppState.self) var appState
     
+
+    private var showAllTextField: Bool {
+            appState.status == .home
+        }
+    
     
     @State var registerViewModel: RegisterViewModel
 #if DEBUG
@@ -56,6 +61,10 @@ struct CreateClientView: View {
         ScrollView {
                 VStack(spacing: 16) {
                     
+                    
+                    
+                    
+                    
                     //Group -> We dont use Form because it needs to be customized
                     Text("Datos Personales")
                         .font(.title2)
@@ -83,83 +92,86 @@ struct CreateClientView: View {
                     TextField("123456", text: $password)
                         .modifier(CustomTextFieldStyle())
                     
-                    Text("Metricas")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Divider()
-                        .background(Color.white)
-                    
-                    Text("Altura")
-                        .foregroundColor(.white)
-                        .modifier(CustomTextStyle())
-                    TextField("1.70", text: $altura)
-                        .modifier(CustomTextFieldStyle())
-                    
-                    Text("Peso")
-                        .modifier(CustomTextStyle())
-                    TextField("70 kg", text: $peso)
-                        .modifier(CustomTextFieldStyle())
-                    
-                    Text("Objetivo")
-                        .font(.title2)
-                        .foregroundColor(.white)
-                        .fontWeight(.semibold)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Divider()
-                        .background(Color.white)
-                    
-                    TextEditor(text: $objetivo)
-                        .frame(minHeight: 80) // Min Height
-                        .modifier(CustomTextFieldStyle())
-                    
-                    Text("Historia y Nivel")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Divider()
-                        .background(Color.white)
-                    
-                    TextEditor(text: $historia)
-                        .frame(minHeight: 80) // Min Height
-                        .modifier(CustomTextFieldStyle())
-                    
-                    Text("Mediciones Iniciales")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Divider()
-                        .background(Color.white)
-                    
-                    Text("Circunferencia del brazo")
-                        .modifier(CustomTextStyle())
-                    TextField("35 cm", text: $circBrazo)
-                        .modifier(CustomTextFieldStyle())
-                    
-                    Text("Circunferencia del abdomen")
-                        .modifier(CustomTextStyle())
-                    TextField("78 cm", text: $circAbdomen)
-                        .modifier(CustomTextFieldStyle())
-                    
-                    Text("Circunferencia del muslo")
-                        .modifier(CustomTextStyle())
-                    TextField("78 cm", text: $circMuslo)
-                        .modifier(CustomTextFieldStyle())
-                    
-                    Text("Circunferencia del pecho")
-                        .modifier(CustomTextStyle())
-                    TextField("78 cm", text: $circPecho)
-                        .modifier(CustomTextFieldStyle())
-                    
-                    
-                    
- 
+                    Group {
+                        if showAllTextField { // Show all the textField for a new Trainee
+                            
+                            Text("Metricas")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            
+                            Divider()
+                                .background(Color.white)
+                            
+                            Text("Altura")
+                                .foregroundColor(.white)
+                                .modifier(CustomTextStyle())
+                            TextField("1.70", text: $altura)
+                                .modifier(CustomTextFieldStyle())
+                            
+                            Text("Peso")
+                                .modifier(CustomTextStyle())
+                            TextField("70 kg", text: $peso)
+                                .modifier(CustomTextFieldStyle())
+                            
+                            Text("Objetivo")
+                                .font(.title2)
+                                .foregroundColor(.white)
+                                .fontWeight(.semibold)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Divider()
+                                .background(Color.white)
+                            
+                            TextEditor(text: $objetivo)
+                                .frame(minHeight: 80) // Min Height
+                                .modifier(CustomTextFieldStyle())
+                            
+                            Text("Historia y Nivel")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Divider()
+                                .background(Color.white)
+                            
+                            TextEditor(text: $historia)
+                                .frame(minHeight: 80) // Min Height
+                                .modifier(CustomTextFieldStyle())
+                            
+                            Text("Mediciones Iniciales")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Divider()
+                                .background(Color.white)
+                            
+                            Text("Circunferencia del brazo")
+                                .modifier(CustomTextStyle())
+                            TextField("35 cm", text: $circBrazo)
+                                .modifier(CustomTextFieldStyle())
+                            
+                            Text("Circunferencia del abdomen")
+                                .modifier(CustomTextStyle())
+                            TextField("78 cm", text: $circAbdomen)
+                                .modifier(CustomTextFieldStyle())
+                            
+                            Text("Circunferencia del muslo")
+                                .modifier(CustomTextStyle())
+                            TextField("78 cm", text: $circMuslo)
+                                .modifier(CustomTextFieldStyle())
+                            
+                            Text("Circunferencia del pecho")
+                                .modifier(CustomTextStyle())
+                            TextField("78 cm", text: $circPecho)
+                                .modifier(CustomTextFieldStyle())
+                        }
+                    }//Group
+
                     Spacer()
                 }// VStack
                 .padding()

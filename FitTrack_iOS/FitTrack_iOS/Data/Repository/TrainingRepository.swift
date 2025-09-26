@@ -27,10 +27,6 @@ final class TrainingRepository: TrainingRepositoryProtocol {
             TrainingDTOToDomainMapper().map($0)
         }
         
-        guard !trainingList.isEmpty else {
-            throw AppError.emptyList()
-        }
-        
         return trainingList
     }
     

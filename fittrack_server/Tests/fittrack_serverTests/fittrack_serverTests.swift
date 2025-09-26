@@ -1,6 +1,7 @@
-@testable import fittrack
+@testable import fittrack_server
 import VaporTesting
 import Testing
+import XCTest
 import Fluent
 
 @Suite("App Tests with DB", .serialized)
@@ -30,55 +31,49 @@ struct fittrackTests {
         }
     }
     
-    @Test("Getting all the Todos")
-    func getAllTodos() async throws {
-        try await withApp { app in
-            let sampleTodos = [Todo(title: "sample1"), Todo(title: "sample2")]
-            try await sampleTodos.create(on: app.db)
-            
-            try await app.testing().test(.GET, "todos", afterResponse: { res async throws in
-                #expect(res.status == .ok)
-                #expect(try
-                    res.content.decode([TodoDTO].self).sorted(by: { ($0.title ?? "") < ($1.title ?? "") }) ==
-                    sampleTodos.map { $0.toDTO() }.sorted(by: { ($0.title ?? "") < ($1.title ?? "") })
-                )
-            })
+    @Test("Rate LimitIP Middleware Test")
+    func testRateLimitMiddleware() async throws {
+        let app = try await Application.make(.testing)
+        do {
+            try routes(app)
+
+            for _ in 1...5 {
+                try await app.test(.GET, "test-rate") { res in
+                    XCTAssertEqual(res.status, .ok)
+                }
+            }
+
+            // 6th request should fail
+            try await app.test(.GET, "test-rate") { res in
+                XCTAssertEqual(res.status, .tooManyRequests)
+            }
+
+        } catch {
+            throw error
         }
+
+        // Cierre asincrónico después del do/catch
+        try await app.asyncShutdown()
     }
     
-    @Test("Creating a Todo")
-    func createTodo() async throws {
-        let newDTO = TodoDTO(id: nil, title: "test")
+    @Test("Rate Limit User Middleware Test")
+    func testRateLimitUserMiddleware() async throws {
+        let app = try await Application.make(.testing)
         
-        try await withApp { app in
-            try await app.testing().test(.POST, "todos", beforeRequest: { req in
-                try req.content.encode(newDTO)
-            }, afterResponse: { res async throws in
-                #expect(res.status == .ok)
-                let models = try await Todo.query(on: app.db).all()
-                #expect(models.map({ $0.toDTO().title }) == [newDTO.title])
-            })
-        }
-    }
-    
-    @Test("Deleting a Todo")
-    func deleteTodo() async throws {
-        let testTodos = [Todo(title: "test1"), Todo(title: "test2")]
+        try routes(app)
         
-        try await withApp { app in
-            try await testTodos.create(on: app.db)
-            
-            try await app.testing().test(.DELETE, "todos/\(testTodos[0].requireID())", afterResponse: { res async throws in
-                #expect(res.status == .noContent)
-                let model = try await Todo.find(testTodos[0].id, on: app.db)
-                #expect(model == nil)
-            })
+        for i in 1...5 {
+            try await app.test(.GET, "test-rate") { res in
+                XCTAssertEqual(res.status, .ok)
+            }
         }
+        
+        try await app.test(.GET, "test-rate") { res in
+            XCTAssertEqual(res.status, .tooManyRequests)
+        }
+        
+        try await app.asyncShutdown()
     }
 }
 
-extension TodoDTO: Equatable {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.id == rhs.id && lhs.title == rhs.title
-    }
-}
+

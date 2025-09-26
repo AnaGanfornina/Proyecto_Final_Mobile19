@@ -171,8 +171,49 @@ struct CreateClientView: View {
                                 .modifier(CustomTextFieldStyle())
                         }
                     }//Group
-
                     Spacer()
+                    Button {
+                        let role: Role = appState.status == .home ? .coach : .trainee
+                        
+                        registerViewModel.create(name: nombre, email: correo, password: password, role: role)
+                        
+                        dismiss()
+                        isTabBarHidden = false // Show tab bar when going back
+                        
+                        //PerformLogin or come back
+                        switch role {
+                        case .coach:
+                            //perform login
+                            
+                            appState.performLogin(
+                                user: nombre,
+                                password: password
+                            )
+                        case .trainee:
+                            dismiss()
+                            isTabBarHidden = false // Show tab bar when going back
+                        }
+                    } label: {
+                        Text("Aceptar")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                LinearGradient(
+                                    stops: [
+                                    Gradient.Stop(color: Color(red: 1, green: 0.74, blue: 0.44), location: 0.00),
+                                    Gradient.Stop(color: Color(red: 1, green: 0.38, blue: 0.41), location: 1.00),
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                            .cornerRadius(16)
+                    }
+
+
+                   
                 }// VStack
                 .padding()
                 .navigationBarBackButtonHidden(true) /// Hide `< Back` button
@@ -198,36 +239,7 @@ struct CreateClientView: View {
                                 .font(.title2)
                                 .frame(minWidth: 150)
                             
-                            // Title Text
-                            Button {
-                          
-                                let role: Role = appState.status == .home ? .coach : .trainee
-                                
-                                registerViewModel.create(name: nombre, email: correo, password: password, role: role)
-                                
-                                dismiss()
-                                isTabBarHidden = false // Show tab bar when going back
-                                
-                                //PerformLogin or come back
-                                switch role {
-                                case .coach:
-                                    //perform login
-                                    
-                                    appState.performLogin(
-                                        user: nombre,
-                                        password: password
-                                    )
-                                case .trainee:
-                                    dismiss()
-                                    isTabBarHidden = false // Show tab bar when going back
-                                }
-                               
-                            } label: {
-                                Text("OK")
-                                    .foregroundColor(.purple)
-                                    .font(.title2)
-                                    .frame(minWidth: 10)
-                            }
+                            
                         }
                     } // Toolbar
                 }
@@ -280,7 +292,8 @@ struct CustomTextStyle: ViewModifier {
 #Preview {
     NavigationStack {
             CreateClientView(isTabBarHidden: .constant(false), registerViewModel: RegisterViewModel())
-                .environment(AppState()) 
+            //.environment(AppState().mockState()) //Mock to change appState status, to see traineeRegister change a AppState()
+        .environment(AppState()) 
         }
 }
 

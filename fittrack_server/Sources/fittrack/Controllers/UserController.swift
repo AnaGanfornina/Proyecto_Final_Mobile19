@@ -62,15 +62,26 @@ extension UserController {
     }
     
     func update(_ req: Request) async throws -> UserDTO {
+        
+        print("Updating user with ID:", req.parameters.get("userID") ?? "nil")
+        
         guard let user = try await User.find(req.parameters.get("userID"), on: req.db) else {
             throw Abort(.notFound)
         }
         
         let userDTO = try req.content.decode(UserDTO.self)
         
+        user.email = userDTO.email
+        
+     
+        user.password = try Bcrypt.hash(userDTO.password)
+        
+        
+        user.role = userDTO.role
+        
         if let profile = userDTO.profile {
             
-            user.name = profile.name 
+            user.name = profile.name
             
             if let goal = profile.goal {
                 user.goal = goal

@@ -20,10 +20,10 @@ struct RootView: View {
             
         case .onBoarding:
             OnBoardingView(isTabBarHidden: .constant(false))
-                .preferredColorScheme(.dark) /// Used for black stroke besides buttons
+                //.preferredColorScheme(.dark) /// Used for black stroke besides buttons
             
         case .login:
-            LoginView()
+            LoginView(isTabBarHidden: .constant(false))
             
         case .home, .clients, .exercises:
             MainTabBar()

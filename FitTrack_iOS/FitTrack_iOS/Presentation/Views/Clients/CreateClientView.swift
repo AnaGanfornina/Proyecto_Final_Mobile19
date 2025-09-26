@@ -17,7 +17,7 @@ struct CreateClientView: View {
     @State var registerViewModel: RegisterViewModel
 #if DEBUG
     @State private var nombre = "Andrea"
-    @State private var correo = "Andrea@gmail.com"
+    @State private var correo = "andrea@gmail.com"
     @State private var password = "1234567"
    
     @State private var altura = "1"

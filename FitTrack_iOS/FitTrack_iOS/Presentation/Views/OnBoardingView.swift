@@ -93,11 +93,10 @@ struct OnBoardingView: View {
             }
             
             // Register Button
-            // TODO: Registration action (to be implemented)
+            
             NavigationLink {
-                //NewRegisterView(registerViewModel: RegisterViewModel())
                 CreateClientView(isTabBarHidden: $isTabBarHidden, registerViewModel: RegisterViewModel())
-                    .onAppear { isTabBarHidden = true }
+
             } label: {
                 //appState.performNewRegister()
                 Label("Registrarse", systemImage: "person.badge.plus")

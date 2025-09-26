@@ -233,5 +233,6 @@ struct HomeView: View {
 
 #Preview {
     HomeView(isTabBarHidden: .constant(false))
+        .environment(AppState())
 }
 

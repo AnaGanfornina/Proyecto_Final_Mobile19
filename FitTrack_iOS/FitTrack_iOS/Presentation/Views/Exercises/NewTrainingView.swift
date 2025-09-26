@@ -20,7 +20,7 @@ struct NewTrainingView: View {
     @State private var selectedTime = Date()
     @State private var showTimePicker = false
     @State private var selectedExercises: String? = nil
-
+    
     var body: some View {
         ZStack {
             NavigationStack {
@@ -32,7 +32,7 @@ struct NewTrainingView: View {
                         destination: ClientsListViewPicker(
                             selectedClient: $selectedClient,
                             isTabBarHidden: $isTabBarHidden
-                                
+                            
                         )
                         
                     ) {
@@ -48,7 +48,9 @@ struct NewTrainingView: View {
                                         .aspectRatio(1, contentMode: .fill)
                                         .frame(width: cardHeight, height: cardHeight)
                                         .clipped()
-                                        .clipShape(.containerRelative)
+                                        .clipShape(
+                                            RoundedCorners(radius: 8, corners: [.topLeft, .bottomLeft])
+                                        )
                                     
                                     // Select Client
                                     Text(selectedClient ?? "Seleccionar cliente")
@@ -177,8 +179,6 @@ struct NewTrainingView: View {
                     .font(.title3)
                     .fontWeight(.semibold)
                     .disabled(disableCreateButton)
-                    
-                    Spacer()
                 } // VStack
                 .padding()
                 .navigationBarBackButtonHidden(true)
@@ -212,16 +212,16 @@ struct NewTrainingView: View {
                 Color.black.opacity(0.3)
                     .ignoresSafeArea()
                     .onTapGesture { showDatePicker = false }
-
+                
                 DatePickerSheet(selectedDate: $selectedDate, showSheet: $showDatePicker)
             }
-
+            
             // MARK: Sheet flotante para hora
             if showTimePicker {
                 Color.black.opacity(0.3)
                     .ignoresSafeArea()
                     .onTapGesture { showTimePicker = false }
-
+                
                 TimePickerSheet(selectedTime: $selectedTime, showSheet: $showTimePicker)
             }
         }
@@ -278,4 +278,22 @@ struct TextStyle: ViewModifier {
     }
 }
 
-
+// MARK: - Custom Shape for Rounded Corners
+/// It's a custom shape that allows rounding specific corners instead of all the corners.
+/// Example usage:
+/// ```swift
+/// .clipShape(RoundedCorners(radius: 8, corners: [.topLeft, .bottomLeft]))
+/// ```
+struct RoundedCorners: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+    
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
+}

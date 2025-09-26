@@ -15,61 +15,63 @@ struct OnBoardingView: View {
     @State private var activeIntro: Intro?
     
     var body: some View {
-        GeometryReader {
-            let size = $0.size
-            VStack{
-                
-                if let activeIntro {
-                    // Background rectangle with animation color
-                    Rectangle()
-                        .fill(activeIntro.bgColor)
-                        .padding(.bottom,  -32)
-                        .overlay {
-                            // Animated circle and text
-                            Circle()
-                                .fill(activeIntro.circleColor)
-                                .frame(width: 38, height: 38)
-                                .background(alignment: .leading, content: {
-                                    Capsule()
-                                        .fill(activeIntro.bgColor)
-                                        .frame(width: size.width)
-                                })
-                                .background(alignment: .leading) {
-                                    Text(activeIntro.text)
-                                        .font(.largeTitle)
-                                        .foregroundStyle(activeIntro.textColor)
-                                        .frame(width: textSize(activeIntro.text))
-                                        .offset(x: 10)
-                                    // Moving Text based on text Offset
-                                        .offset(x: activeIntro.textOffset)
-                                }
-                            // Moving Circle in the Opposite Direction (Move to left)
-                                .offset(x: -activeIntro.circleOffset)
-                        }
+        NavigationStack {
+
+            GeometryReader {
+                let size = $0.size
+                VStack{
                     
+                    if let activeIntro {
+                        // Background rectangle with animation color
+                        Rectangle()
+                            .fill(activeIntro.bgColor)
+                            .padding(.bottom,  -32)
+                            .overlay {
+                                // Animated circle and text
+                                Circle()
+                                    .fill(activeIntro.circleColor)
+                                    .frame(width: 38, height: 38)
+                                    .background(alignment: .leading, content: {
+                                        Capsule()
+                                            .fill(activeIntro.bgColor)
+                                            .frame(width: size.width)
+                                    })
+                                    .background(alignment: .leading) {
+                                        Text(activeIntro.text)
+                                            .font(.largeTitle)
+                                            .foregroundStyle(activeIntro.textColor)
+                                            .frame(width: textSize(activeIntro.text))
+                                            .offset(x: 10)
+                                        // Moving Text based on text Offset
+                                            .offset(x: activeIntro.textOffset)
+                                    }
+                                // Moving Circle in the Opposite Direction (Move to left)
+                                    .offset(x: -activeIntro.circleOffset)
+                            }
                     
+                    }
+                    
+                    // Onboarding Buttons (login, register, Apple)
+                    OnBoardingButtons()
+                        .padding(.bottom, 12)
+                        .padding(.top, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 25)
+                                .fill(Color.black))
+                        .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 8)
+                    
+                } // VStack
+                .ignoresSafeArea() // Allow background to cover the entire screen
+            } // GeometryReader
+            .task {
+                // Start intro animation sequence once, when view appears.
+                if activeIntro == nil {
+                    activeIntro = sampleIntros.first
+                    // Wait briefly before starting animations
+                    let nanoSecond = UInt64(1_000_000_000 * 0.15)
+                    try? await Task.sleep(nanoseconds: nanoSecond)
+                    animate(0) // Animation
                 }
-                
-                // Onboarding Buttons (login, register, Apple)
-                OnBoardingButtons()
-                    .padding(.bottom, 12)
-                    .padding(.top, 8)
-                    .background(
-                        RoundedRectangle(cornerRadius: 25)
-                            .fill(Color.black))
-                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 8)
-                
-            } // VStack
-            .ignoresSafeArea() // Allow background to cover the entire screen
-        } // GeometryReader
-        .task {
-            // Start intro animation sequence once, when view appears.
-            if activeIntro == nil {
-                activeIntro = sampleIntros.first
-                // Wait briefly before starting animations
-                let nanoSecond = UInt64(1_000_000_000 * 0.15)
-                try? await Task.sleep(nanoseconds: nanoSecond)
-                animate(0) // Animation
             }
         }
     } // View
@@ -89,10 +91,12 @@ struct OnBoardingView: View {
             }
             
             // Register Button
-            Button {
-                // TODO: Registration action (to be implemented)
-                
-            } label: {
+            // TODO: Registration action (to be implemented)
+            NavigationLink {
+                //NewRegisterView(registerViewModel: RegisterViewModel())
+                //CreateClientView(isTabBarHidden: true)
+            }label: {
+                //appState.performNewRegister()
                 Label("Registrarse", systemImage: "person.badge.plus")
                     .foregroundStyle(.white)
                     .fillButton(.orange1)

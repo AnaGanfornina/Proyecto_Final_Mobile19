@@ -10,8 +10,16 @@ import SwiftUI
 struct LoginView: View {
     @Environment(AppState.self) var appState
     
+    #if DEBUG
+    @State private var username = "a@gmail.com"
+    @State private var password = "1234567"
+    
+    #else
+    
     @State private var username = ""
     @State private var password = ""
+    #endif
+    
     @State private var rememberMe = false
     @State private var showAlert = false
     

@@ -13,12 +13,20 @@ struct NewRegisterView: View {
     @Environment(\.dismiss) private var dismiss // Dismiss View
     @Environment(AppState.self) var appState
     
+    @State var registerViewModel: RegisterViewModel
+    
+    #if DEBUG
+    @State private var nombre = "Juan"
+    @State private var correo = "juan@gmail.com"
+    @State private var password = "1234567"
+    
+    #else
     
     // Datos personales
     @State private var nombre = ""
     @State private var correo = ""
     @State private var password = ""
-
+    #endif
     
     var body: some View {
         ScrollView {
@@ -84,6 +92,8 @@ struct NewRegisterView: View {
                                 
                                 //Use case to register the new user
                                 
+                                registerViewModel.create(name: nombre, email: correo, password: password)
+                                
                                 //perform login
                                 
                                 appState.performLogin(
@@ -108,13 +118,17 @@ struct NewRegisterView: View {
                            startPoint: .top,
                            endPoint: .bottom)
             .edgesIgnoringSafeArea(.bottom) // Fill Full Screen
-        )
+            
+        )//Force light style in navigation bar 
+        .toolbarBackground(Color.white, for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
+        .toolbarColorScheme(.light, for: .navigationBar)
     }
 }
 
 #Preview {
     NavigationStack {
-        NewRegisterView()
+        NewRegisterView(registerViewModel: RegisterViewModel())
             .environment(AppState())
     }
 }

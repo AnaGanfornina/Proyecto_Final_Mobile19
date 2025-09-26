@@ -12,9 +12,29 @@ struct CreateClientView: View {
     @Binding var isTabBarHidden: Bool
     @Environment(\.dismiss) private var dismiss // Dismiss View
     
+    @State var registerViewModel: RegisterViewModel
+#if DEBUG
+    @State private var nombre = "Juan"
+    @State private var correo = "juan@gmail.com"
+    @State private var password = "1234567"
+   
+    @State private var altura = "1"
+    @State private var peso = "1"
+    @State private var objetivo = "fff"
+    @State private var historia = "fdf"
+    
+    // Mediciones iniciales
+    @State private var circBrazo = "1"
+    @State private var circAbdomen = "1"
+    @State private var circMuslo = "1"
+    @State private var circPecho = "1"
+
+#else
+
     // Datos personales
     @State private var nombre = ""
-    @State private var apellido = ""
+    @State private var correo = ""
+    @State private var password = ""
     @State private var altura = ""
     @State private var peso = ""
     @State private var objetivo = ""
@@ -25,6 +45,10 @@ struct CreateClientView: View {
     @State private var circAbdomen = ""
     @State private var circMuslo = ""
     @State private var circPecho = ""
+#endif
+
+    
+    
     
     var body: some View {
         ScrollView {
@@ -44,10 +68,27 @@ struct CreateClientView: View {
                     TextField("Juan", text: $nombre)
                         .modifier(CustomTextFieldStyle())
                     
-                    Text("Apellido")
+                    Text("Correo")
                         .modifier(CustomTextStyle())
-                    TextField("Hernández", text: $apellido)
+                    TextField(text: $correo) {
+                        Text(verbatim: "hernandez@gmail.com") //Use vervatim to prevent  placeholder to link
+                    }
+                    .keyboardType(.emailAddress) // teclado de emails
+                    .modifier(CustomTextFieldStyle())
+                    
+                    Text("Contraseña")
+                        .modifier(CustomTextStyle())
+                    TextField("123456", text: $password)
                         .modifier(CustomTextFieldStyle())
+                    
+                    Text("Metricas")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Divider()
+                        .background(Color.white)
                     
                     Text("Altura")
                         .foregroundColor(.white)
@@ -145,6 +186,8 @@ struct CreateClientView: View {
                             // Title Text
                             Button {
                                 // TODO: Save the created client action
+                                registerViewModel.create(name: nombre, email: correo, password: password)
+                                
                                 dismiss()
                                 isTabBarHidden = false // Show tab bar when going back
                                 
@@ -173,6 +216,8 @@ struct CreateClientView: View {
 struct CustomTextFieldStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
+            .autocapitalization(.none)
+            .disableAutocorrection(true)
             .padding()
             .background(Color(.white))
             .cornerRadius(8)
@@ -195,7 +240,7 @@ struct CustomTextStyle: ViewModifier {
 
 #Preview {
     NavigationStack {
-        CreateClientView(isTabBarHidden: .constant(false))
+        CreateClientView(isTabBarHidden: .constant(false), registerViewModel: RegisterViewModel())
     }
 }
 

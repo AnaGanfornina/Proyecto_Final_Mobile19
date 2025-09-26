@@ -22,6 +22,7 @@ struct HomeView: View {
                 // MARK: - Top Profile HStack
                 HStack(spacing: 16) {
                     Button(action: {
+                        //TODO: Crear detalle de perfil
                         print("Perfil pulsado")
                     }) {
                         Image(systemName: "person.circle.fill")
@@ -43,7 +44,7 @@ struct HomeView: View {
                 // MARK: - Navigation Destinations
 
                     .navigationDestination(isPresented: $showCreateClient) {
-                        CreateClientView(isTabBarHidden: $isTabBarHidden)
+                        CreateClientView(isTabBarHidden: $isTabBarHidden, registerViewModel: RegisterViewModel())
                             .onAppear { isTabBarHidden = true }   // Hides TabBar
                             .onDisappear { isTabBarHidden = false } // Shows it when Back Home
                     }

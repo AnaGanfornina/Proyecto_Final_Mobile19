@@ -22,7 +22,7 @@ enum RegisterViewState: Equatable {
          state = .none
      }
      
-    func create(name: String, email: String, password: String, role:Role) {
+    func create(name: String, email: String, password: String, role:Role) async throws {
          state = .loading
          let newUser = User (
             email: email,
@@ -34,12 +34,14 @@ enum RegisterViewState: Equatable {
              do {
                  let _ = try await registerUserUseCase.run(user: newUser)
                  state = .loaded
+                 AppLogger.debug("Registro creado")
              } catch {
                  state = .error
              }
          }
      }
-     
+    
+
      
    
 }

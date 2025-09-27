@@ -22,7 +22,7 @@ struct CreateClientView: View {
     @State var registerViewModel: RegisterViewModel
 #if DEBUG
     @State private var nombre = "Andrea"
-    @State private var correo = "andrea@gmail.com"
+    @State private var correo = "a@gmail.com"
     @State private var password = "1234567"
    
     @State private var altura = "1"
@@ -60,11 +60,8 @@ struct CreateClientView: View {
     var body: some View {
         ScrollView {
                 VStack(spacing: 16) {
-                    
-                    
-                    
-                    
-                    
+
+
                     //Group -> We dont use Form because it needs to be customized
                     Text("Datos Personales")
                         .font(.title2)
@@ -173,23 +170,31 @@ struct CreateClientView: View {
                     }//Group
                     Spacer()
                     Button {
-                        let role: Role = appState.status == .home ? .coach : .trainee
+                        let role: Role = appState.status != .home ? .coach : .trainee
                         
-                        registerViewModel.create(name: nombre, email: correo, password: password, role: role)
-                        
-                        dismiss()
-                        isTabBarHidden = false // Show tab bar when going back
+                         //registerViewModel.create(name: nombre, email: correo, password: password, role: role)
+                            
+                     
                         
                         //PerformLogin or come back
                         switch role {
                         case .coach:
-                            //perform login
                             
-                            appState.performLogin(
-                                user: nombre,
-                                password: password
-                            )
+                            //TODO: Pass this logic to VM
+                            Task {
+                                do {
+                                    //wait to make the register
+                                    try await registerViewModel.create(name: nombre, email: correo, password: password, role: role)
+                                    
+                                    // After perform Login
+                                    appState.performLogin(user: correo, password: password)
+                                } catch {
+                                    print("Error creating user:", error)
+                                    dismiss()
+                                }
+                            }
                         case .trainee:
+                            
                             dismiss()
                             isTabBarHidden = false // Show tab bar when going back
                         }

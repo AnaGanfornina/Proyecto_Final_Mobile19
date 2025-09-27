@@ -94,7 +94,9 @@ struct OnBoardingView: View {
             // Register Button
             
             NavigationLink {
+                
                 CreateClientView(isTabBarHidden: $isTabBarHidden, registerViewModel: RegisterViewModel())
+
 
             } label: {
                 //appState.performNewRegister()
@@ -184,7 +186,7 @@ struct OnBoardingView: View {
 #Preview {
     OnBoardingView(isTabBarHidden: .constant(false))
         .environment(AppState())
-        .preferredColorScheme(.dark) /// Used for black stroke besides buttons
+        //.preferredColorScheme(.dark) /// Used for black stroke besides buttons
 }
 
 // MARK: - Custom Button Modifier for OnBoarding Buttons

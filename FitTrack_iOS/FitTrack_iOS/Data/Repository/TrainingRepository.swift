@@ -11,6 +11,7 @@ protocol TrainingRepositoryProtocol {
     func create(name: String, traineeId: UUID, scheduledAt: String) async throws -> Training
     func getAll(filter: String?) async throws -> [Training]
     func getByMonth(_ month: Int, year: Int) async throws -> [Training]
+    func update(training: Training) async throws -> Training
 }
 
 final class TrainingRepository: TrainingRepositoryProtocol {
@@ -52,5 +53,14 @@ final class TrainingRepository: TrainingRepositoryProtocol {
         }
         
         return trainingList
+    }
+
+    func update(training: Training) async throws -> Training {
+        let trainingDTO = TrainingDomainToDTOMapper().map(training)
+        let response = try await apiSession.request(
+            UpdateTrainingURLRequest(trainingDTO: trainingDTO)
+        )
+        
+        return TrainingDTOToDomainMapper().map(response)
     }
 }

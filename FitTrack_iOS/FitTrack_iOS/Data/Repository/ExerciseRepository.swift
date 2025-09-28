@@ -17,8 +17,11 @@ protocol ExerciseRepositoryProtocol {
 final class ExerciseRepositoryMock: ExerciseRepositoryProtocol {
     
     func getAll() async throws -> [Exercise] {
-
-        return ExercisesLoader().exercises
+        guard let exercises = ExercisesLoader().loadData() else {
+            AppLogger.debug("Error loading exercises")
+            return []
+        }
+        return exercises
     }
 }
 

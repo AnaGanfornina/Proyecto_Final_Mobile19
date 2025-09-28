@@ -5,12 +5,6 @@
 //  Created by Ana Ganfornina Arques on 28/9/25.
 //
 
-// MARK: - SongResponse
-/// Modelo para el JSON con la lista de canciones (1 nivel)
-struct exerciseResponse: Codable {
-    let exercises: [Exercise]
-}
-
 
 // TODO: Use Real Models or future Mock Models
 struct Exercise: Identifiable, Codable {

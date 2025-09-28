@@ -82,6 +82,7 @@ final class AppState: ObservableObject {
         let hasSeenOnBoarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
         if !hasSeenOnBoarding {
             status = .onBoarding
+            UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
             return
         }
         
@@ -91,7 +92,7 @@ final class AppState: ObservableObject {
             try await getSessionUseCase.run()
             status = .home
         } catch {
-            status = .login
+            status = .onBoarding
         }
     }
     

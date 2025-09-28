@@ -23,6 +23,7 @@ final class AuthDataSource: AuthDataSourceProtocol {
             AppLogger.debug("Session not found or expired, log in again")
             throw AppError.session("Session not found or expired, log in again")
         }
+        AppLogger.debug("Session found, user is logged")
         return jwt
     }
     

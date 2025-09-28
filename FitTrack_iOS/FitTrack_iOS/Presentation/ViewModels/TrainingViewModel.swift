@@ -15,13 +15,18 @@ enum TrainingViewState: Equatable {
 @Observable final class TrainingViewModel {
     private let createTrainingUseCase: CreateTrainingUseCaseProtocol
     private let getTrainingsUseCase: GetTrainingsUseCaseProtocol
+    private let getTraineesUseCase: GetTraineesUseCaseProtocol
     var state: TrainingViewState
+    var trainingItemList: [TrainingItem]
     
     init(createTrainingUseCase: CreateTrainingUseCaseProtocol = CreateTrainingUseCase(),
-         getTrainingsUseCase: GetTrainingsUseCaseProtocol = GetTrainingsUseCase()) {
+         getTrainingsUseCase: GetTrainingsUseCaseProtocol = GetTrainingsUseCase(),
+         getTraineesUseCase: GetTraineesUseCaseProtocol = GetTraineesUseCase()) {
         self.createTrainingUseCase = createTrainingUseCase
         self.getTrainingsUseCase = getTrainingsUseCase
+        self.getTraineesUseCase = getTraineesUseCase
         state = .none
+        trainingItemList = []
     }
     
     func getAll(isHomeEntrypoint: Bool) {
@@ -29,12 +34,26 @@ enum TrainingViewState: Equatable {
         
         Task { @MainActor in
             do {
+                let trainees = try await getTraineesUseCase.run()
                 let trainings = try await getTrainingsUseCase.run(
                     filter: isHomeEntrypoint ? "today" : nil
                 )
+                
+                trainingItemList = trainings.flatMap { training in
+                    trainees.compactMap { trainee in
+                        if training.traineeId?.uuidString == trainee.id {
+                            return TrainingDomainToItemMapper().map(
+                                training,
+                                user: trainee
+                            )
+                        } else {
+                            return nil
+                        }
+                    }
+                }
+                
                 state = .loaded
             } catch {
-                AppLogger.debug(error.localizedDescription)
                 state = .error
             }
         }

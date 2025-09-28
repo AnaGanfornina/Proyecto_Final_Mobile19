@@ -94,4 +94,22 @@ final class TrainingRepositoryTests: XCTestCase {
         let unwrappedTrainingList = try XCTUnwrap(trainings)
         XCTAssertEqual(unwrappedTrainingList.count, 3)
     }
+    
+    func testGetTrainingsByMonth_ShouldSucceed() async throws {
+        // Given
+        MockURLProtocol.requestHandler = { request in
+            let url = try XCTUnwrap(request.url)
+            let httpURLResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url))
+            let fileURL = try XCTUnwrap(Bundle(for: TrainingRepositoryTests.self).url(forResource: "trainings", withExtension: "json"))
+            let jwtData = try XCTUnwrap(Data(contentsOf: fileURL))
+            return (httpURLResponse, jwtData)
+        }
+        
+        // When
+        let trainings = try await sut.getByMonth(9, year: 2025)
+        
+        // Then
+        let unwrappedTrainingList = try XCTUnwrap(trainings)
+        XCTAssertEqual(unwrappedTrainingList.count, 3)
+    }
 }

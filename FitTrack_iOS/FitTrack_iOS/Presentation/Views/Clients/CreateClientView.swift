@@ -182,23 +182,17 @@ struct CreateClientView: View {
                                     try await registerViewModel.create(name: nombre, email: correo, password: password, role: role)
                                     
                                     // After perform Login
-                                   
+                                    
                                     appState.performLogin(user: correo, password: password)
-          
+                                    
                                 } catch {
-                                    print("Error creating user:", error)
                                     dismiss()
                                 }
                             }
-                          
-                           
+        
                         case .trainee:
-                            do {
-                                Task{
-                                    try await registerViewModel.create(name: nombre, email: correo, password: password, role: role)
-                                }
-                            } catch {
-                                print("Error creating user:", error)
+                            Task{
+                                try await registerViewModel.create(name: nombre, email: correo, password: password, role: role)
                             }
                             
                             dismiss()

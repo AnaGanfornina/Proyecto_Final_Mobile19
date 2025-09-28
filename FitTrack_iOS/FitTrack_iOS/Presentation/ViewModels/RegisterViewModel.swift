@@ -37,11 +37,7 @@ enum RegisterViewState: Equatable {
             state = .loaded
         } catch {
             state = .error
-        }
-        
+        }    
     }
-    
-
-     
-   
+ 
 }

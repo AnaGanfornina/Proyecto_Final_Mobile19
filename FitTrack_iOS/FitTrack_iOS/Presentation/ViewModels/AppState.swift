@@ -62,6 +62,7 @@ final class AppState: ObservableObject {
                 inlineError = error
                 isLoading = false
             } catch let error as APIError {
+                AppLogger.debug("se ha salido por error apiError: \(error)")
                 status = .login
                 inlineError = .none
                 fullScreenError = error.reason
@@ -118,5 +119,16 @@ final class AppState: ObservableObject {
        ///   or cached sessions as part of the logout process.
     func logOutUser(){
         self.status = .none
+    }
+}
+
+
+// MARK: - Extension to mock de appState
+
+extension AppState {
+    func mockState () -> AppState {
+        let appState = AppState()
+        appState.status = .home
+        return appState
     }
 }

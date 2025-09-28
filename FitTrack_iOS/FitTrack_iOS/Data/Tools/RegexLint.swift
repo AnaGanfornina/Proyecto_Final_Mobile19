@@ -3,7 +3,7 @@ import Foundation
 /// Representation of a regex pattern
 enum RegexPattern: String {
     case email = #"^[A-Za-z0-9]+@[a-zA-Z]+\.[es|com]{2,3}$"#
-    case password = #"[\w]{8,24}"#
+    case password = #"[\w]{6,24}"#
 }
 
 struct RegexLint {

@@ -12,6 +12,14 @@ final class MockTrainingRepository: TrainingRepositoryProtocol {
     var dataReceived: Training? = nil
     var trainingListRecived: [Training]? = nil
     
+    func create(name: String, traineeId: UUID, scheduledAt: String) async throws -> Training {
+        guard let dataReceived else {
+            throw AppError.network("The request could not be understood or was missing required parameters")
+        }
+        
+        return dataReceived
+    }
+    
     func getAll(filter: String?) async throws -> [Training] {
         guard let trainingListRecived else {
             throw AppError.network("The request could not be understood or was missing required parameters")
@@ -30,11 +38,19 @@ final class MockTrainingRepository: TrainingRepositoryProtocol {
         }
     }
     
-    func create(name: String, traineeId: UUID, scheduledAt: String) async throws -> Training {
-        guard let dataReceived else {
+    func getByMonth(_ month: Int, year: Int) async throws -> [Training] {
+        guard let trainingListRecived else {
             throw AppError.network("The request could not be understood or was missing required parameters")
         }
         
-        return dataReceived
+        guard !trainingListRecived.isEmpty else {
+            throw AppError.emptyList()
+        }
+        
+        guard month == 9 && year == 2025 else {
+            return []
+        }
+        
+        return trainingListRecived
     }
 }

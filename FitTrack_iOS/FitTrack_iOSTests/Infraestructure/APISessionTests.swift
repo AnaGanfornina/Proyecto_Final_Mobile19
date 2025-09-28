@@ -198,4 +198,27 @@ final class APISessionTests: XCTestCase {
         XCTAssertEqual(receivedRequest?.httpMethod, "GET")
         XCTAssertEqual(trainings.count, 3)
     }
+    
+    func testGetTrainingsByMonth_ShouldSucceed() async throws {
+        // Given
+        var receivedRequest: URLRequest?
+        MockURLProtocol.requestHandler = { request in
+            receivedRequest = request
+            let url = try XCTUnwrap(request.url)
+            let httpURLResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url))
+            let fileURL = try XCTUnwrap(Bundle(for: TrainingRepositoryTests.self).url(forResource: "trainings", withExtension: "json"))
+            let jwtData = try XCTUnwrap(Data(contentsOf: fileURL))
+            return (httpURLResponse, jwtData)
+        }
+        
+        // When
+        let trainings = try await sut.request(
+            GetTrainingsByMonthURLRequest(9, year: 2025)
+        )
+        
+        // Then
+        XCTAssertEqual(receivedRequest?.url?.path(), "/api/trainings/byMonth")
+        XCTAssertEqual(receivedRequest?.httpMethod, "GET")
+        XCTAssertEqual(trainings.count, 3)
+    }
 }

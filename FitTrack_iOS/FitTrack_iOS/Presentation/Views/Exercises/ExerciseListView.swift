@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+ /*
 // TODO: Use Real Models or future Mock Models
 struct Exercise: Identifiable {
     let id: UUID
@@ -15,7 +15,7 @@ struct Exercise: Identifiable {
     var muscleGroup: String  // MuscleGroup
     var category: String     // Training Type: Hypertrophy, Cardio, Machine, Dumbbell, Bodyweight, etc.
 }
-
+*/
 struct ExerciseCell: View {
     
     var exercise: Exercise

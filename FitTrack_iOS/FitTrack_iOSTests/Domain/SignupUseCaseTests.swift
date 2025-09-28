@@ -38,6 +38,20 @@ final class SignupUseCaseTests: XCTestCase {
         XCTAssertNotNil(successResponse)
     }
     
+    func testSignupTrainee_ReturnSuccess() async throws{
+        // Given
+        let user = UserData.givenTraineeUser
+        let fileURL = try XCTUnwrap(Bundle(for: SignupUseCaseTests.self).url(forResource: "jwt", withExtension: "json"))
+        let data = try XCTUnwrap(Data(contentsOf: fileURL))
+        mockAuthRepository.receivedData = data
+        
+        // When
+        let successResponse: () = try await sut.run(user: user)
+        
+        // Then
+        XCTAssertNotNil(successResponse)
+    }
+    
     func testSignup_WhenCredentialsAreInvalid_ShouldReturnRegexError() async throws {
         // Given
         let user = UserData.givenUserWithWrongEmail

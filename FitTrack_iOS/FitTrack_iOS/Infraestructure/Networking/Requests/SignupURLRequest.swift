@@ -18,6 +18,7 @@ struct SignupURLRequest: URLRequestComponents {
         path = userDTO.role == .coach
         ? "/api/auth/register/coach"
         : "/api/auth/register/trainee"
+        authorized = userDTO.role == .trainee
         body = userDTO
     }
 }

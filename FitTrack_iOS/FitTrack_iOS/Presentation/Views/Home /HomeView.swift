@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct HomeView: View {
+    // Used to hide Bottom Tab bar if needed
+    @Binding var isTabBarHidden: Bool
+    
+    // Training ViewModel
+    @State private var trainingViewModel = TrainingViewModel()
+    
     @State private var selectedClient: String? = nil
     @State private var showCreateClient = false
     @State private var showNewTraining = false
@@ -19,6 +25,7 @@ struct HomeView: View {
                 // MARK: - Top Profile HStack
                 HStack(spacing: 16) {
                     Button(action: {
+                        //TODO: Crear detalle de perfil
                         print("Perfil pulsado")
                     }) {
                         Image(systemName: "person.circle.fill")
@@ -38,12 +45,19 @@ struct HomeView: View {
                     .padding(.horizontal)
                 
                 // MARK: - Navigation Destinations
-                .navigationDestination(isPresented: $showCreateClient) {
-                    CreateClientView()
-                }
-                .navigationDestination(isPresented: $showNewTraining) {
-                    NewTrainingView(selectedClient: $selectedClient)
-                }
+
+                    .navigationDestination(isPresented: $showCreateClient) {
+                        CreateClientView(isTabBarHidden: $isTabBarHidden, registerViewModel: RegisterViewModel())
+                            .onAppear { isTabBarHidden = true }   // Hides TabBar
+                            .onDisappear { isTabBarHidden = false } // Shows it when Back Home
+                    }
+                    .navigationDestination(isPresented: $showNewTraining) {
+
+                        NewTrainingView(selectedClient: $selectedClient, isTabBarHidden: $isTabBarHidden, trainingViewModel: trainingViewModel)
+
+                            .onAppear { isTabBarHidden = true }   // Hides TabBar
+                    }
+
                 
                 // MARK: - Action Buttons (Crear Cliente / Nuevo Entrenamiento)
                 HStack(spacing: 16) {
@@ -54,7 +68,7 @@ struct HomeView: View {
                             Image(systemName: "plus")
                                 .font(.system(size: 36, weight: .medium))
                                 .foregroundColor(.white) // símbolo blanco
-
+                            
                             Text("Crear cliente")
                                 .font(.subheadline)
                                 .fontWeight(.semibold)
@@ -75,14 +89,14 @@ struct HomeView: View {
                     .buttonStyle(.plain)
                     .scaleEffect(showCreateClient ? 0.8 : 1.0)
                     .animation(.spring(), value: showCreateClient)
-
+                    
                     // New Training Button
                     Button(action: { showNewTraining = true }) {
                         VStack(spacing: 8) {
                             Image(systemName: "pencil.and.list.clipboard")
                                 .font(.system(size: 36, weight: .medium))
                                 .foregroundColor(.white) // símbolo blanco
-
+                            
                             Text("Nuevo\nEntrenamiento")
                                 .font(.subheadline)
                                 .fontWeight(.semibold)
@@ -100,7 +114,7 @@ struct HomeView: View {
                         )
                         .cornerRadius(10) // redondeado
                     }
-
+                    
                 }
                 .padding(.horizontal)
                 
@@ -131,7 +145,7 @@ struct HomeView: View {
                             primaryMetric: "2h",
                             activityIcon: Image(systemName: "figure.yoga")
                         )
-
+                        
                         ActivityWidgetCard(
                             clientImage: Image("benito_bodoque"),
                             clientName: "Benito Bodoque",
@@ -141,7 +155,7 @@ struct HomeView: View {
                             secondaryMetric: "489kcal",
                             activityIcon: Image(systemName: "figure.strengthtraining.traditional")
                         )
-
+                        
                         ActivityWidgetCard(
                             clientImage: Image("joey_t"),
                             clientName: "Joseph Tribbiani",
@@ -160,7 +174,7 @@ struct HomeView: View {
                             primaryMetric: "2h",
                             activityIcon: Image(systemName: "figure.yoga")
                         )
-
+                        
                         ActivityWidgetCard(
                             clientImage: Image("benito_bodoque"),
                             clientName: "Benito Bodoque",
@@ -170,7 +184,7 @@ struct HomeView: View {
                             secondaryMetric: "489kcal",
                             activityIcon: Image(systemName: "figure.strengthtraining.traditional")
                         )
-
+                        
                         ActivityWidgetCard(
                             clientImage: Image("joey_t"),
                             clientName: "Joseph Tribbiani",
@@ -189,7 +203,7 @@ struct HomeView: View {
                             primaryMetric: "2h",
                             activityIcon: Image(systemName: "figure.yoga")
                         )
-
+                        
                         ActivityWidgetCard(
                             clientImage: Image("benito_bodoque"),
                             clientName: "Benito Bodoque",
@@ -199,7 +213,7 @@ struct HomeView: View {
                             secondaryMetric: "489kcal",
                             activityIcon: Image(systemName: "figure.strengthtraining.traditional")
                         )
-
+                        
                         ActivityWidgetCard(
                             clientImage: Image("joey_t"),
                             clientName: "Joseph Tribbiani",
@@ -222,6 +236,7 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    HomeView(isTabBarHidden: .constant(false))
+        .environment(AppState())
 }
 

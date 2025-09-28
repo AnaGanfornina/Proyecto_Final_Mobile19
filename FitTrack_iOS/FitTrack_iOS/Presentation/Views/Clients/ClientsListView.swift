@@ -50,7 +50,7 @@ struct ClientCell: View {
             
             // Chevron symbol to the right
             Image(systemName: "chevron.right")
-                .foregroundStyle(.gray)
+                .foregroundStyle(.purple2)
         }
         
     } // ClientCell View
@@ -58,6 +58,8 @@ struct ClientCell: View {
 }
 
 struct ClientsListView: View {
+    // Used to hide Bottom Tab bar if needed
+    @Binding var isTabBarHidden: Bool
     // TODO: This will eventually be cleaned up and pulled from a mock located elsewhere.
     let mockClients: [Client] = [
         Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Luis", lastName: "Quintero"),
@@ -135,10 +137,20 @@ struct ClientsListView: View {
             List {
                 // Order the sections alphabetically
                 ForEach(groupedClients.keys.sorted(), id: \.self) { key in
-                    Section(header: Text(key)) {
+                    Section(header:
+                                Text(key)
+                        .font(.headline)
+                        .foregroundColor(.purple2) // morado
+                    ) {
                         // Show each client in the current section
                         ForEach(groupedClients[key]!) { client in
                             ClientCell(client: client)
+                                .listRowSeparatorTint(.purple2)
+                                .onTapGesture {
+                                            // TODO: The action will be implemented here, for example:
+                                            // selectedClient = client
+                                            // showClientDetail = true
+                                        }
                         }
                     }
                 }
@@ -153,5 +165,5 @@ struct ClientsListView: View {
 
 
 #Preview {
-    ClientsListView()
+    ClientsListView(isTabBarHidden: .constant(false))
 }

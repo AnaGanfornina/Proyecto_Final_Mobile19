@@ -10,6 +10,11 @@ import Foundation
 struct TrainingDTO: Decodable {
     let id: UUID?
     let name: String?
-    let goalId: UUID?
-    let date: Date?
+    let scheduledAt: String?
+    let traineeId: UUID?
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name, scheduledAt
+        case traineeId = "trainee_id"
+    }
 }

@@ -10,7 +10,7 @@ import KeychainSwift
 
 protocol AuthDataSourceProtocol {
     func get() async throws -> String
-    func set(_ jwt: Data) async throws
+    func set(_ jwt: String) async throws
     func clear() async throws
 }
 
@@ -21,22 +21,23 @@ final class AuthDataSource: AuthDataSourceProtocol {
     func get() async throws -> String {
         guard let jwt = keychain.get("jwtData") else {
             AppLogger.debug("Session not found or expired, log in again")
-            return ""
+            throw AppError.session("Session not found or expired, log in again")
         }
+        AppLogger.debug("Session found, user is logged")
         return jwt
     }
     
-    func set(_ jwt: Data) async throws {
+    func set(_ jwt: String) async throws {
         guard keychain.set(jwt, forKey: "jwtData") else {
             AppLogger.debug("Failed to save session, try again")
-            return
+            throw AppError.session("Failed to save session, try again")
         }
     }
     
     func clear() async throws {
         guard keychain.clear() else {
             AppLogger.debug("Failed to clear session, restart the app")
-            return
+            throw AppError.session("Failed to clear session, restart the app")
         }
     }
 }

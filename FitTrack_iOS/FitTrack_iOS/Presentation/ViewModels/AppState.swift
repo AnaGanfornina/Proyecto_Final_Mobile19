@@ -14,6 +14,8 @@ final class AppState: ObservableObject {
     var inlineError: RegexLintError = .none
     var fullScreenError: String?
     
+    var isLoading = false
+    
     private var loginUseCase: LoginUseCaseProtocol
     private var getSessionUseCase: GetSessionUseCaseProtocol
     
@@ -48,19 +50,23 @@ final class AppState: ObservableObject {
        /// - Important: This method runs asynchronously on a `Task`, so the state
        ///   changes may occur after a short delay.
     func performLogin(user: String, password: String) {
-        status = .loading
+       isLoading = true
         
         Task { @MainActor in
             do {
                 try await loginUseCase.run(user: user, password: password)
                 status = .home
+                isLoading = false
             } catch let error as RegexLintError {
                 status = .login
                 inlineError = error
+                isLoading = false
             } catch let error as APIError {
+                AppLogger.debug("se ha salido por error apiError: \(error)")
                 status = .login
                 inlineError = .none
                 fullScreenError = error.reason
+                isLoading = false
             }
         }
     }
@@ -71,12 +77,13 @@ final class AppState: ObservableObject {
     /// If it's none, check onboarding and login
     func determineInitialState() async {
         guard status == .none else { return }
-        status = .loading
+        isLoading = false
         
         // Check onBoarding
         let hasSeenOnBoarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
         if !hasSeenOnBoarding {
             status = .onBoarding
+            UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
             return
         }
         
@@ -86,7 +93,7 @@ final class AppState: ObservableObject {
             try await getSessionUseCase.run()
             status = .home
         } catch {
-            status = .login
+            status = .onBoarding
         }
     }
     
@@ -113,5 +120,16 @@ final class AppState: ObservableObject {
        ///   or cached sessions as part of the logout process.
     func logOutUser(){
         self.status = .none
+    }
+}
+
+
+// MARK: - Extension to mock de appState
+
+extension AppState {
+    func mockState () -> AppState {
+        let appState = AppState()
+        appState.status = .home
+        return appState
     }
 }

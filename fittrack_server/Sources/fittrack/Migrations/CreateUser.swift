@@ -16,6 +16,9 @@ struct CreateUser: AsyncMigration {
             .field("password", .string, .required)
             .field("role", .string, .required)
             .field("goal", .string)
+            .field("age", .int)
+            .field("height", .int)
+            .field("weight", .int)
             .field("coach_id", .uuid, .references("users", "id"))
             .field("created_at", .datetime)
             .field("updated_at", .datetime)
@@ -25,6 +28,9 @@ struct CreateUser: AsyncMigration {
     func revert(on database: any Database) async throws {
         try await database.schema("users")
             .deleteField("goal")
+            .deleteField("age")
+            .deleteField("height")
+            .deleteField("weight")
             .deleteField("coach_id")
             .delete()
     }

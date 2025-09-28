@@ -18,16 +18,17 @@ protocol APISessionContract {
 final class APISession: APISessionContract {
     static let shared = APISession()
     private let urlSession: URLSession
+    private let httpRequestInterceptor: HTTPRequestInterceptorProtocol
     
     init(urlSession: URLSession = .shared) {
         self.urlSession = urlSession
+        httpRequestInterceptor = HTTPRequestInterceptor()
     }
     
     func request<URLRequest: URLRequestComponents>(_ request: URLRequest) async throws -> URLRequest.Response {
         var urlRequest = try URLRequestBuilder(urlRequestComponents: request).build()
-        
         if request.authorized {
-            // TODO: Add interceptor to secure endpoints
+            try await httpRequestInterceptor.intercept(&urlRequest)
         }
         
         let (data, response) = try await urlSession.data(for: urlRequest)

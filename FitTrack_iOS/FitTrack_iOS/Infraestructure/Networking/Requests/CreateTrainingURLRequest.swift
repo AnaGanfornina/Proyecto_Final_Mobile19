@@ -9,15 +9,16 @@ import Foundation
 
 struct CreateTrainingURLRequest: URLRequestComponents {
     typealias Response = TrainingDTO
-    var path: String = "/api/trainings"
+    var path: String = "/api/training"
     var httpMethod: HTTPMethod = .POST
     var authorized: Bool = true
     var body: (any Encodable)?
     
-    init(name: String, goalId: UUID) {
+    init(name: String, traineeId: UUID, scheduledAt: String) {
         body = Body(
             name: name,
-            goalId: goalId.uuidString
+            traineeId: traineeId,
+            scheduledAt: scheduledAt
         )
     }
 }
@@ -25,7 +26,14 @@ struct CreateTrainingURLRequest: URLRequestComponents {
 extension CreateTrainingURLRequest {
     struct Body: Encodable {
         let name: String
-        let goalId: String
-        // TODO: Send exercises data
+        let traineeId: UUID
+        let scheduledAt: String
+        // TODO: Sent exercises data
+        
+        enum CodingKeys: String, CodingKey {
+            case name
+            case traineeId = "trainee_id"
+            case scheduledAt
+        }
     }
 }

@@ -17,15 +17,13 @@ struct RootView: View {
         case .none:
             EmptyView()
             
-        case .loading:
-            LoadingView()
             
         case .onBoarding:
-            OnBoardingView()
-                .preferredColorScheme(.dark) /// Used for black stroke besides buttons
-            
+            OnBoardingView(isTabBarHidden: .constant(false))
+                //.preferredColorScheme(.dark) /// Used for black stroke besides buttons
+
         case .login:
-            LoginView()
+            LoginView(isTabBarHidden: .constant(false))
             
         case .home, .clients, .exercises:
             MainTabBar()

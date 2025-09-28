@@ -11,8 +11,7 @@ struct TrainingDTOToDomainMapper {
     func map(_ dto: TrainingDTO) -> Training {
         .init(id: dto.id,
               name: dto.name,
-              goalId: dto.goalId,
-              date: dto.date
-        )
+              scheduledAt: dto.scheduledAt,
+              traineeId: dto.traineeId)
     }
 }

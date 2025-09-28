@@ -102,7 +102,7 @@ struct ProfileDTO: Codable {
     /// - Parameters:
     ///   - decoder: an object of type `(Decoder)` that can decode JSON into Swift types
     init(from decoder: any Decoder) throws {
-        var container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         name = try container.decode(String.self, forKey: .name)
         goal = try container.decodeIfPresent(String.self, forKey: .goal)
         coachId = try container.decodeIfPresent(String.self, forKey: .coachId)

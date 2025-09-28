@@ -56,7 +56,7 @@ struct ClientsListViewPicker: View {
     // Used to hide Bottom Tab bar if needed
     @Binding var isTabBarHidden: Bool
     @Environment(\.dismiss) private var dismiss // DismissView
-    @State var clientsViewModel: ClientsViewModel
+    @State var clientsViewModel: ClientsViewModelProtocol
     
     // Text varibale used to search Clients
     @State private var searchText = ""

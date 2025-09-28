@@ -7,8 +7,13 @@
 
 import Foundation
 
+protocol ClientsViewModelProtocol {
+    func load()
+    var clients: [UserItem] { get }
+}
+
 @Observable
-final class ClientsViewModel {
+final class ClientsViewModel: ClientsViewModelProtocol {
     private let getTraineesUseCase: GetTraineesUseCaseProtocol
     var clients: [UserItem]
     

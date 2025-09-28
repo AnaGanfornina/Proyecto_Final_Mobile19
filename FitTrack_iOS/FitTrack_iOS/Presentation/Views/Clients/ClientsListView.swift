@@ -61,7 +61,7 @@ struct ClientsListView: View {
     @Binding var isTabBarHidden: Bool
     // Text varibale used to search Clients
     @State private var searchText = ""
-    @State var clientsViewModel: ClientsViewModel
+    @State var clientsViewModel: ClientsViewModelProtocol
     
     /// Filtered and sorted list of clients based on the search text.
     ///

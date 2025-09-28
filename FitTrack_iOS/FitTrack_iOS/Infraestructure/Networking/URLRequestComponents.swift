@@ -8,7 +8,7 @@
 import Foundation
 
 enum HTTPMethod: String {
-    case GET, POST
+    case GET, POST, PUT, PATCH, DELETE
 }
 
 protocol URLRequestComponents {

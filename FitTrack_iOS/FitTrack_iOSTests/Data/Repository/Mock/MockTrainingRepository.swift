@@ -53,4 +53,12 @@ final class MockTrainingRepository: TrainingRepositoryProtocol {
         
         return trainingListRecived
     }
+    
+    func update(training: Training) async throws -> Training {
+        guard let dataReceived else {
+            throw AppError.network("The request could not be understood or was missing required parameters")
+        }
+        
+        return dataReceived
+    }
 }

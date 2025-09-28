@@ -112,4 +112,38 @@ final class TrainingRepositoryTests: XCTestCase {
         let unwrappedTrainingList = try XCTUnwrap(trainings)
         XCTAssertEqual(unwrappedTrainingList.count, 3)
     }
+    
+    func test_trainingDomain_mappedToDTO() {
+        // Given
+        let trainingDomain = TrainingData.givenItem
+        
+        // When
+        let trainingDTO = TrainingDomainToDTOMapper().map(trainingDomain)
+        
+        //Then
+        XCTAssertEqual(trainingDomain.id, trainingDTO.id)
+        XCTAssertEqual(trainingDomain.name, trainingDTO.name)
+        XCTAssertEqual(trainingDomain.scheduledAt, trainingDTO.scheduledAt)
+        XCTAssertEqual(trainingDomain.traineeId, trainingDTO.traineeId)
+    }
+    
+    func test_updateTrainingRequest_succeed() async throws {
+        // Given
+        MockURLProtocol.requestHandler = { request in
+            let url = try XCTUnwrap(request.url)
+            let httpURLResponse = try XCTUnwrap(MockURLProtocol.httpURLResponse(url: url))
+            let fileURL = try XCTUnwrap(Bundle(for: TrainingRepositoryTests.self).url(forResource: "training", withExtension: "json"))
+            let jwtData = try XCTUnwrap(Data(contentsOf: fileURL))
+            return (httpURLResponse, jwtData)
+        }
+        
+        // When
+        let training = try await sut.update(training: TrainingData.givenItem)
+        
+        // Then
+        let unwrappedTraining = try XCTUnwrap(training)
+        XCTAssertEqual(unwrappedTraining.id, UUID(uuidString: "DAB7C5C0-0579-4D01-A01D-002D3F6D8985"))
+        XCTAssertEqual(unwrappedTraining.name, "Fuerza: Full Body")
+        XCTAssertEqual(unwrappedTraining.scheduledAt, "2025-09-20T14:06:36Z")
+    }
 }

@@ -14,8 +14,8 @@ struct ClientCellPicker: View {
     var body: some View {
         HStack {
             // If client image exists
-            if let clientImage = client.clientImage {
-                Image(clientImage)
+            if !client.image.isEmpty {
+                Image(client.image)
                     .resizable()
                     .scaledToFill()          // Maintain proportion and fill the frame
                     .frame(width: 48, height: 48)

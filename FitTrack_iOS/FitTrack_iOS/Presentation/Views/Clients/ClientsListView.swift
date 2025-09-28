@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserItem: Identifiable {
     let id: UUID
-    var clientImage: String? = nil
+    var image: String
     var firstName: String
     var lastName: String
 }
@@ -20,8 +20,8 @@ struct ClientCell: View {
     var body: some View {
         HStack {
             // If client image exists
-            if let clientImage = client.clientImage {
-                Image(clientImage)
+            if !client.image.isEmpty {
+                Image(client.image)
                     .resizable()
                     .scaledToFill()          // Maintain proportion and fill the frame
                     .frame(width: 48, height: 48)
@@ -41,7 +41,7 @@ struct ClientCell: View {
             
             // Client Name and LastName
             VStack(alignment: .leading) {
-                Text("\(client.firstName) \(client.lastName)")
+                Text(client.firstName)
                     .font(.headline)
             }
             

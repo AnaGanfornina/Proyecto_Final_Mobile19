@@ -157,4 +157,3 @@ struct HomeView: View {
     HomeView()
         .environment(AppState())
 }
-

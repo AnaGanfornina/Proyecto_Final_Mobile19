@@ -8,35 +8,6 @@
 
 import SwiftUI
 
-struct TrainingDomainToItemMapper {
-    func map(_ domain: Training, user: User) -> TrainingItem {
-        let isoFormatter = ISO8601DateFormatter()
-        isoFormatter.formatOptions = [.withInternetDateTime]
-        isoFormatter.timeZone = TimeZone(secondsFromGMT: .zero)
-        let date = isoFormatter.date(from: domain.scheduledAt ?? "") ?? Date()
-        let metric = ["2h", "1h", "45m"].randomElement()!
-        let icon = ["figure.soccer", "figure.strengthtraining.traditional", "figure.yoga"].randomElement()!
-        let userImage = ["sarah", "joey_t", "benito_bodoque"].randomElement()!
-        
-        return .init(
-            id: domain.id ?? UUID(),
-            date: date,
-            metric: metric,
-            icon: icon,
-            userITem: UserItem(
-                id: UUID(uuidString: user.id ?? "") ?? UUID(),
-                image: userImage,
-                firstName: user.profile.name
-            ))
-    }
-}
-
-struct UserItem: Identifiable {
-    let id: UUID
-    var image: String
-    var firstName: String
-}
-
 struct TrainingItem: Identifiable {
     let id: UUID
     let date: Date
@@ -121,4 +92,17 @@ struct ActivityWidgetCard: View {
 
 // MARK: - Previews
 #Preview {
+    ActivityWidgetCard(
+        trainingItem: TrainingItem(
+            id: UUID(),
+            date: Date(),
+            metric: "2h",
+            icon: "figure.yoga",
+            userITem: UserItem(
+                id: UUID(),
+                image: "person",
+                firstName: "User Random",
+                lastName: ""
+            )
+        ))
 }

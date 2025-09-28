@@ -12,7 +12,7 @@ struct HomeView: View {
     @Binding var isTabBarHidden: Bool
     
     // Training ViewModel
-    @State private var trainingViewModel = TrainingViewModel()
+    @State var trainingViewModel: TrainingViewModel
     
     @State private var selectedClient: String? = nil
     @State private var showCreateClient = false
@@ -232,11 +232,17 @@ struct HomeView: View {
             .navigationTitle("Home")
             .navigationBarHidden(true)
         } // NavigationStack
+        .onAppear {
+            trainingViewModel.getAll(isHomeEntrypoint: true)
+        }
     }
 }
 
 #Preview {
-    HomeView(isTabBarHidden: .constant(false))
-        .environment(AppState())
+    HomeView(
+        isTabBarHidden: .constant(false),
+        trainingViewModel: TrainingViewModel()
+    )
+    .environment(AppState())
 }
 

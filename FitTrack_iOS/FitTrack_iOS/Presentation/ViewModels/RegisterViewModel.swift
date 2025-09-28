@@ -30,16 +30,16 @@ enum RegisterViewState: Equatable {
             role: role,
             profile: Profile(name:name)
          )
-         Task { @MainActor in
-             do {
-                 let _ = try await registerUserUseCase.run(user: newUser)
-                 state = .loaded
-                 AppLogger.debug("Registro creado")
-             } catch {
-                 state = .error
-             }
-         }
-     }
+        
+        do {
+            let _ = try await registerUserUseCase.run(user: newUser)
+            
+            state = .loaded
+        } catch {
+            state = .error
+        }
+        
+    }
     
 
      

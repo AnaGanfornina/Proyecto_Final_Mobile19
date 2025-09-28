@@ -62,6 +62,7 @@ final class AppState: ObservableObject {
                 inlineError = error
                 isLoading = false
             } catch let error as APIError {
+                AppLogger.debug("se ha salido por error apiError: \(error)")
                 status = .login
                 inlineError = .none
                 fullScreenError = error.reason

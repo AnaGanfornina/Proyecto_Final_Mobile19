@@ -61,7 +61,6 @@ struct CreateClientView: View {
         ScrollView {
                 VStack(spacing: 16) {
 
-
                     //Group -> We dont use Form because it needs to be customized
                     Text("Datos Personales")
                         .font(.title2)
@@ -171,11 +170,7 @@ struct CreateClientView: View {
                     Spacer()
                     Button {
                         let role: Role = appState.status != .home ? .coach : .trainee
-                        
-                         //registerViewModel.create(name: nombre, email: correo, password: password, role: role)
-                            
-                     
-                        
+
                         //PerformLogin or come back
                         switch role {
                         case .coach:
@@ -187,21 +182,40 @@ struct CreateClientView: View {
                                     try await registerViewModel.create(name: nombre, email: correo, password: password, role: role)
                                     
                                     // After perform Login
+                                   
                                     appState.performLogin(user: correo, password: password)
+          
                                 } catch {
                                     print("Error creating user:", error)
                                     dismiss()
                                 }
                             }
+                          
+                           
                         case .trainee:
+                            do {
+                                Task{
+                                    try await registerViewModel.create(name: nombre, email: correo, password: password, role: role)
+                                }
+                            } catch {
+                                print("Error creating user:", error)
+                            }
                             
                             dismiss()
                             isTabBarHidden = false // Show tab bar when going back
                         }
                     } label: {
-                        Text("Aceptar")
-                            .font(.headline)
-                            .foregroundColor(.white)
+                        HStack {
+                            if appState.isLoading {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(1.2)
+                            } else {
+                                Text("Aceptar")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                            }
+                        }
                             .padding()
                             .frame(maxWidth: .infinity)
                             .background(
@@ -216,6 +230,7 @@ struct CreateClientView: View {
                             )
                             .cornerRadius(16)
                     }
+                    .disabled(appState.isLoading)
 
 
                    
@@ -243,8 +258,6 @@ struct CreateClientView: View {
                                 .fontWeight(.bold)
                                 .font(.title2)
                                 .frame(minWidth: 150)
-                            
-                            
                         }
                     } // Toolbar
                 }

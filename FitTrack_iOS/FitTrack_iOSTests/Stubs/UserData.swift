@@ -19,8 +19,19 @@ enum UserData {
         password: "abcd1234",
         role: .coach,
         profile: Profile(
-            name: "Alvaro",
-            goal: "Maratón de Madrid"
+            name: "Alvaro"
+        )
+    )
+    
+    static let givenTraineeUser = User(
+        email: "ari@gmail.com",
+        password: "abcd1234",
+        role: .trainee,
+        profile: Profile(
+            name: "Ari",
+            goal: "Maratón de Madrid",
+            weight: 54,
+            height: 1.70
         )
     )
     

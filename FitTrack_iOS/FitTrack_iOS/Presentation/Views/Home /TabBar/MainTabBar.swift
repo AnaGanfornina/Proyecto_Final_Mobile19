@@ -21,7 +21,7 @@ struct MainTabBar: View {
                 case 0:
                     HomeView(isTabBarHidden: $isTabBarHidden)
                 case 1:
-                    ClientsListView(isTabBarHidden: $isTabBarHidden)
+                    ClientsListView(isTabBarHidden: $isTabBarHidden, clientsViewModel: ClientsViewModel())
                 case 2:
                     ExerciseListView(isTabBarHidden: $isTabBarHidden)
                 default:

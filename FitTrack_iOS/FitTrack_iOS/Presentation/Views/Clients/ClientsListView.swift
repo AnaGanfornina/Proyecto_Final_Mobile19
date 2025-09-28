@@ -6,23 +6,22 @@
 //
 
 import SwiftUI
-// TODO: Use Real Models or future Mock Models
-struct Client: Identifiable {
+
+struct UserItem: Identifiable {
     let id: UUID
-    var clientImage: Image? = nil
+    var clientImage: String? = nil
     var firstName: String
     var lastName: String
 }
 
 struct ClientCell: View {
-    
-    var client: Client
+    var client: UserItem
     
     var body: some View {
         HStack {
             // If client image exists
             if let clientImage = client.clientImage {
-                clientImage
+                Image(clientImage)
                     .resizable()
                     .scaledToFill()          // Maintain proportion and fill the frame
                     .frame(width: 48, height: 48)
@@ -60,30 +59,9 @@ struct ClientCell: View {
 struct ClientsListView: View {
     // Used to hide Bottom Tab bar if needed
     @Binding var isTabBarHidden: Bool
-    // TODO: This will eventually be cleaned up and pulled from a mock located elsewhere.
-    let mockClients: [Client] = [
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Luis", lastName: "Quintero"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Ana", lastName: "García"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Carlos", lastName: "Pérez"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Marta", lastName: "López"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Jorge", lastName: "Ramírez"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Sofía", lastName: "Hernández"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "David", lastName: "Martínez"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Lucía", lastName: "González"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Fernando", lastName: "Torres"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Carla", lastName: "Vargas"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Miguel", lastName: "Rojas"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Valeria", lastName: "Castillo"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Andrés", lastName: "Molina"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Paula", lastName: "Santos"),
-        Client(id: UUID(), clientImage: Image(["sarah", "joey_t", "benito_bodoque"].randomElement()!), firstName: "Tomás", lastName: "Alvarado"),
-        Client(id: UUID(), clientImage: Image("sarah"), firstName: "Ana", lastName: "Ganfornina"),
-        Client(id: UUID(), clientImage: Image("sarah"), firstName: "Ana", lastName: "Ganfornina"),
-        Client(id: UUID(), firstName: "Sarah", lastName: "Ganfornina")
-    ]
-    
     // Text varibale used to search Clients
     @State private var searchText = ""
+    @State var clientsViewModel: ClientsViewModel
     
     /// Filtered and sorted list of clients based on the search text.
     ///
@@ -96,10 +74,10 @@ struct ClientsListView: View {
     /// The final list is sorted alphabetically:
     /// 1. By `firstName`.
     /// 2. If two clients have the same `firstName`, then by `lastName`.
-    var filteredList: [Client] {
+    var filteredList: [UserItem] {
         let list = searchText.isEmpty
-        ? mockClients
-        : mockClients.filter {
+        ? clientsViewModel.clients
+        : clientsViewModel.clients.filter {
             /// `lowerSearch` used to  convert everything to lowercase for case-insensitive comparison
             let lowerSeach = searchText.lowercased()
             let firstName = $0.firstName.lowercased() // Name
@@ -126,7 +104,7 @@ struct ClientsListView: View {
     /// - Uses `filteredList` as the source, so only clients that match the search text are included.
     /// - The key is the first letter of the `firstName`. Uppercased as Default
     /// - The value is an array of `Client` objects whose `firstName` starts with that letter.
-    var groupedClients: [String: [Client]] {
+    var groupedClients: [String: [UserItem]] {
         Dictionary(grouping: filteredList) { client in
             String(client.firstName.prefix(1)) // Letter in each section (A, B, C)
         }
@@ -159,11 +137,16 @@ struct ClientsListView: View {
             .searchable(text: $searchText, prompt: "Buscar clientes") // Searchbar Hint Text
             .listStyle(.inset) // Remove gray list color
             .padding(.bottom, 24) // Used to end Client List at the same height as the MainTabBar Divider
+        }.onAppear {
+            clientsViewModel.load()
         }
     }
 }
 
 
 #Preview {
-    ClientsListView(isTabBarHidden: .constant(false))
+    ClientsListView(
+        isTabBarHidden: .constant(false),
+        clientsViewModel: ClientsViewModel()
+    )
 }

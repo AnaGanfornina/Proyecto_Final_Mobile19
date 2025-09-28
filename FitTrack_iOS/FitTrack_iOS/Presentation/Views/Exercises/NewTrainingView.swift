@@ -31,10 +31,9 @@ struct NewTrainingView: View {
                     NavigationLink(
                         destination: ClientsListViewPicker(
                             selectedClient: $selectedClient,
-                            isTabBarHidden: $isTabBarHidden
-                            
+                            isTabBarHidden: $isTabBarHidden,
+                            clientsViewModel: ClientsViewModel()
                         )
-                        
                     ) {
                         VStack {
                             Text("Cliente")

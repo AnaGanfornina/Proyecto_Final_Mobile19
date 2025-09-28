@@ -19,15 +19,13 @@ struct MainTabBar: View {
             ZStack {
                 switch selectedTab {
                 case 0:
-                    HomeView(isTabBarHidden: $isTabBarHidden,
-                             trainingViewModel: TrainingViewModel())
+                    HomeView(isTabBarHidden: $isTabBarHidden)
                 case 1:
                     ClientsListView(isTabBarHidden: $isTabBarHidden, clientsViewModel: ClientsViewModel())
                 case 2:
                     ExerciseListView(isTabBarHidden: $isTabBarHidden)
                 default:
-                    HomeView(isTabBarHidden: $isTabBarHidden,
-                             trainingViewModel: TrainingViewModel())
+                    HomeView(isTabBarHidden: $isTabBarHidden)
                 }
             }
 

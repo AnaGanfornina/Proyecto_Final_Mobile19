@@ -18,6 +18,12 @@ struct HomeView: View {
     @State private var showCreateClient = false
     @State private var showNewTraining = false
     
+    init(isTabBarHidden: Binding<Bool> = .constant(false),
+         trainingViewModel: TrainingViewModel = TrainingViewModel()) {
+        self._isTabBarHidden = isTabBarHidden
+        self.trainingViewModel = trainingViewModel
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 16) {
@@ -148,10 +154,7 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(
-        isTabBarHidden: .constant(false),
-        trainingViewModel: TrainingViewModel()
-    )
-    .environment(AppState())
+    HomeView()
+        .environment(AppState())
 }
 

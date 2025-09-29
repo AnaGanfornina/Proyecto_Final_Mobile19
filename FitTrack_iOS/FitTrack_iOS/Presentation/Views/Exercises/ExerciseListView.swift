@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+ /*
 // TODO: Use Real Models or future Mock Models
 struct Exercise: Identifiable {
     let id: UUID
@@ -15,7 +15,7 @@ struct Exercise: Identifiable {
     var muscleGroup: String  // MuscleGroup
     var category: String     // Training Type: Hypertrophy, Cardio, Machine, Dumbbell, Bodyweight, etc.
 }
-
+*/
 struct ExerciseCell: View {
     
     var exercise: Exercise
@@ -24,7 +24,7 @@ struct ExerciseCell: View {
         HStack {
             // If exercise image exists
             if let exerciseImage = exercise.exerciseImage {
-                exerciseImage
+                Image(exerciseImage)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 48, height: 48)
@@ -65,21 +65,21 @@ struct ExerciseListView: View {
     
     // Exercises Mock data
     let mockExercises: [Exercise] = [
-        Exercise(id: UUID(), exerciseImage: Image("squat"), name: "Sentadilla", muscleGroup: "Piernas", category: "Hipertrofia"),
-        Exercise(id: UUID(), exerciseImage: Image("bench"), name: "Press de banca", muscleGroup: "Pecho", category: "Mancuerna"),
-        Exercise(id: UUID(), exerciseImage: Image("deadlift"), name: "Peso muerto", muscleGroup: "Espalda", category: "PesoCorporal"),
-        Exercise(id: UUID(), name: "Curl de bíceps", muscleGroup: "Brazos", category: "Mancuerna"),
-        Exercise(id: UUID(), name: "Extensión de tríceps", muscleGroup: "Brazos", category: "Mancuerna"),
-        Exercise(id: UUID(), name: "Elevaciones laterales", muscleGroup: "Hombros", category: "Mancuerna"),
-        Exercise(id: UUID(), name: "Plancha", muscleGroup: "Abdomen", category: "PesoCorporal"),
-        Exercise(id: UUID(), name: "Abdominales", muscleGroup: "Abdomen", category: "PesoCorporal"),
-        Exercise(id: UUID(), name: "Aperturas con mancuernas", muscleGroup: "Pecho", category: "Mancuerna"),
-        Exercise(id: UUID(), name: "Burpees", muscleGroup: "Cardio", category: "PesoCorporal"),
-        Exercise(id: UUID(), name: "Bíceps con barra", muscleGroup: "Brazos", category: "Máquina"),
-        Exercise(id: UUID(), name: "Banco lumbar", muscleGroup: "Espalda", category: "Máquina"),
-        Exercise(id: UUID(), name: "Balanceo con kettlebell", muscleGroup: "Piernas", category: "Mancuerna"),
-        Exercise(id: UUID(), name: "Box jumps", muscleGroup: "Cardio", category: "PesoCorporal"),
-        Exercise(id: UUID(), name: "Abducciones de cadera", muscleGroup: "Piernas", category: "Máquina")
+        Exercise(id: "1", exerciseImage: "squat", name: "Sentadilla", muscleGroup: "Piernas", category: "Hipertrofia"),
+        Exercise(id: "2", exerciseImage: "bench", name: "Press de banca", muscleGroup: "Pecho", category: "Mancuerna"),
+        Exercise(id: "3", exerciseImage: "deadlift", name: "Peso muerto", muscleGroup: "Espalda", category: "PesoCorporal"),
+        Exercise(id: "4", name: "Curl de bíceps", muscleGroup: "Brazos", category: "Mancuerna"),
+        Exercise(id: "5", name: "Extensión de tríceps", muscleGroup: "Brazos", category: "Mancuerna"),
+        Exercise(id: "6", name: "Elevaciones laterales", muscleGroup: "Hombros", category: "Mancuerna"),
+        Exercise(id: "7", name: "Plancha", muscleGroup: "Abdomen", category: "PesoCorporal"),
+        Exercise(id: "8", name: "Abdominales", muscleGroup: "Abdomen", category: "PesoCorporal"),
+        Exercise(id: "9", name: "Aperturas con mancuernas", muscleGroup: "Pecho", category: "Mancuerna"),
+        Exercise(id: "10", name: "Burpees", muscleGroup: "Cardio", category: "PesoCorporal"),
+        Exercise(id: "11", name: "Bíceps con barra", muscleGroup: "Brazos", category: "Máquina"),
+        Exercise(id: "12", name: "Banco lumbar", muscleGroup: "Espalda", category: "Máquina"),
+        Exercise(id: "13", name: "Balanceo con kettlebell", muscleGroup: "Piernas", category: "Mancuerna"),
+        Exercise(id: "14", name: "Box jumps", muscleGroup: "Cardio", category: "PesoCorporal"),
+        Exercise(id: "15", name: "Abducciones de cadera", muscleGroup: "Piernas", category: "Máquina")
     ]
     
     @State private var searchText = ""

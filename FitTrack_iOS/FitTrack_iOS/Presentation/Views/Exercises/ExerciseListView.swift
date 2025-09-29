@@ -23,25 +23,22 @@ struct ExerciseCell: View {
     var body: some View {
         HStack {
             // If exercise image exists
-            if let exerciseImage = exercise.exerciseImage {
-                Image(exerciseImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 48, height: 48)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.2), lineWidth: 1))
-                    .shadow(radius: 1)
-            } else {
-                // Default image if Exercise Image doesn't exist
-                Image(systemName: "figure.strengthtraining.traditional")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 40, height: 40)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.2), lineWidth: 1))
-                    .shadow(radius: 1)
-            }
+            let exerciseImage: Image = {
+                if let imageName = exercise.exerciseImage, !imageName.isEmpty {
+                    return Image(imageName)
+                } else {
+                    return Image("exerciseGeneral")
+                }
+            }()
             
+            exerciseImage
+                .resizable()
+                .scaledToFill()
+                .frame(width: 48, height: 48)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.2), lineWidth: 1))
+                .shadow(radius: 1)
+
             // Exercise name and muscle group
             VStack(alignment: .leading) {
                 Text(exercise.name)
@@ -55,32 +52,23 @@ struct ExerciseCell: View {
             
             // Chevron symbol to the right
             Image(systemName: "chevron.right")
-                .foregroundStyle(.purple2)
+                .foregroundStyle(LinearGradient(colors: [.orange1, .red1], startPoint: .leading, endPoint: .trailing))
         }
     } // ExerciseCell View
 }
 
 struct ExerciseListView: View {
     @Binding var isTabBarHidden: Bool
+    @State var exerciseViewmodel: ExercisesViewModel
+    
+    init(isTabBarHidden: Binding<Bool> = .constant(false), ExerciseViewmodel: ExercisesViewModel = ExercisesViewModel(), searchText: String = "") {
+        self._isTabBarHidden = isTabBarHidden
+        self.exerciseViewmodel = ExerciseViewmodel
+        self.searchText = searchText
+    }
     
     // Exercises Mock data
-    let mockExercises: [Exercise] = [
-        Exercise(id: "1", exerciseImage: "squat", name: "Sentadilla", muscleGroup: "Piernas", category: "Hipertrofia"),
-        Exercise(id: "2", exerciseImage: "bench", name: "Press de banca", muscleGroup: "Pecho", category: "Mancuerna"),
-        Exercise(id: "3", exerciseImage: "deadlift", name: "Peso muerto", muscleGroup: "Espalda", category: "PesoCorporal"),
-        Exercise(id: "4", name: "Curl de bíceps", muscleGroup: "Brazos", category: "Mancuerna"),
-        Exercise(id: "5", name: "Extensión de tríceps", muscleGroup: "Brazos", category: "Mancuerna"),
-        Exercise(id: "6", name: "Elevaciones laterales", muscleGroup: "Hombros", category: "Mancuerna"),
-        Exercise(id: "7", name: "Plancha", muscleGroup: "Abdomen", category: "PesoCorporal"),
-        Exercise(id: "8", name: "Abdominales", muscleGroup: "Abdomen", category: "PesoCorporal"),
-        Exercise(id: "9", name: "Aperturas con mancuernas", muscleGroup: "Pecho", category: "Mancuerna"),
-        Exercise(id: "10", name: "Burpees", muscleGroup: "Cardio", category: "PesoCorporal"),
-        Exercise(id: "11", name: "Bíceps con barra", muscleGroup: "Brazos", category: "Máquina"),
-        Exercise(id: "12", name: "Banco lumbar", muscleGroup: "Espalda", category: "Máquina"),
-        Exercise(id: "13", name: "Balanceo con kettlebell", muscleGroup: "Piernas", category: "Mancuerna"),
-        Exercise(id: "14", name: "Box jumps", muscleGroup: "Cardio", category: "PesoCorporal"),
-        Exercise(id: "15", name: "Abducciones de cadera", muscleGroup: "Piernas", category: "Máquina")
-    ]
+    let mockExercises: [Exercise] = ExercisesViewModel().trainingItemList
     
     @State private var searchText = ""
     
@@ -96,8 +84,8 @@ struct ExerciseListView: View {
 
     var filteredList: [Exercise] {
         let list = searchText.isEmpty
-        ? mockExercises
-        : mockExercises.filter {
+        ? exerciseViewmodel.trainingItemList
+        : exerciseViewmodel.trainingItemList.filter {
             let lowerSearch = searchText.lowercased()
             return $0.name.lowercased().hasPrefix(lowerSearch) ||
                    $0.muscleGroup.lowercased().hasPrefix(lowerSearch) ||
@@ -147,6 +135,9 @@ struct ExerciseListView: View {
             .searchable(text: $searchText, prompt: "Buscar ejercicios")
             .listStyle(.inset)
             .padding(.bottom, 24)
+        }
+        .onAppear {
+            exerciseViewmodel.getAll()
         }
     }
 }

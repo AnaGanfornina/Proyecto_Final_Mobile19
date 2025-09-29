@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserItem: Identifiable {
     let id: UUID
-    var clientImage: String? = nil
+    var image: String
     var firstName: String
     var lastName: String
 }
@@ -20,28 +20,18 @@ struct ClientCell: View {
     var body: some View {
         HStack {
             // If client image exists
-            if let clientImage = client.clientImage {
-                Image(clientImage)
-                    .resizable()
-                    .scaledToFill()          // Maintain proportion and fill the frame
-                    .frame(width: 48, height: 48)
-                    .clipShape(RoundedRectangle(cornerRadius: 8)) // Clip images as RoundedRectangles
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.2), lineWidth: 1)) // Gray order
-                    .shadow(radius: 1)       // Smooth shadow
-                // If Client Image doesn't exist use a default Image
-            } else {
-                Image(systemName: "person")
-                    .resizable()
-                    .scaledToFill()          // Maintain proportion and fill the frame
-                    .frame(width: 40, height: 40)
-                    .clipShape(RoundedRectangle(cornerRadius: 8)) // Clip images as RoundedRectangles
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.2), lineWidth: 1)) // Gray order
-                    .shadow(radius: 1)       // Smooth shadow
-            }
+            let clientImage = client.image.isEmpty ? Image(systemName: "person") : Image(client.image)
+            clientImage
+                .resizable()
+                .scaledToFill()          // Maintain proportion and fill the frame
+                .frame(width: 40, height: 40)
+                .clipShape(RoundedRectangle(cornerRadius: 8)) // Clip images as RoundedRectangles
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.2), lineWidth: 1)) // Gray order
+                .shadow(radius: 1)       // Smooth shadow
             
             // Client Name and LastName
             VStack(alignment: .leading) {
-                Text("\(client.firstName) \(client.lastName)")
+                Text(client.firstName)
                     .font(.headline)
             }
             

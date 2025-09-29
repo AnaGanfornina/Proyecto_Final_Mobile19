@@ -14,7 +14,7 @@ protocol GetTrainingsUseCaseProtocol {
 final class GetTrainingsUseCase: GetTrainingsUseCaseProtocol {
     private let trainingRepository: TrainingRepositoryProtocol
     
-    init(trainingRepository: TrainingRepositoryProtocol) {
+    init(trainingRepository: TrainingRepositoryProtocol = TrainingRepository()) {
         self.trainingRepository = trainingRepository
     }
     

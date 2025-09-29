@@ -12,11 +12,17 @@ struct HomeView: View {
     @Binding var isTabBarHidden: Bool
     
     // Training ViewModel
-    @State private var trainingViewModel = TrainingViewModel()
+    @State var trainingViewModel: TrainingViewModel
     
     @State private var selectedClient: String? = nil
     @State private var showCreateClient = false
     @State private var showNewTraining = false
+    
+    init(isTabBarHidden: Binding<Bool> = .constant(false),
+         trainingViewModel: TrainingViewModel = TrainingViewModel()) {
+        self._isTabBarHidden = isTabBarHidden
+        self.trainingViewModel = trainingViewModel
+    }
     
     var body: some View {
         NavigationStack {
@@ -133,110 +139,21 @@ struct HomeView: View {
                     }
                 }
                 .padding(.top, 8)
-                
-                // MARK: - Activity Cards Scroll
-                ScrollView(.vertical, showsIndicators: true) {
-                    VStack(spacing: 12) {
-                        ActivityWidgetCard(
-                            clientImage: Image("sarah"),
-                            clientName: "Sarah Park",
-                            date: Date(),
-                            color: .blue,
-                            primaryMetric: "2h",
-                            activityIcon: Image(systemName: "figure.yoga")
-                        )
-                        
-                        ActivityWidgetCard(
-                            clientImage: Image("benito_bodoque"),
-                            clientName: "Benito Bodoque",
-                            date: Calendar.current.date(byAdding: .day, value: -4, to: .now)!,
-                            color: .red,
-                            primaryMetric: "1h",
-                            secondaryMetric: "489kcal",
-                            activityIcon: Image(systemName: "figure.strengthtraining.traditional")
-                        )
-                        
-                        ActivityWidgetCard(
-                            clientImage: Image("joey_t"),
-                            clientName: "Joseph Tribbiani",
-                            date: Calendar.current.date(byAdding: .day, value: -10, to: .now)!,
-                            color: .green,
-                            primaryMetric: "45m",
-                            secondaryMetric: "228lb",
-                            activityIcon: Image(systemName: "figure.soccer")
-                        )
-                        
-                        ActivityWidgetCard(
-                            clientImage: Image("sarah"),
-                            clientName: "Sarah Park",
-                            date: Date(),
-                            color: .blue,
-                            primaryMetric: "2h",
-                            activityIcon: Image(systemName: "figure.yoga")
-                        )
-                        
-                        ActivityWidgetCard(
-                            clientImage: Image("benito_bodoque"),
-                            clientName: "Benito Bodoque",
-                            date: Calendar.current.date(byAdding: .day, value: -4, to: .now)!,
-                            color: .red,
-                            primaryMetric: "1h",
-                            secondaryMetric: "489kcal",
-                            activityIcon: Image(systemName: "figure.strengthtraining.traditional")
-                        )
-                        
-                        ActivityWidgetCard(
-                            clientImage: Image("joey_t"),
-                            clientName: "Joseph Tribbiani",
-                            date: Calendar.current.date(byAdding: .day, value: -10, to: .now)!,
-                            color: .green,
-                            primaryMetric: "45m",
-                            secondaryMetric: "228lb",
-                            activityIcon: Image(systemName: "figure.soccer")
-                        )
-                        
-                        ActivityWidgetCard(
-                            clientImage: Image("sarah"),
-                            clientName: "Sarah Park",
-                            date: Date(),
-                            color: .blue,
-                            primaryMetric: "2h",
-                            activityIcon: Image(systemName: "figure.yoga")
-                        )
-                        
-                        ActivityWidgetCard(
-                            clientImage: Image("benito_bodoque"),
-                            clientName: "Benito Bodoque",
-                            date: Calendar.current.date(byAdding: .day, value: -4, to: .now)!,
-                            color: .red,
-                            primaryMetric: "1h",
-                            secondaryMetric: "489kcal",
-                            activityIcon: Image(systemName: "figure.strengthtraining.traditional")
-                        )
-                        
-                        ActivityWidgetCard(
-                            clientImage: Image("joey_t"),
-                            clientName: "Joseph Tribbiani",
-                            date: Calendar.current.date(byAdding: .day, value: -10, to: .now)!,
-                            color: .green,
-                            primaryMetric: "45m",
-                            secondaryMetric: "228lb",
-                            activityIcon: Image(systemName: "figure.soccer")
-                        )
-                    }
-                    .padding(.horizontal, 16)
+                List(trainingViewModel.trainingItemList, id: \.id) { item in
+                    ActivityWidgetCard(trainingItem: item)
                 }
-                
                 Spacer()
             }
             .navigationTitle("Home")
             .navigationBarHidden(true)
         } // NavigationStack
+        .onAppear {
+            trainingViewModel.getAll(isHomeEntrypoint: true)
+        }
     }
 }
 
 #Preview {
-    HomeView(isTabBarHidden: .constant(false))
+    HomeView()
         .environment(AppState())
 }
-

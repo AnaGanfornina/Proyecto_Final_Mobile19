@@ -57,6 +57,7 @@ enum UserData {
     
     static let givenUsers = [
         User(
+            id: "5FFF81DE-C845-49B0-8BA0-C6AE19EC9A85",
             email: "nagumo@keepcoding.es",
             password: "abcd1234",
             role: .trainee,
@@ -68,6 +69,7 @@ enum UserData {
                 height: 1.54
             )),
         User(
+            id: "5FFF81DE-C845-49B0-8BA0-C6AE19EC9A85",
             email: "ana@keepcoding.es",
             password: "abcd1234",
             role: .trainee,
@@ -79,6 +81,7 @@ enum UserData {
                 height: 1.54
             )),
         User(
+            id: "0B75E4C6-C4F1-4376-A77E-047987D70881,",
             email: "luis@keepcoding.es",
             password: "abcd1234",
             role: .trainee,

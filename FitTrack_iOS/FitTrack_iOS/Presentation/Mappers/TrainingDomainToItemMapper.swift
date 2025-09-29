@@ -15,18 +15,13 @@ struct TrainingDomainToItemMapper {
         let date = isoFormatter.date(from: domain.scheduledAt ?? "") ?? Date()
         let metric = ["2h", "1h", "45m"].randomElement()!
         let icon = ["figure.soccer", "figure.strengthtraining.traditional", "figure.yoga"].randomElement()!
-        let userImage = ["sarah", "joey_t", "benito_bodoque", "person"].randomElement()!
         
         return .init(
             id: domain.id ?? UUID(),
             date: date,
             metric: metric,
             icon: icon,
-            userITem: UserItem(
-                id: UUID(uuidString: user.id ?? "") ?? UUID(),
-                image: userImage,
-                firstName: user.profile.name,
-                lastName: ""
-            ))
+            userITem: UserDomainToItemMapper().map(user)
+        )
     }
 }

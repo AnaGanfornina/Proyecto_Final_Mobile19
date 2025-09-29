@@ -11,7 +11,7 @@ struct UserDomainToItemMapper {
     func map(_ domain: User) -> UserItem {
         .init(
             id: UUID(uuidString: domain.id ?? "") ?? UUID(),
-            image: ["sarah", "joey_t", "benito_bodoque", "person"].randomElement()!,
+            image: ["sarah", "joey_t", "benito_bodoque"].randomElement()!,
             firstName: domain.profile.name,
             lastName: ""
         )

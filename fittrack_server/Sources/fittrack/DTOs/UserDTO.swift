@@ -17,7 +17,8 @@ struct UserRegisterDTO: Content {
     
     
     enum CodingKeys: String, CodingKey {
-        case email, password, role, profile
+        case name, email, password, role
+        case coachID = "coach_id"
     }
     
     func toModel(withHashedPassword password: String) -> User {

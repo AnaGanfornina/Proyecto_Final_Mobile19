@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct NewTrainingView: View {
-    @Binding var selectedClient: String?
+    @Binding var selectedClient: UserItem?
     // Used to hide Bottom Tab bar if needed
     @Binding var isTabBarHidden: Bool
     @Environment(\.dismiss) private var dismiss // Dismiss view
@@ -52,7 +52,7 @@ struct NewTrainingView: View {
                                         )
                                     
                                     // Select Client
-                                    Text(selectedClient ?? "Seleccionar cliente")
+                                    Text(selectedClient?.firstName ?? "Seleccionar cliente")
                                         .foregroundColor(selectedClient == nil ? .gray : .primary)
                                         .frame(width: 180)
                                     
@@ -166,7 +166,7 @@ struct NewTrainingView: View {
                     Button("Crear") {
                         trainingViewModel.create(
                             name: objective,
-                            traineeId: UUID(uuidString: "0B75E4C6-C4F1-4376-A77E-047987D70881") ?? UUID(),
+                            traineeId: selectedClient?.id ?? UUID(),
                             scheduledAt: selectedDate
                         )
                     }
@@ -205,6 +205,12 @@ struct NewTrainingView: View {
                     }
                 }
             } // Navigation Stack
+            .onChange(of: trainingViewModel.state, { _, state in
+                if state == .created {
+                    isTabBarHidden = false
+                    dismiss()
+                }
+            })
             
             // MARK: Sheet flotante para fecha
             if showDatePicker {

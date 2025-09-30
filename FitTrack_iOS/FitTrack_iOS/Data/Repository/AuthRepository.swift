@@ -34,7 +34,7 @@ final class AuthRepository: AuthRepositoryProtocol{
         }
         
         guard user.role == .coach else { return }
-        
+
         try await authDataSource.set(jwt)
     }
     

@@ -41,7 +41,7 @@ struct ClientCellPicker: View {
 
 struct ClientsListViewPicker: View {
     // Used to pass the selectedClient to CreateTrainingView
-    @Binding var selectedClient: String?
+    @Binding var selectedClient: UserItem?
     // Used to hide Bottom Tab bar if needed
     @Binding var isTabBarHidden: Bool
     @Environment(\.dismiss) private var dismiss // DismissView
@@ -112,10 +112,7 @@ struct ClientsListViewPicker: View {
                             ClientCellPicker(client: client)
                                 .listRowSeparatorTint(.purple2)
                                 .onTapGesture {
-                                    // TODO: The action will be implemented here, for example:
-                                    // selectedClient = client
-                                    // showClientDetail = true
-                                    selectedClient = "\(client.firstName) \(client.lastName)"
+                                    selectedClient = client
                                     dismiss()
                                 }
                         }

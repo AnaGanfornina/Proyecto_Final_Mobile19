@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 enum TrainingViewState: Equatable {
-    case none, loading, loaded, error
+    case none, loading, loaded, created, error
 }
 
 @Observable final class TrainingViewModel {
@@ -69,7 +69,7 @@ enum TrainingViewState: Equatable {
                     traineeId: traineeId,
                     scheduledAt: scheduledAt.ISO8601Format() // Format required for the server
                 )
-                state = .loaded
+                state = .created
             } catch {
                 state = .error
             }

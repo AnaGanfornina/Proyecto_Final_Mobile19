@@ -9,9 +9,11 @@ import XCTest
 @testable import FitTrack_iOS
 
 final class MockGetTraineesUseCase: GetTraineesUseCaseProtocol {
+    var getTraineesCalled: Bool = false
     var dataReceived: [User]?
     
     func run() async throws -> [User] {
+        getTraineesCalled = true
         guard let dataReceived else {
             return []
         }

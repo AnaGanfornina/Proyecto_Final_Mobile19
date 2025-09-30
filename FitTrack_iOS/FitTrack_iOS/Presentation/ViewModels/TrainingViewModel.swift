@@ -12,11 +12,22 @@ enum TrainingViewState: Equatable {
     case none, loading, loaded, created, error
 }
 
-@Observable final class TrainingViewModel {
+protocol TrainingViewModelProtocol {
+    var onStateChanged: ((TrainingViewState) -> Void)? { get set } // Testing propuse
+    var trainingItemList: [TrainingItem] { get }
+    func getAll(isHomeEntrypoint: Bool)
+    func create(name: String, traineeId: UUID, scheduledAt: Date)
+}
+
+@Observable
+final class TrainingViewModel: TrainingViewModelProtocol {
     private let createTrainingUseCase: CreateTrainingUseCaseProtocol
     private let getTrainingsUseCase: GetTrainingsUseCaseProtocol
     private let getTraineesUseCase: GetTraineesUseCaseProtocol
-    var state: TrainingViewState
+    var state: TrainingViewState = .none {
+        didSet { onStateChanged?(state) }
+    }
+    var onStateChanged: ((TrainingViewState) -> Void)?
     var trainingItemList: [TrainingItem]
     
     init(createTrainingUseCase: CreateTrainingUseCaseProtocol = CreateTrainingUseCase(),

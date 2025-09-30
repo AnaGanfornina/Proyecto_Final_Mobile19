@@ -25,6 +25,7 @@ final class AuthRepository: AuthRepositoryProtocol{
     
     func signup(user: User) async throws {
         let userDTO = UserDomainToDTOMapper().map(user)
+        
         let signupData = try await apiSession.request(
             SignupURLRequest(userDTO: userDTO)
         )
@@ -33,6 +34,7 @@ final class AuthRepository: AuthRepositoryProtocol{
         }
         
         guard user.role == .coach else { return }
+
         try await authDataSource.set(jwt)
     }
     

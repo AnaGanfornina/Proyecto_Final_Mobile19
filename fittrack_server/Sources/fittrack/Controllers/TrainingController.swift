@@ -62,12 +62,6 @@ struct TrainingController: RouteCollection {
                     .filter(\.$coach.$id == coachID)
                     .all()
                 
-                // TODO: ELIMINAR PRINTS
-                print("CoachID from token:", coachID!)
-                print("Trainees found for this coach:", trainees.map { ($0.id, $0.name, $0.$coach.id) })
-                
-                print("Trainees found for coach \(String(describing: coachID)):", trainees.map { $0.id })
-                
                 let traineeIDs = trainees.compactMap { $0.id }
                 
                 // Query with joins to filter coach and date

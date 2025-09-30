@@ -25,12 +25,15 @@ final class AuthRepository: AuthRepositoryProtocol{
     
     func signup(user: User) async throws {
         let userDTO = UserDomainToDTOMapper().map(user)
+        
         let signupData = try await apiSession.request(
             SignupURLRequest(userDTO: userDTO)
         )
         guard let jwt = signupData.accessToken else {
             throw AppError.session("Session not found or invalid, log in again")
         }
+        
+        guard user.role == .coach else { return }
         
         try await authDataSource.set(jwt)
     }

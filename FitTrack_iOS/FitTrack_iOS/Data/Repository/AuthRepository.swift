@@ -32,6 +32,7 @@ final class AuthRepository: AuthRepositoryProtocol{
             throw AppError.session("Session not found or invalid, log in again")
         }
         
+        guard user.role == .coach else { return }
         try await authDataSource.set(jwt)
     }
     

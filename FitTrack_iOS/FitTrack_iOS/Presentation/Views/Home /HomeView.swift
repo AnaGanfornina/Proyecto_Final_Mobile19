@@ -14,7 +14,7 @@ struct HomeView: View {
     // Training ViewModel
     @State var trainingViewModel: TrainingViewModel
     
-    @State private var selectedClient: String? = nil
+    @State private var selectedClient: UserItem? = nil
     @State private var showCreateClient = false
     @State private var showNewTraining = false
     
@@ -59,9 +59,15 @@ struct HomeView: View {
                     }
                     .navigationDestination(isPresented: $showNewTraining) {
 
-                        NewTrainingView(selectedClient: $selectedClient, isTabBarHidden: $isTabBarHidden, trainingViewModel: trainingViewModel)
+                        NewTrainingView(
+                            selectedClient: $selectedClient,
+                            isTabBarHidden: $isTabBarHidden,
+                            trainingViewModel: trainingViewModel)
 
                             .onAppear { isTabBarHidden = true }   // Hides TabBar
+                            .onDisappear {
+                                trainingViewModel.getAll(isHomeEntrypoint: true)
+                            }
                     }
 
                 

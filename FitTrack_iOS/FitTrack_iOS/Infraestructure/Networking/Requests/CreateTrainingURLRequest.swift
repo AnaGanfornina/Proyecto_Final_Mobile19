@@ -9,7 +9,7 @@ import Foundation
 
 struct CreateTrainingURLRequest: URLRequestComponents {
     typealias Response = TrainingDTO
-    var path: String = "/api/training"
+    var path: String = "/api/trainings"
     var httpMethod: HTTPMethod = .POST
     var authorized: Bool = true
     var body: (any Encodable)?

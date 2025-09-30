@@ -21,8 +21,6 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 
 ### ¿Cómo funciona? :iphone:
 
-![Pantalla de registro](/imagenes/Frame3380.png)
-
 1. Al iniciar la aplicación encontrarás un menú donde podrás elegir entre iniciar sesión si ya tienes una cuenta creada o registrarse, donde tendrás que añadir tu nombre, tu email y una contraseña.
 
 2. Ambos pasos te llevarán a la pantalla de Home, donde podrás visualizar los próximos entrenamientos que tienes programados con tus clientes, así como:
@@ -46,6 +44,7 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 
 	- Ejercicios: Listado de ejercicios por orden alfabético, donde podrás seleccionar y ver en detalle como se realiza cada uno. (Pendiente de implementar).
  
+ ![Pantallas de muestra](/imagenes/pantallas)
  
 ### ¿Como funciona el server?
 Para el funcionamiento del server se necesita crear un archivo en markdown con nombre ".env.development" que contenga la siguiente linea:

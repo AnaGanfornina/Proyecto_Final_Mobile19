@@ -1,5 +1,10 @@
 ## :bicyclist: FitTrack :runner:
 
+### Clona este repositorio
+git clone https://github.com/AnaGanfornina/Proyecto_Final_Mobile19.git
+
+
+
 ### ¿Que es FitTrack?
 
 FitTrack es una plataforma diseñada para la creación y gestión de rutinas personalizadas.
@@ -15,6 +20,8 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 2. Seguimiento personalizado: poder acceder al historial de entrenamientos, los progresos de los ejercicios y los marcajes de estos 
 
 ### ¿Cómo funciona? :iphone:
+
+![Pantalla de registro](/imagenes/Frame 3380.png)
 
 1. Al iniciar la aplicación encontrarás un menú donde podrás elegir entre iniciar sesión si ya tienes una cuenta creada o registrarse, donde tendrás que añadir tu nombre, tu email y una contraseña.
 
@@ -38,6 +45,14 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 	-Clientes: Listado de clientes donde poder seleccionar y consultar los datos de cada uno (pendiente de implementar).
 
 	- Ejercicios: Listado de ejercicios por orden alfabético, donde podrás seleccionar y ver en detalle como se realiza cada uno. (Pendiente de implementar).
+ 
+ 
+### ¿Como funciona el server?
+Para el funcionamiento del server se necesita crear un archivo en markdown con nombre ".env.development" que contenga la siguiente linea:
+
+"JWT_KEY=1119ForMeeting"
+
+Importante ejecutar el server antes de iniciar la app en el simulador, ya que ahora mismo el server esta en desarrollo y por tanto se correrá en local. 
 
 ### Tecnologías utilizadas :clipboard:
 
@@ -52,5 +67,6 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 - Server creado en Vapor + Fluent 
 
 
+### Testing:
+La App cuenta con una convertura del 28%.
 
-### Estructura del proyecto 

@@ -34,7 +34,7 @@ final class GetExercisesUseCaseTest: XCTestCase {
         
         // Then
 
-        XCTAssertEqual(expectedExercise.count, 6)
+        XCTAssertEqual(expectedExercise.count, 7)
         let exercise = try XCTUnwrap(expectedExercise.first)
         XCTAssertEqual(exercise.name, "Bench Press")
         XCTAssertEqual(exercise.id, "11111111-1111-1111-1111-111111111111")

@@ -44,7 +44,7 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 
 	- Ejercicios: Listado de ejercicios por orden alfabético, donde podrás seleccionar y ver en detalle como se realiza cada uno. (Pendiente de implementar).
  
- ![Pantallas de muestra](/imagenes/pantallas)
+ ![Pantallas de muestra](/imagenes/pantallas.png)
  
 ### ¿Como funciona el server?
 Para el funcionamiento del server se necesita crear un archivo en markdown con nombre ".env.development" que contenga la siguiente linea:

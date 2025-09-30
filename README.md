@@ -21,7 +21,7 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 
 ### ¿Cómo funciona? :iphone:
 
-![Pantalla de registro](/imagenes/Frame 3380.png)
+![Pantalla de registro](/imagenes/Frame3380.png)
 
 1. Al iniciar la aplicación encontrarás un menú donde podrás elegir entre iniciar sesión si ya tienes una cuenta creada o registrarse, donde tendrás que añadir tu nombre, tu email y una contraseña.
 

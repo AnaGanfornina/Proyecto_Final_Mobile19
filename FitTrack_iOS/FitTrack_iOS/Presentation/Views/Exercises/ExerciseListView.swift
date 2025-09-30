@@ -6,23 +6,14 @@
 //
 
 import SwiftUI
- /*
-// TODO: Use Real Models or future Mock Models
-struct Exercise: Identifiable {
-    let id: UUID
-    var exerciseImage: Image? = nil
-    var name: String
-    var muscleGroup: String  // MuscleGroup
-    var category: String     // Training Type: Hypertrophy, Cardio, Machine, Dumbbell, Bodyweight, etc.
-}
-*/
+
 struct ExerciseCell: View {
     
     var exercise: Exercise
     
     var body: some View {
         HStack {
-            // If exercise image exists
+            // If exercise image exists //TODO: Insert this logic in a extension of Exercise. Will be "exercise.getImage()" And change the generic Image of exercise
             let exerciseImage: Image = {
                 if let imageName = exercise.exerciseImage, !imageName.isEmpty {
                     return Image(imageName)
@@ -61,14 +52,12 @@ struct ExerciseListView: View {
     @Binding var isTabBarHidden: Bool
     @State var exerciseViewmodel: ExercisesViewModel
     
-    init(isTabBarHidden: Binding<Bool> = .constant(false), ExerciseViewmodel: ExercisesViewModel = ExercisesViewModel(), searchText: String = "") {
+    init(isTabBarHidden: Binding<Bool> = .constant(false), exerciseViewmodel: ExercisesViewModel = ExercisesViewModel(), searchText: String = "") {
         self._isTabBarHidden = isTabBarHidden
-        self.exerciseViewmodel = ExerciseViewmodel
+        self.exerciseViewmodel = exerciseViewmodel
         self.searchText = searchText
     }
     
-    // Exercises Mock data
-    let mockExercises: [Exercise] = ExercisesViewModel().trainingItemList
     
     @State private var searchText = ""
     
@@ -84,8 +73,8 @@ struct ExerciseListView: View {
 
     var filteredList: [Exercise] {
         let list = searchText.isEmpty
-        ? exerciseViewmodel.trainingItemList
-        : exerciseViewmodel.trainingItemList.filter {
+        ? exerciseViewmodel.exercisesItemList
+        : exerciseViewmodel.exercisesItemList.filter {
             let lowerSearch = searchText.lowercased()
             return $0.name.lowercased().hasPrefix(lowerSearch) ||
                    $0.muscleGroup.lowercased().hasPrefix(lowerSearch) ||

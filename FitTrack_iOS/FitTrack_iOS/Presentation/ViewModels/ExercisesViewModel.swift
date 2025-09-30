@@ -11,16 +11,18 @@ enum ExerciesViewState: Equatable {
     case none, loading, loaded, error
 }
 
+
+//TODO: Add a protocol to be able to mock in the future
 @Observable
 final class ExercisesViewModel {
     private let getExercisesUseCase: GetExercisesUseCaseProtocol
-    var trainingItemList: [Exercise]
+    var exercisesItemList: [Exercise]
     var state: ExerciesViewState
     
     init(getExercisesUseCase: GetExercisesUseCaseProtocol = GetExercisesUseCase()) {
         self.getExercisesUseCase = getExercisesUseCase
         state = .none
-        trainingItemList = []
+        exercisesItemList = []
     }
     
     func getAll() {
@@ -28,7 +30,7 @@ final class ExercisesViewModel {
         
         Task { @MainActor in
             do {
-                trainingItemList = try await getExercisesUseCase.run()
+                exercisesItemList = try await getExercisesUseCase.run()
                 state = .loaded
             } catch {
                 state = .error

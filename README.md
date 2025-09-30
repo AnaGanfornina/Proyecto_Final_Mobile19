@@ -53,7 +53,7 @@ Para el funcionamiento del server se necesita crear un archivo en markdown con n
 
 Importante ejecutar el server antes de iniciar la app en el simulador, ya que ahora mismo el server esta en desarrollo y por tanto se correrá en local. 
 
- ![JWTKEY](/imagenes/JTWKEY.png)
+![.env.development](/imagenes/JTWKEY.png)
 
 ### Tecnologías utilizadas :clipboard:
 

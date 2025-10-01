@@ -46,6 +46,23 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
  
  ![Pantallas de muestra](/imagenes/pantallas.png)
  
+
+### Tecnologías utilizadas :clipboard:
+
+- Lenguaje empleado: Swift 
+
+- Framework SwiftUI 
+
+- Arquitectura CLEAN con MVVM(Model-View-ViewModel) en la capa de presentación + patrón repositorio.
+
+- Consume una API rest a traves de un servidor local.
+
+- Servidor local creado en Vapor + Fluent 
+
+El siguiente diagrama representa la arquitectura de la app.
+
+![diagrama arquitectura](/imagenes/diagram.png)
+
 ### ¿Como funciona el server?
 Para el funcionamiento del server se necesita crear un archivo en markdown con nombre ".env.development" que contenga la siguiente linea:
 
@@ -55,19 +72,16 @@ Importante ejecutar el server antes de iniciar la app en el simulador, ya que ah
 
 ![.env.development](/imagenes/JTWKEY.png)
 
-### Tecnologías utilizadas :clipboard:
-
-- Lenguaje empleado: Swift 
-
-- Framework SwiftUI 
-
-- Arquitectura CLEAN
-
-- Patrón MVVM (Model-View-ViewModel)
-
-- Server creado en Vapor + Fluent 
-
+A continuación una tabla resumen con las entidades utilizadas en la base de datos y sus relaciones. 
+![UML database](/imagenes/data-base.png)
 
 ### Testing:
-La App cuenta con una convertura del 28%.
+La App cuenta con una convertura del 28% en total a repartir entre todas las capas:
 
+- UI
+
+- Domain
+
+- Data
+
+- Infraestructure 

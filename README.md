@@ -57,6 +57,9 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 
 - Consume una API rest a traves de un servidor local.
 
+### Arquitectura
+
+Nuestra arquitectura sigue los principios de **Clean**, en la capa de presentación usamos **MVVM**, junto con el patrón **Repositorio** para desaclopar datos. Básicamente separamos el código en 4 capas: `Presentation`, `Domain`, `Data` e `Infraestructura`. Esta última siendo la capa más externa que define cómo llegan los datos del exterior.
 
 El siguiente diagrama representa la arquitectura de la app.
 
@@ -102,4 +105,3 @@ La App cuenta con una convertura del 28% en total a repartir entre todas las cap
 
 - Data
 
-- Infraestructure 

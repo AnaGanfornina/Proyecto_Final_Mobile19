@@ -13,14 +13,13 @@ struct UserController: RouteCollection {
         let adminRoutes = routes.grouped(JWTToken.authenticator(), AdminMiddelware(), RateLimitUserMiddleware())
         adminRoutes.get("users", use: getAll) // Solo admin
         
-        let userRoutes = routes.grouped(RateLimitUserMiddleware())
+        let userRoutes = routes.grouped("users")
+            .grouped(JWTToken.authenticator(), RateLimitUserMiddleware())
         
-        routes.group("users") { users in
-            userRoutes.group(":userID") { user in
-                user.get(use: getByID)
-                user.patch(use: update)
-                user.delete(use: delete)
-            }
+        userRoutes.group(":userID") { user in
+            user.get(use: getByID)
+            user.patch(use: update)
+            user.delete(use: delete)
         }
     }
 }

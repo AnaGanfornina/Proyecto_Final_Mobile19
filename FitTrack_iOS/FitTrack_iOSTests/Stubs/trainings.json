@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Fuerza: Full Body",
+        "scheduledAt": "2025-09-21T14:06:36Z",
+        "id": "81493846-95EB-4EB6-8343-B89BCB87C475",
+        "trainee_id": "5FFF81DE-C845-49B0-8BA0-C6AE19EC9A85"
+    },
+    {
+        "name": "Cardio: Run",
+        "scheduledAt": "2025-09-18T14:06:36Z",
+        "id": "78CBA4EE-8EA7-49E5-A00F-59BE9AC62DC5",
+        "trainee_id": "5FFF81DE-C845-49B0-8BA0-C6AE19EC9A85"
+    },
+    {
+        "name": "Fuerza: Full Body",
+        "scheduledAt": "2025-09-21T14:06:36Z",
+        "id": "C9A2DC6E-1B69-406F-88AC-55AAABF677BF",
+        "trainee_id": "0B75E4C6-C4F1-4376-A77E-047987D70881"
+    }
+]

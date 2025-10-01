@@ -137,7 +137,7 @@ final class APISessionTests: XCTestCase {
         let training = try await sut.request(createTrainingURLRequest)
         
         // Then
-        XCTAssertEqual(receivedRequest?.url?.path(), "/api/training")
+        XCTAssertEqual(receivedRequest?.url?.path(), "/api/trainings")
         XCTAssertEqual(receivedRequest?.httpMethod, "POST")
         let trainingDTO = try XCTUnwrap(training)
         XCTAssertEqual(trainingDTO.id, UUID(uuidString: "DAB7C5C0-0579-4D01-A01D-002D3F6D8985"))
@@ -171,7 +171,7 @@ final class APISessionTests: XCTestCase {
         
         // Then
         let badRequestAPIError = try XCTUnwrap(apiError)
-        XCTAssertEqual(badRequestAPIError.url, "/api/training")
+        XCTAssertEqual(badRequestAPIError.url, "/api/trainings")
         XCTAssertEqual(badRequestAPIError.reason, "The request could not be understood or was missing required parameters")
         XCTAssertEqual(badRequestAPIError.statusCode, 400)
     }

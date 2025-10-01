@@ -72,7 +72,7 @@ final class TrainingRepositoryTests: XCTestCase {
         
         // Then
         let badRequestAPIError = try XCTUnwrap(apiError)
-        XCTAssertEqual(badRequestAPIError.url, "/api/training")
+        XCTAssertEqual(badRequestAPIError.url, "/api/trainings")
         XCTAssertEqual(badRequestAPIError.reason, "The request could not be understood or was missing required parameters")
         XCTAssertEqual(badRequestAPIError.statusCode, 400)
     }

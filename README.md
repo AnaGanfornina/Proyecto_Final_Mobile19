@@ -44,7 +44,7 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 
 	- Ejercicios: Listado de ejercicios por orden alfabético, donde podrás seleccionar y ver en detalle como se realiza cada uno. (Pendiente de implementar).
  
- ![Pantallas de muestra](/imagenes/pantallas.png)
+ ![Pantallas de muestra](/images/pantallas.png)
  
 
 ### Tecnologías utilizadas :clipboard:
@@ -63,7 +63,7 @@ Nuestra arquitectura sigue los principios de **Clean**, en la capa de presentaci
 
 El siguiente diagrama representa la arquitectura de la app.
 
-![diagrama arquitectura](/imagenes/diagram.png)
+![diagrama arquitectura](/images/diagram.png)
 
 ### ¿Como funciona el server? :dash:
 El servidor de FitTrack esta desarrollado en Vapor, el framework web para Swift, junto con Fluent como ORM para la gestión de base de datos.
@@ -94,7 +94,7 @@ Importante ejecutar el server antes de iniciar la app en el simulador, ya que ah
 
 
 A continuación una tabla resumen con las entidades utilizadas en la base de datos y sus relaciones. 
-![UML database](/imagenes/data-base.png)
+![UML database](/images/data-base.png)
 
 ### Testing:
 La App cuenta con una convertura del 28% en total a repartir entre todas las capas:

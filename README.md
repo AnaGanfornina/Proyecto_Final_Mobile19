@@ -53,4 +53,36 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 
 
 
-### Estructura del proyecto 
+## Estructura del proyecto 
+
+### Arquitectura
+
+Nuestra arquitectura sigue los principios de **Clean**, en la capa de presentación usamos **MVVM**, junto con el patrón **Repositorio** para desaclopar datos. Básicamente separamos el código en 4 capas: `Presentation`, `Domain`, `Data` e `Infraestructura`. Esta última siendo la capa más externa que define cómo llegan los datos del exterior.
+
+```
+Project/
+├── Infraestructre/
+│   ├── Requests/
+│   ├── Networking/
+├── Domain/
+│   ├── Entities/
+│   ├── UseCases/
+├── Data/
+│   ├── Repositories/
+│   ├── DataSources/
+│   ├── DTOs/
+│   ├── Mappers/
+└── Presentation/
+    └── ViewModels
+    └── Views
+```
+
+### Diagrama de sequencia
+![](Documentation/Images/ios_diagram.png)
+
+## El Server
+
+La comunicación con el servidor se logra a través de un backend desarrollado en **Vapor**. La app consumen un **API REST** local y la base de datos se maneja con **Fluent**, lo que facilita la comunicación entre capas y asegura consistencia.
+
+### Diagrama de entidad y relaciones
+![](Documentation/Images/db_diagram.png)

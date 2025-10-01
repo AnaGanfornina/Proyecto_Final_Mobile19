@@ -57,13 +57,32 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 
 - Consume una API rest a traves de un servidor local.
 
-- Servidor local creado en Vapor + Fluent 
 
 El siguiente diagrama representa la arquitectura de la app.
 
 ![diagrama arquitectura](/imagenes/diagram.png)
 
 ### ¿Como funciona el server?
+El servidor de FitTrack esta desarrollado en Vapor, el framework web para Swift, junto con Fluent como ORM para la gestión de base de datos.
+
+Este backend actua como capa de negocio, es facilmente escalable gracias a la modularidad de Vapor + Fluent y permitirá a la app trabajar con datos consistentes, filtrados y seguros. 
+
+Entre las caracteristicas principales destacamos:
+
+- Lenguaje unificado: escrito en Swift para facilitar compartir modelos y evitar cambios de contexto.
+
+- Autenticación y seguridad: Registro y login con JWT para gestionar sesiones seguras. Middlewares personalizados para validar roles y limitar el numero de peticiones.
+
+- Persistencia robusta: migraciones con Fluent que crean y mantienen la estructura de la base de datos.
+
+- Endpoints RESTful:
+
+    - /auth/register y auth/login para autenticación. 
+    
+    - /users para la gestión de usuarios.
+    
+    - /trainings para creación y consulta de entrenamientos.
+
 Para el funcionamiento del server se necesita crear un archivo en markdown con nombre ".env.development" que contenga la siguiente linea:
 
 "JWT_KEY=1119ForMeeting"

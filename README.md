@@ -62,7 +62,7 @@ El siguiente diagrama representa la arquitectura de la app.
 
 ![diagrama arquitectura](/imagenes/diagram.png)
 
-### ¿Como funciona el server?
+### ¿Como funciona el server? :dash:
 El servidor de FitTrack esta desarrollado en Vapor, el framework web para Swift, junto con Fluent como ORM para la gestión de base de datos.
 
 Este backend actua como capa de negocio, es facilmente escalable gracias a la modularidad de Vapor + Fluent y permitirá a la app trabajar con datos consistentes, filtrados y seguros. 

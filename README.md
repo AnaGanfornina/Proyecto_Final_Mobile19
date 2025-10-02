@@ -86,7 +86,8 @@ Entre las caracteristicas principales destacamos:
     
     - /trainings para creación y consulta de entrenamientos.
 
-Para el funcionamiento del server se necesita crear un archivo en markdown con nombre ".env.development" que contenga la siguiente linea:
+Para el funcionamiento del server se necesita crear un archivo en markdown con nombre ".env.development" y alojarlo en la carpeta raiz del servidor.
+Tiene que contener la siguiente linea:
 
 "JWT_KEY=1119ForMeeting"
 

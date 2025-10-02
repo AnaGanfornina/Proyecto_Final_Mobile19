@@ -1,10 +1,5 @@
 ## :bicyclist: FitTrack :runner:
 
-### Clona este repositorio
-git clone https://github.com/AnaGanfornina/Proyecto_Final_Mobile19.git
-
-
-
 ### ¿Que es FitTrack?
 
 FitTrack es una plataforma diseñada para la creación y gestión de rutinas personalizadas.
@@ -44,7 +39,7 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 
 	- Ejercicios: Listado de ejercicios por orden alfabético, donde podrás seleccionar y ver en detalle como se realiza cada uno. (Pendiente de implementar).
  
- ![Pantallas de muestra](/images/pantallas.png)
+ ![Pantallas de muestra](images/pantallas.png)
  
 
 ### Tecnologías utilizadas :clipboard:
@@ -53,17 +48,17 @@ Esta aplicación se centra en el coach como protagonista, ofreciondo los siguien
 
 - Framework SwiftUI 
 
-- Arquitectura CLEAN con MVVM(Model-View-ViewModel) en la capa de presentación + patrón repositorio.
+- Arquitectura CLEAN con MVVM (Model-View-ViewModel) en la capa de presentación + patrón repositorio en la capa de datos.
 
-- Consume una API rest a traves de un servidor local.
+- Consume una API Rest a traves de un servidor local.
 
 ### Arquitectura
 
-Nuestra arquitectura sigue los principios de **Clean**, en la capa de presentación usamos **MVVM**, junto con el patrón **Repositorio** para desaclopar datos. Básicamente separamos el código en 4 capas: `Presentation`, `Domain`, `Data` e `Infraestructura`. Esta última siendo la capa más externa que define cómo llegan los datos del exterior.
+Nuestra arquitectura sigue los principios de **Clean**, en la capa de presentación usamos **MVVM**, y en la capa de datos el patrón **Repositorio** para desaclopar datos. Básicamente separamos el código en 4 capas: `Presentation`, `Domain`, `Data` e `Infraestructura`. Esta última siendo la capa más externa que define cómo llegan los datos del exterior.
 
 El siguiente diagrama representa la arquitectura de la app.
 
-![diagrama arquitectura](/images/diagram.png)
+![diagrama arquitectura](images/diagram.png)
 
 ### ¿Como funciona el server? :dash:
 El servidor de FitTrack esta desarrollado en Vapor, el framework web para Swift, junto con Fluent como ORM para la gestión de base de datos.
@@ -85,26 +80,36 @@ Entre las caracteristicas principales destacamos:
     - /users para la gestión de usuarios.
     
     - /trainings para creación y consulta de entrenamientos.
+ 
+**Documentación de la API**
 
-Para el funcionamiento del server se necesita crear un archivo en markdown con nombre ".env.development" y alojarlo en la carpeta raiz del servidor.
-Tiene que contener la siguiente linea:
+Puedes revisar la documentación completa en [Postman](https://www.postman.com/altimetry-participant-28760880/workspace/jetlag/collection/42865533-d168b704-c8f6-4f74-b8da-6c567790c5ce?action=share&creator=42865533)
 
-"JWT_KEY=1119ForMeeting"
+<img src="https://postman.com/_aether-assets/illustrations/light/illustration-join-team.svg" alt="Mi imagen" width="200"/>
 
-Por último, habrá que registrar la variable en Edit Schemes -> Environment variables -> + -> JWT_KEY
-
-Importante ejecutar el server antes de iniciar la app en el simulador, ya que ahora mismo el server esta en desarrollo y por tanto se correrá en local. 
-
+**Diagrama de entidades y sus relaciones**
 
 A continuación una tabla resumen con las entidades utilizadas en la base de datos y sus relaciones. 
-![UML database](/images/data-base.png)
+![UML database](images/data-base.png)
+
+### Cómo probar FitTrack iOS
+
+* Primero que nada clona el repositorio
+`git clone https://github.com/AnaGanfornina/Proyecto_Final_Mobile19.git`
+
+* Para el funcionamiento del server se necesita crear un archivo en carpeta raíz de `fittrack_server` con nombre `.env.development` que contenga la siguiente linea:
+
+`JWT_KEY=1119ForMeeting`
+
+* Importante ejecutar el server antes de iniciar la app en el simulador, ya que ahora mismo el server está en desarrollo y por tanto se correrá en local. 
 
 ### Testing:
-La App cuenta con una convertura del 28% en total a repartir entre todas las capas:
+La App cuenta con una convertura del **28%** en total a repartir entre todas las capas:
 
 - UI
 
 - Domain
 
 - Data
+
 

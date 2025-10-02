@@ -91,6 +91,8 @@ Tiene que contener la siguiente linea:
 
 "JWT_KEY=1119ForMeeting"
 
+Por último, habrá que registrar la variable en Edit Schemes -> Environment variables -> + -> JWT_KEY
+
 Importante ejecutar el server antes de iniciar la app en el simulador, ya que ahora mismo el server esta en desarrollo y por tanto se correrá en local. 
 
 
